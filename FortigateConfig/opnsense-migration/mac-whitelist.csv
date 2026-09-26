@@ -1,0 +1,117 @@
+person,mac,notes,in_fortigate_group
+Binny_Andrews,c4:c6:e6:9f:1a:d2,,yes
+Binny_Andrews,04:d9:c8:19:2c:64,,yes
+Binny_Andrews,98:bd:80:f7:a8:24,,yes
+Binny_Andrews,9a:bd:80:f7:a8:23,,yes
+Binny_Andrews,98:bd:80:f7:a8:23,,yes
+Binny_Andrews,d6:50:65:b3:d4:67,,yes
+Binny_Andrews,e0:51:d8:1c:e0:cb,also object truenas,yes
+Binny_Andrews,0e:51:d8:1c:e2:01,also object opnsense/OPN,yes
+Ishika,c4:c6:e6:9f:1a:2a,,yes
+Ishika,98:bd:80:f7:d0:0f,,yes
+Ishika,ee:f4:2d:9b:1f:0d,,yes
+Maria,c4:c6:e6:55:5d:e0,,yes
+Maria,c2:35:32:30:33:f9,,yes
+Maria,c0:35:32:30:33:f9,,yes
+Maria,9e:6e:4c:cc:47:04,,yes
+Sharanappa,c4:c6:e6:31:e5:b9,,yes
+Sharanappa,e4:c7:67:d4:e5:7d,,yes
+Sharanappa,e4:c7:67:d4:e5:7c,,yes
+Sanoj,ac:91:a1:61:dd:db,,yes
+Sanoj,90:09:df:2e:dc:db,,yes
+Sanoj,46:00:02:61:41:19,,yes
+Sanoj,34:19:4d:7c:f9:d4,,yes
+Mezhil,c4:c6:e6:76:4f:a7,,yes
+Mezhil,e8:bf:b8:09:84:32,,yes
+Mezhil,e8:bf:b8:09:84:31,,yes
+Mezhil,a8:4a:63:f0:09:37,,yes
+Mezhil,ea:bf:b8:09:84:31,,yes
+Mezhil,ba:3d:e3:69:57:31,,yes
+Venkat_Chelluri,c4:c6:e6:c8:ad:41,,yes
+Venkat_Chelluri,98:5f:41:4d:ee:8d,,yes
+Venkat_Chelluri,98:5f:41:4d:ee:8c,,yes
+Venkat_Chelluri,26:b2:eb:c8:ee:d4,,yes
+Chiranth_Pujai,c4:c6:e6:aa:9a:4f,,yes
+Chiranth_Pujai,d0:65:78:3d:9a:ba,,yes
+Chiranth_Pujai,d0:65:78:3d:9a:b9,,yes
+Chiranth_Pujai,46:6a:3d:19:60:55,,yes
+Harsha,c4:c6:e6:9f:1a:2c,,yes
+Harsha,98:bd:80:f8:2f:d8,,yes
+Harsha,98:bd:80:f8:2f:d7,,yes
+Harsha,f2:2b:8d:10:05:ed,,yes
+Saurav,d0:65:78:0b:02:5c,,yes
+Saurav,0e:d6:2c:eb:be:29,,yes
+Vignesh_Kumar,c4:c6:e6:aa:9b:87,,yes
+Vignesh_Kumar,a8:4a:63:40:dc:ee,,yes
+Vignesh_Kumar,d0:65:78:0b:02:7b,,yes
+Vignesh_Kumar,d0:65:78:0b:02:7a,,yes
+Sampada,c4:c6:e6:9f:1a:bc,,yes
+Sampada,98:bd:80:f7:c2:e1,,yes
+Sampada,98:bd:80:f7:c2:e0,,yes
+Sampada,ce:22:4f:b0:61:7b,,yes
+Krishna_Pammireddy,c4:c6:e6:9f:1a:24,,yes
+Krishna_Pammireddy,98:bd:80:f8:73:99,,yes
+Krishna_Pammireddy,98:bd:80:f8:73:98,,yes
+Krishna_Pammireddy,f2:29:03:7f:50:3b,,yes
+Salmon,c4:c6:e6:9f:1a:ce,,yes
+Salmon,98:bd:80:f8:58:4b,,yes
+Salmon,98:bd:80:f8:58:4a,,yes
+Salmon,3a:c3:9a:fe:86:37,,yes
+Santhosh_Kumar,c4:c6:e6:9f:1a:18,,yes
+Santhosh_Kumar,98:bd:80:f7:9b:04,,yes
+Santhosh_Kumar,98:bd:80:f7:9b:03,,yes
+Santhosh_Kumar,36:f2:b7:1c:6e:b7,,yes
+Santhosh_Kumar,02:94:89:cb:48:79,,yes
+Raghavendra,c4:c6:e6:9f:1a:c8,,yes
+Raghavendra,98:bd:80:f8:58:46,,yes
+Raghavendra,98:bd:80:f8:58:45,,yes
+Raghavendra,52:4b:34:55:e1:fc,,yes
+Srinath,c4:c6:e6:9f:1a:c4,,yes
+Srinath,98:bd:80:f8:4a:7c,,yes
+Srinath,98:bd:80:f8:4a:7b,,yes
+Srinath,8e:f4:30:00:80:e7,,yes
+Lokesh_Kumar,c4:c6:e6:aa:9b:a7,,yes
+Lokesh_Kumar,d0:65:78:0b:cd:36,,yes
+Lokesh_Kumar,32:24:ee:2a:32:38,,yes
+PEAK_Workstations_1,4c:d7:17:a4:2a:d0,DHCP 10.80.100.101,yes
+PEAK_Workstations_2,4c:d7:17:a4:2b:11,DHCP 10.80.100.102,yes
+PEAK_Workstations_3,d4:a2:cd:aa:7a:fd,,yes
+PEAK_Printer_1_HP_Laser_Jet,28:c5:c8:6d:5c:81,,yes
+PEAK_Printer_2_HP_Smart_Tank,d0:ad:08:6d:2b:92,,yes
+PEAK_TV_1_Monitoring,34:19:4d:46:d0:4a,,yes
+PEAK_TV_2_RATAN_TATA,34:19:4d:46:d0:66,,yes
+PEAK_TV_2_RATAN_TATA,34:19:4d:7d:04:e1,,yes
+PEAK_TV_3,34:19:4d:7a:42:a6,,yes
+PEAK_TV_4,34:19:4d:7a:30:7c,,yes
+PEAK_TV_5_APJAK,34:19:4d:7c:f1:a8,,yes
+Poovarasu,d0:65:78:3f:65:a1,,yes
+Poovarasu,d2:65:78:3f:65:a1,,yes
+Poovarasu,d0:65:78:3f:65:a2,,yes
+Poovarasu,a8:4a:63:40:dc:cf,,yes
+Poovarasu,c4:c6:e6:aa:9a:1f,,yes
+Poovarasu,00:ff:96:ed:9c:86,,yes
+Poovarasu,42:bd:69:b3:40:b4,,yes
+Poovarasu,3e:d0:ed:9d:87:82,,yes
+Thomas,d0:65:78:3f:e4:40,,yes
+Thomas,d2:65:78:3f:e4:40,,yes
+Thomas,d0:65:78:3f:e4:41,,yes
+Thomas,c4:c6:e6:aa:9b:5f,,yes
+Thomas,1e:13:ab:c7:aa:0f,,yes
+Saibalaji,d0:65:78:3d:c5:b6,,yes
+Saibalaji,e6:62:17:c9:88:c0,,yes
+Sowmya,a6:8d:e5:7e:bd:1a,,yes
+Jagadeshwar,ac:b4:80:3c:dd:b9,same MAC as _Monitoring_WS,yes
+Jagadeshwar,c4:c6:e6:9f:1a:36,,yes
+Jagadeshwar,98:bd:80:f7:7e:ac,,yes
+Jagadeshwar,94:bd:be:10:d1:66,,yes
+hp_hr,50:81:40:9a:7a:a3,,yes
+PEAK801-IN-CONF,84:47:09:33:82:b4,Conference room machine,yes
+ANUP_JAMBAGI,4c:0f:3e:53:9a:fd,WL-CORP object not in group,no
+ISMAIL,70:15:fb:1b:e9:82,WL-CORP object not in group,no
+PAVANKUMAR,80:84:89:f0:ea:42,WL-CORP object not in group,no
+Venkat,d0:65:78:3d:aa:2c,WL-CORP object not in group,no
+Swarnalatha,9c:b1:50:d6:81:e3,object not in group,no
+Test_Laptop,d0:65:78:0b:02:4d,object not in group,no
+Test_Laptop,d2:65:78:0b:02:4d,object not in group,no
+Test_Laptop,d0:65:78:0b:02:4e,object not in group,no
+Test_Laptop,c4:c6:e6:aa:9c:47,object not in group,no

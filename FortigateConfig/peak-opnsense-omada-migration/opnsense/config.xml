@@ -1,0 +1,555 @@
+<?xml version="1.0"?>
+<!--
+  PEAK OPNsense config — Omada SG2428P + EAP670 migration
+  Generated: 2026-09-16T09:20:41Z
+  NICs: WAN=igc0 WAN2=igc1 LAN=ue0
+  Restore on a FRESH install after editing nics.env and rebuilding.
+  GUI: https://10.80.100.1:4444 from VLAN 100
+-->
+<opnsense>
+  <trigger_initial_wizard>0</trigger_initial_wizard>
+  <system>
+    <optimization>normal</optimization>
+    <hostname>PEAK-CORP-FW</hostname>
+    <domain>peak.local</domain>
+    <timezone>Asia/Kolkata</timezone>
+    <language>en_US</language>
+    <dnsserver>8.8.8.8</dnsserver>
+    <dnsserver>1.1.1.1</dnsserver>
+    <dnsallowoverride>1</dnsallowoverride>
+    <webgui>
+      <protocol>https</protocol>
+      <port>4444</port>
+      <ssl-certref></ssl-certref>
+      <interfaces>lan,opt2</interfaces>
+    </webgui>
+    <ssh>
+      <group>admins</group>
+      <interfaces>lan,opt2</interfaces>
+      <enabled>enabled</enabled>
+    </ssh>
+    <firmware>
+      <mirror></mirror>
+      <flavour></flavour>
+    </firmware>
+    <disablenatreflection>yes</disablenatreflection>
+    <enableallowallwan>0</enableallowallwan>
+  </system>
+
+  <interfaces>
+    <wan>
+      <if>igc0</if>
+      <descr>WAN_AIRTEL</descr>
+      <enable>1</enable>
+      <lock>1</lock>
+      <ipaddr>125.19.224.18</ipaddr>
+      <subnet>30</subnet>
+      <gateway>WAN_AIRTEL</gateway>
+      <blockpriv>1</blockpriv>
+      <blockbogons>1</blockbogons>
+    </wan>
+    <lan>
+      <if>ue0</if>
+      <descr>LAN_TRUNK_PARENT</descr>
+      <enable>1</enable>
+      <ipaddr>none</ipaddr>
+      <subnet></subnet>
+    </lan>
+    <opt1>
+      <if>igc1</if>
+      <descr>WAN_JIO</descr>
+      <enable>1</enable>
+      <ipaddr>47.247.169.94</ipaddr>
+      <subnet>30</subnet>
+      <gateway>WAN_JIO</gateway>
+      <blockpriv>1</blockpriv>
+      <blockbogons>1</blockbogons>
+      <type>wan</type>
+    </opt1>
+    <opt2>
+      <if>ue0_vlan100</if>
+      <descr>WIRED_CORP</descr>
+      <enable>1</enable>
+      <ipaddr>10.80.100.1</ipaddr>
+      <subnet>24</subnet>
+    </opt2>
+    <opt3>
+      <if>ue0_vlan101</if>
+      <descr>WL_CORP</descr>
+      <enable>1</enable>
+      <ipaddr>10.80.101.1</ipaddr>
+      <subnet>24</subnet>
+    </opt3>
+    <opt4>
+      <if>ue0_vlan102</if>
+      <descr>WL_GUEST</descr>
+      <enable>1</enable>
+      <ipaddr>10.80.102.1</ipaddr>
+      <subnet>24</subnet>
+    </opt4>
+  </interfaces>
+
+  <vlans>
+    <vlan uuid="c47cb469-0f9d-40e2-a8a9-a46f8072aa9d">
+      <if>ue0</if>
+      <tag>100</tag>
+      <pcp></pcp>
+      <proto></proto>
+      <vlanif>ue0_vlan100</vlanif>
+      <descr>WIRED_CORP</descr>
+    </vlan>
+    <vlan uuid="5fc71c03-7e9f-4549-9652-c239c06f73bd">
+      <if>ue0</if>
+      <tag>101</tag>
+      <pcp></pcp>
+      <proto></proto>
+      <vlanif>ue0_vlan101</vlanif>
+      <descr>WL_CORP</descr>
+    </vlan>
+    <vlan uuid="b059240e-67fe-49f9-87fc-1df19efc6c8f">
+      <if>ue0</if>
+      <tag>102</tag>
+      <pcp></pcp>
+      <proto></proto>
+      <vlanif>ue0_vlan102</vlanif>
+      <descr>WL_GUEST</descr>
+    </vlan>
+  </vlans>
+
+  <gateways>
+    <gateway_item uuid="5dc46420-716f-454a-bab7-a7cb82924c91">
+      <disabled>0</disabled>
+      <name>WAN_AIRTEL</name>
+      <interface>wan</interface>
+      <gateway>125.19.224.17</gateway>
+      <defaultgw>1</defaultgw>
+      <fargw>0</fargw>
+      <monitor_disable>0</monitor_disable>
+      <monitorip>8.8.8.8</monitorip>
+      <interval>1</interval>
+      <weight>1</weight>
+      <ipprotocol>inet</ipprotocol>
+      <descr>Airtel-FIBER</descr>
+    </gateway_item>
+    <gateway_item uuid="a76ddfe3-6361-4995-b77f-568c193a49f7">
+      <disabled>0</disabled>
+      <name>WAN_JIO</name>
+      <interface>opt1</interface>
+      <gateway>47.247.169.93</gateway>
+      <defaultgw>0</defaultgw>
+      <monitor_disable>0</monitor_disable>
+      <monitorip>1.1.1.1</monitorip>
+      <interval>1</interval>
+      <weight>1</weight>
+      <ipprotocol>inet</ipprotocol>
+      <descr>JIO-RF</descr>
+    </gateway_item>
+    <gateway_group uuid="e88c8675-45ae-4fe5-8486-02b28777ee2c">
+      <name>WAN_LB</name>
+      <descr>Dual-WAN load balance (FortiGate SD-WAN replacement)</descr>
+      <trigger>both</trigger>
+      <item>WAN_AIRTEL|1|3</item>
+      <item>WAN_JIO|1|3</item>
+    </gateway_group>
+  </gateways>
+
+  <dhcpd>
+    <opt2>
+      <enable></enable>
+      <range>
+        <from>10.80.100.101</from>
+        <to>10.80.100.200</to>
+      </range>
+      <defaultleasetime>36000</defaultleasetime>
+      <maxleasetime>72000</maxleasetime>
+      <gateway>10.80.100.1</gateway>
+      <dnsserver>10.80.100.1</dnsserver>
+      <domain>peak.local</domain>
+      <staticmap>
+        <mac>4c:d7:17:a4:2a:d0</mac>
+        <ipaddr>10.80.100.101</ipaddr>
+        <hostname>PEAK-WS-1</hostname>
+        <descr>DHCP reservation from FortiGate</descr>
+      </staticmap>
+      <staticmap>
+        <mac>4c:d7:17:a4:2b:11</mac>
+        <ipaddr>10.80.100.102</ipaddr>
+        <hostname>PEAK-WS-2</hostname>
+        <descr>DHCP reservation from FortiGate</descr>
+      </staticmap>
+    </opt2>
+    <opt3>
+      <enable></enable>
+      <range>
+        <from>10.80.101.101</from>
+        <to>10.80.101.200</to>
+      </range>
+      <defaultleasetime>36000</defaultleasetime>
+      <gateway>10.80.101.1</gateway>
+      <dnsserver>10.80.101.1</dnsserver>
+      <domain>peak.local</domain>
+    </opt3>
+    <opt4>
+      <enable></enable>
+      <range>
+        <from>10.80.102.101</from>
+        <to>10.80.102.200</to>
+      </range>
+      <gateway>10.80.102.1</gateway>
+      <dnsserver>10.80.102.1</dnsserver>
+      <domain>peak.local</domain>
+    </opt4>
+  </dhcpd>
+
+  <unbound>
+    <enable>1</enable>
+    <active_interface>opt2,opt3,opt4</active_interface>
+    <outgoing_interface></outgoing_interface>
+    <port>53</port>
+    <hideidentity>1</hideidentity>
+    <hideversion>1</hideversion>
+  </unbound>
+
+  <schedules>
+    <schedule>
+      <name>peak_optimised</name>
+      <descr>Guest Wi-Fi window Mon-Fri 07:00-19:00</descr>
+      <timerange>
+        <position>2,3,4,5,6</position>
+        <hour>7:00-19:00</hour>
+        <rangedescr>Weekdays business hours</rangedescr>
+      </timerange>
+    </schedule>
+  </schedules>
+
+  <nat>
+    <outbound>
+      <mode>automatic</mode>
+    </outbound>
+    <rule uuid="a41ecf94-470e-4f70-a6af-56699e5cddeb">
+      <protocol>tcp</protocol>
+      <interface>wan</interface>
+      <ipprotocol>inet</ipprotocol>
+      <target>10.80.100.103</target>
+      <local-port>80</local-port>
+      <source>
+        <any>1</any>
+      </source>
+      <destination>
+        <network>wanip</network>
+        <port>80</port>
+      </destination>
+      <descr>PEAK-APP-HTTP-Airtel</descr>
+      <associated-rule-id></associated-rule-id>
+      <natreflection>purenat</natreflection>
+      <enabled>1</enabled>
+    </rule>
+    <rule uuid="b42ea43c-18db-4e8a-89bd-4b409d191b51">
+      <protocol>tcp</protocol>
+      <interface>wan</interface>
+      <ipprotocol>inet</ipprotocol>
+      <target>10.80.100.103</target>
+      <local-port>443</local-port>
+      <source>
+        <any>1</any>
+      </source>
+      <destination>
+        <network>wanip</network>
+        <port>443</port>
+      </destination>
+      <descr>PEAK-APP-HTTPS-Airtel</descr>
+      <associated-rule-id></associated-rule-id>
+      <natreflection>purenat</natreflection>
+      <enabled>1</enabled>
+    </rule>
+    <rule uuid="b274dc11-29a1-4a9c-a88b-786dafd5243b">
+      <protocol>tcp</protocol>
+      <interface>opt1</interface>
+      <ipprotocol>inet</ipprotocol>
+      <target>10.80.100.103</target>
+      <local-port>80</local-port>
+      <source>
+        <any>1</any>
+      </source>
+      <destination>
+        <network>opt1ip</network>
+        <port>80</port>
+      </destination>
+      <descr>PEAK-APP-HTTP-Jio</descr>
+      <associated-rule-id></associated-rule-id>
+      <natreflection>purenat</natreflection>
+      <enabled>1</enabled>
+    </rule>
+    <rule uuid="8a5c8b9c-9b13-42e3-abc6-8a8577448a36">
+      <protocol>tcp</protocol>
+      <interface>opt1</interface>
+      <ipprotocol>inet</ipprotocol>
+      <target>10.80.100.103</target>
+      <local-port>443</local-port>
+      <source>
+        <any>1</any>
+      </source>
+      <destination>
+        <network>opt1ip</network>
+        <port>443</port>
+      </destination>
+      <descr>PEAK-APP-HTTPS-Jio</descr>
+      <associated-rule-id></associated-rule-id>
+      <natreflection>purenat</natreflection>
+      <enabled>1</enabled>
+    </rule>
+    <rule uuid="96179b46-b3ea-4fa8-85fd-0978c5e14504">
+      <protocol>tcp</protocol>
+      <interface>wan</interface>
+      <ipprotocol>inet</ipprotocol>
+      <target>10.80.100.10</target>
+      <local-port>1433</local-port>
+      <source>
+        <address>AKRIVIA_HR</address>
+      </source>
+      <destination>
+        <network>wanip</network>
+        <port>1433</port>
+      </destination>
+      <descr>ACS-SQL-Airtel</descr>
+      <associated-rule-id></associated-rule-id>
+      <natreflection>purenat</natreflection>
+      <enabled>1</enabled>
+    </rule>
+    <rule uuid="392e7ada-b6f5-4053-968f-f2aaaa340731">
+      <protocol>tcp</protocol>
+      <interface>opt1</interface>
+      <ipprotocol>inet</ipprotocol>
+      <target>10.80.100.10</target>
+      <local-port>1433</local-port>
+      <source>
+        <address>AKRIVIA_HR</address>
+      </source>
+      <destination>
+        <network>opt1ip</network>
+        <port>1433</port>
+      </destination>
+      <descr>ACS-SQL-Jio</descr>
+      <associated-rule-id></associated-rule-id>
+      <natreflection>purenat</natreflection>
+      <enabled>1</enabled>
+    </rule>
+
+  </nat>
+
+  <filter>
+    <rule uuid="7ab27a05-de55-4921-8b1c-345a8b22b101">
+      <type>pass</type>
+      <interface>opt2</interface>
+      <ipprotocol>inet</ipprotocol>
+      <protocol>any</protocol>
+      <statetype>keep state</statetype>
+      <direction>in</direction>
+      <quick>1</quick>
+      <floating>0</floating>
+      <descr>WIRED_CORP to Internet</descr>
+      <source><address>WIRED_CORP</address></source>
+      <destination><any>1</any></destination>
+      <gateway>WAN_LB</gateway>
+      <sched></sched>
+      <log>1</log>
+      <enabled>1</enabled>
+      <category></category>
+    </rule>
+    <rule uuid="60d999d6-ddb1-4dc8-a0ae-4595e595c66c">
+      <type>pass</type>
+      <interface>opt3</interface>
+      <ipprotocol>inet</ipprotocol>
+      <protocol>any</protocol>
+      <statetype>keep state</statetype>
+      <direction>in</direction>
+      <quick>1</quick>
+      <floating>0</floating>
+      <descr>WL_CORP to Internet</descr>
+      <source><address>WL_CORP</address></source>
+      <destination><any>1</any></destination>
+      <gateway>WAN_LB</gateway>
+      <sched></sched>
+      <log>1</log>
+      <enabled>1</enabled>
+      <category></category>
+    </rule>
+    <rule uuid="184982c2-c449-481c-b0d0-bb91d2c0da07">
+      <type>block</type>
+      <interface>opt4</interface>
+      <ipprotocol>inet</ipprotocol>
+      <protocol>any</protocol>
+      <direction>in</direction>
+      <quick>1</quick>
+      <descr>Block WL_GUEST to internal networks</descr>
+      <source><address>WL_GUEST</address></source>
+      <destination><address>LAN_RFC1918</address></destination>
+      <log>1</log>
+      <enabled>1</enabled>
+    </rule>
+    <rule uuid="b861074e-7992-4bb2-ac2c-e145b6b92859">
+      <type>pass</type>
+      <interface>opt4</interface>
+      <ipprotocol>inet</ipprotocol>
+      <protocol>any</protocol>
+      <statetype>keep state</statetype>
+      <direction>in</direction>
+      <quick>1</quick>
+      <floating>0</floating>
+      <descr>WL_GUEST to Internet</descr>
+      <source><address>WL_GUEST</address></source>
+      <destination><any>1</any></destination>
+      <gateway>WAN_LB</gateway>
+      <sched>peak_optimised</sched>
+      <log>1</log>
+      <enabled>1</enabled>
+      <category></category>
+    </rule>
+    <rule uuid="2c3c11a8-c4fa-4511-ace7-0ba0737fbc10">
+      <type>pass</type>
+      <interface>opt2</interface>
+      <ipprotocol>inet</ipprotocol>
+      <protocol>any</protocol>
+      <statetype>keep state</statetype>
+      <direction>in</direction>
+      <quick>1</quick>
+      <floating>0</floating>
+      <descr>WIRED_CORP to WL_CORP</descr>
+      <source><address>WIRED_CORP</address></source>
+      <destination><address>WL_CORP</address></destination>
+      <gateway></gateway>
+      <sched></sched>
+      <log>1</log>
+      <enabled>1</enabled>
+      <category></category>
+    </rule>
+    <rule uuid="c645a083-625b-4310-a9f3-8c64d35dbc49">
+      <type>pass</type>
+      <interface>opt3</interface>
+      <ipprotocol>inet</ipprotocol>
+      <protocol>any</protocol>
+      <statetype>keep state</statetype>
+      <direction>in</direction>
+      <quick>1</quick>
+      <floating>0</floating>
+      <descr>WL_CORP to WIRED_CORP</descr>
+      <source><address>WL_CORP</address></source>
+      <destination><address>WIRED_CORP</address></destination>
+      <gateway></gateway>
+      <sched></sched>
+      <log>1</log>
+      <enabled>1</enabled>
+      <category></category>
+    </rule>
+
+  </filter>
+
+  <OPNsense>
+    <Firewall>
+      <Alias version="1.0.0">
+    <alias uuid="78fa56d5-37bc-4a35-bf3d-2140d4351e33">
+      <enabled>1</enabled>
+      <name>WIRED_CORP</name>
+      <type>network</type>
+      <proto></proto>
+      <interface></interface>
+      <counters>0</counters>
+      <updatefreq></updatefreq>
+      <content>10.80.100.0/24</content>
+      <descr>VLAN 100 wired</descr>
+    </alias>
+    <alias uuid="e1a9770f-2d75-4a40-b739-688757a5c309">
+      <enabled>1</enabled>
+      <name>WL_CORP</name>
+      <type>network</type>
+      <proto></proto>
+      <interface></interface>
+      <counters>0</counters>
+      <updatefreq></updatefreq>
+      <content>10.80.101.0/24</content>
+      <descr>VLAN 101 Wi-Fi corp</descr>
+    </alias>
+    <alias uuid="3c66c6c0-73e8-4cb8-a749-0bdeeadf5c2a">
+      <enabled>1</enabled>
+      <name>WL_GUEST</name>
+      <type>network</type>
+      <proto></proto>
+      <interface></interface>
+      <counters>0</counters>
+      <updatefreq></updatefreq>
+      <content>10.80.102.0/24</content>
+      <descr>VLAN 102 guest Wi-Fi</descr>
+    </alias>
+    <alias uuid="17beded0-54f4-4762-87ad-eb2ec786a1e3">
+      <enabled>1</enabled>
+      <name>ACS_SERVER</name>
+      <type>host</type>
+      <proto></proto>
+      <interface></interface>
+      <counters>0</counters>
+      <updatefreq></updatefreq>
+      <content>10.80.100.10</content>
+      <descr>Attendance / ACS SQL</descr>
+    </alias>
+    <alias uuid="2e3021bc-ef9c-43d2-b864-20b554fac1ce">
+      <enabled>1</enabled>
+      <name>OFFICE_PC</name>
+      <type>host</type>
+      <proto></proto>
+      <interface></interface>
+      <counters>0</counters>
+      <updatefreq></updatefreq>
+      <content>10.80.100.103</content>
+      <descr>PEAK-APP</descr>
+    </alias>
+    <alias uuid="3a933830-fa05-47db-82aa-f6aa1e7af697">
+      <enabled>1</enabled>
+      <name>AKRIVIA_HR</name>
+      <type>host</type>
+      <proto></proto>
+      <interface></interface>
+      <counters>0</counters>
+      <updatefreq></updatefreq>
+      <content>34.87.189.127</content>
+      <descr>Keka/Akrivia source — update if needed</descr>
+    </alias>
+    <alias uuid="30d0deda-bb3e-4e05-9308-a938c623f94f">
+      <enabled>1</enabled>
+      <name>LAN_RFC1918</name>
+      <type>network</type>
+      <proto></proto>
+      <interface></interface>
+      <counters>0</counters>
+      <updatefreq></updatefreq>
+      <content>10.80.0.0/16</content>
+      <descr>PEAK internal</descr>
+    </alias>
+    <alias uuid="27a3db79-7761-4a6f-b407-b81cf9d9aab0">
+      <enabled>1</enabled>
+      <name>OMADA_SWITCH</name>
+      <type>host</type>
+      <proto></proto>
+      <interface></interface>
+      <counters>0</counters>
+      <updatefreq></updatefreq>
+      <content>10.80.100.2</content>
+      <descr>SG2428P management</descr>
+    </alias>
+      </Alias>
+    </Firewall>
+  </OPNsense>
+
+  <rrd>
+    <enable></enable>
+  </rrd>
+
+  <syslog>
+    <nologdefaultblock></nologdefaultblock>
+  </syslog>
+
+  <revision>
+    <description>PEAK Omada+OPNsense migration 2026-09-16T09:20:41Z</description>
+    <time>2026-09-16T09:20:41Z</time>
+    <username>migration</username>
+  </revision>
+</opnsense>

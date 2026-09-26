@@ -1,0 +1,5 @@
+# Private keys — do not commit
+wireguard/*.private.key
+wireguard/*.conf
+peak-seed.xml
+nics.env
