@@ -1,0 +1,104 @@
+user,mac,ssid,vlan,notes,allow
+ANUP JAMBAGI,4c:0f:3e:53:9a:fd,PETCPL,101,WL-CORP object not in group,yes
+Binny Andrews,04:d9:c8:19:2c:64,PETCPL,101,,yes
+Binny Andrews,0e:51:d8:1c:e2:01,PETCPL,101,also object opnsense/OPN,yes
+Binny Andrews,98:bd:80:f7:a8:23,PETCPL,101,,yes
+Binny Andrews,98:bd:80:f7:a8:24,PETCPL,101,,yes
+Binny Andrews,9a:bd:80:f7:a8:23,PETCPL,101,,yes
+Binny Andrews,c4:c6:e6:9f:1a:d2,PETCPL,101,,yes
+Binny Andrews,d6:50:65:b3:d4:67,PETCPL,101,,yes
+Binny Andrews,e0:51:d8:1c:e0:cb,PETCPL,101,also object truenas,yes
+Chiranth Pujai,46:6a:3d:19:60:55,PETCPL,101,,yes
+Chiranth Pujai,c4:c6:e6:aa:9a:4f,PETCPL,101,,yes
+Chiranth Pujai,d0:65:78:3d:9a:b9,PETCPL,101,,yes
+Chiranth Pujai,d0:65:78:3d:9a:ba,PETCPL,101,,yes
+Harsha,98:bd:80:f8:2f:d7,PETCPL,101,,yes
+Harsha,98:bd:80:f8:2f:d8,PETCPL,101,,yes
+Harsha,c4:c6:e6:9f:1a:2c,PETCPL,101,,yes
+Harsha,f2:2b:8d:10:05:ed,PETCPL,101,,yes
+Ishika,98:bd:80:f7:d0:0f,PETCPL,101,,yes
+Ishika,c4:c6:e6:9f:1a:2a,PETCPL,101,,yes
+Ishika,ee:f4:2d:9b:1f:0d,PETCPL,101,,yes
+ISMAIL,70:15:fb:1b:e9:82,PETCPL,101,WL-CORP object not in group,yes
+Jagadeshwar,94:bd:be:10:d1:66,PETCPL,101,,yes
+Jagadeshwar,98:bd:80:f7:7e:ac,PETCPL,101,,yes
+Jagadeshwar,ac:b4:80:3c:dd:b9,PETCPL,101,same MAC as _Monitoring_WS,yes
+Jagadeshwar,c4:c6:e6:9f:1a:36,PETCPL,101,,yes
+Krishna Pammireddy,98:bd:80:f8:73:98,PETCPL,101,,yes
+Krishna Pammireddy,98:bd:80:f8:73:99,PETCPL,101,,yes
+Krishna Pammireddy,c4:c6:e6:9f:1a:24,PETCPL,101,,yes
+Krishna Pammireddy,f2:29:03:7f:50:3b,PETCPL,101,,yes
+Lokesh Kumar,32:24:ee:2a:32:38,PETCPL,101,,yes
+Lokesh Kumar,c4:c6:e6:aa:9b:a7,PETCPL,101,,yes
+Lokesh Kumar,d0:65:78:0b:cd:36,PETCPL,101,,yes
+Maria,9e:6e:4c:cc:47:04,PETCPL,101,,yes
+Maria,c0:35:32:30:33:f9,PETCPL,101,,yes
+Maria,c2:35:32:30:33:f9,PETCPL,101,,yes
+Maria,c4:c6:e6:55:5d:e0,PETCPL,101,,yes
+Mezhil,a8:4a:63:f0:09:37,PETCPL,101,,yes
+Mezhil,ba:3d:e3:69:57:31,PETCPL,101,,yes
+Mezhil,c4:c6:e6:76:4f:a7,PETCPL,101,,yes
+Mezhil,e8:bf:b8:09:84:31,PETCPL,101,,yes
+Mezhil,e8:bf:b8:09:84:32,PETCPL,101,,yes
+Mezhil,ea:bf:b8:09:84:31,PETCPL,101,,yes
+PAVANKUMAR,80:84:89:f0:ea:42,PETCPL,101,WL-CORP object not in group,yes
+Poovarasu,00:ff:96:ed:9c:86,PETCPL,101,,yes
+Poovarasu,3e:d0:ed:9d:87:82,PETCPL,101,,yes
+Poovarasu,42:bd:69:b3:40:b4,PETCPL,101,,yes
+Poovarasu,a8:4a:63:40:dc:cf,PETCPL,101,,yes
+Poovarasu,c4:c6:e6:aa:9a:1f,PETCPL,101,,yes
+Poovarasu,d0:65:78:3f:65:a1,PETCPL,101,,yes
+Poovarasu,d0:65:78:3f:65:a2,PETCPL,101,,yes
+Poovarasu,d2:65:78:3f:65:a1,PETCPL,101,,yes
+Raghavendra,52:4b:34:55:e1:fc,PETCPL,101,,yes
+Raghavendra,98:bd:80:f8:58:45,PETCPL,101,,yes
+Raghavendra,98:bd:80:f8:58:46,PETCPL,101,,yes
+Raghavendra,c4:c6:e6:9f:1a:c8,PETCPL,101,,yes
+Saibalaji,d0:65:78:3d:c5:b6,PETCPL,101,,yes
+Saibalaji,e6:62:17:c9:88:c0,PETCPL,101,,yes
+Salmon,3a:c3:9a:fe:86:37,PETCPL,101,,yes
+Salmon,98:bd:80:f8:58:4a,PETCPL,101,,yes
+Salmon,98:bd:80:f8:58:4b,PETCPL,101,,yes
+Salmon,c4:c6:e6:9f:1a:ce,PETCPL,101,,yes
+Sampada,98:bd:80:f7:c2:e0,PETCPL,101,,yes
+Sampada,98:bd:80:f7:c2:e1,PETCPL,101,,yes
+Sampada,c4:c6:e6:9f:1a:bc,PETCPL,101,,yes
+Sampada,ce:22:4f:b0:61:7b,PETCPL,101,,yes
+Sanoj,34:19:4d:7c:f9:d4,PETCPL,101,,yes
+Sanoj,46:00:02:61:41:19,PETCPL,101,,yes
+Sanoj,90:09:df:2e:dc:db,PETCPL,101,,yes
+Sanoj,ac:91:a1:61:dd:db,PETCPL,101,,yes
+Santhosh Kumar,02:94:89:cb:48:79,PETCPL,101,,yes
+Santhosh Kumar,36:f2:b7:1c:6e:b7,PETCPL,101,,yes
+Santhosh Kumar,98:bd:80:f7:9b:03,PETCPL,101,,yes
+Santhosh Kumar,98:bd:80:f7:9b:04,PETCPL,101,,yes
+Santhosh Kumar,c4:c6:e6:9f:1a:18,PETCPL,101,,yes
+Saurav,0e:d6:2c:eb:be:29,PETCPL,101,,yes
+Saurav,d0:65:78:0b:02:5c,PETCPL,101,,yes
+Sharanappa,c4:c6:e6:31:e5:b9,PETCPL,101,,yes
+Sharanappa,e4:c7:67:d4:e5:7c,PETCPL,101,,yes
+Sharanappa,e4:c7:67:d4:e5:7d,PETCPL,101,,yes
+Sowmya,a6:8d:e5:7e:bd:1a,PETCPL,101,,yes
+Srinath,8e:f4:30:00:80:e7,PETCPL,101,,yes
+Srinath,98:bd:80:f8:4a:7b,PETCPL,101,,yes
+Srinath,98:bd:80:f8:4a:7c,PETCPL,101,,yes
+Srinath,c4:c6:e6:9f:1a:c4,PETCPL,101,,yes
+Swarnalatha,9c:b1:50:d6:81:e3,PETCPL,101,object not in group,yes
+Test Laptop,c4:c6:e6:aa:9c:47,PETCPL,101,object not in group,yes
+Test Laptop,d0:65:78:0b:02:4d,PETCPL,101,object not in group,yes
+Test Laptop,d0:65:78:0b:02:4e,PETCPL,101,object not in group,yes
+Test Laptop,d2:65:78:0b:02:4d,PETCPL,101,object not in group,yes
+Thomas,1e:13:ab:c7:aa:0f,PETCPL,101,,yes
+Thomas,c4:c6:e6:aa:9b:5f,PETCPL,101,,yes
+Thomas,d0:65:78:3f:e4:40,PETCPL,101,,yes
+Thomas,d0:65:78:3f:e4:41,PETCPL,101,,yes
+Thomas,d2:65:78:3f:e4:40,PETCPL,101,,yes
+Venkat,d0:65:78:3d:aa:2c,PETCPL,101,WL-CORP object not in group,yes
+Venkat Chelluri,26:b2:eb:c8:ee:d4,PETCPL,101,,yes
+Venkat Chelluri,98:5f:41:4d:ee:8c,PETCPL,101,,yes
+Venkat Chelluri,98:5f:41:4d:ee:8d,PETCPL,101,,yes
+Venkat Chelluri,c4:c6:e6:c8:ad:41,PETCPL,101,,yes
+Vignesh Kumar,a8:4a:63:40:dc:ee,PETCPL,101,,yes
+Vignesh Kumar,c4:c6:e6:aa:9b:87,PETCPL,101,,yes
+Vignesh Kumar,d0:65:78:0b:02:7a,PETCPL,101,,yes
+Vignesh Kumar,d0:65:78:0b:02:7b,PETCPL,101,,yes
