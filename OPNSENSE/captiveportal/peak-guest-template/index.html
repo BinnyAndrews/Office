@@ -1,0 +1,155 @@
+<!doctype html>
+<html>
+	<head>
+	<meta charset="UTF-8">
+	<title>Peak Energy Guest Wi-Fi</title>
+
+		<link rel="shortcut icon" href="favicon/favicon.ico" type="image/x-icon">
+		<link rel="icon" href="favicon/favicon.ico" type="image/x-icon">
+		<link href="css/signin.css" rel="stylesheet">
+		<meta name="theme-color" content="#000000">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="Peak Energy Guest Wi-Fi">
+		<script src="js/jquery-3.5.1.min.js"></script>
+		<script>
+				$( document ).ready(function() {
+					let redirurl = (new URL(window.location)).searchParams.get('redirurl');
+					$("#signin").click(function (event) {
+						event.preventDefault();
+						$("#alertMSG").addClass("hidden");
+						$.ajax({
+							type: "POST",
+							url: "/api/captiveportal/access/logon/",
+							dataType:"json",
+							data:{ user: $("#inputUsername").val(), password: $("#inputPassword").val() }
+						}).done(function(data) {
+							if (data['clientState'] == 'AUTHORIZED') {
+								if (redirurl !== null) {
+									window.location = 'http://'+redirurl+'?refresh';
+								} else {
+									window.location.reload();
+								}
+							} else {
+								$("#inputUsername").val("");
+								$("#inputPassword").val("");
+								$("#errorMSGtext").html("authentication failed");
+								$("#alertMSG").removeClass("hidden");
+							}
+						}).fail(function(){
+							$("#errorMSGtext").html("unable to connect to authentication server");
+							$("#alertMSG").removeClass("hidden");
+						});
+					});
+
+					$("#signin_anon").click(function (event) {
+						event.preventDefault();
+						$("#alertMSG").addClass("hidden");
+						$.ajax({
+							type: "POST",
+							url: "/api/captiveportal/access/logon/",
+							dataType:"json",
+							data:{ user: '', password: '' }
+						}).done(function(data) {
+							if (data['clientState'] == 'AUTHORIZED') {
+								if (redirurl !== null) {
+									window.location = 'http://'+redirurl+'?refresh';
+								} else {
+									window.location.reload();
+								}
+							} else {
+								$("#errorMSGtext").html("login failed");
+								$("#alertMSG").removeClass("hidden");
+							}
+						}).fail(function(){
+							$("#errorMSGtext").html("unable to connect to authentication server");
+							$("#alertMSG").removeClass("hidden");
+						});
+					});
+
+					$("#logoff").click(function (event) {
+						event.preventDefault();
+						$("#alertMSG").addClass("hidden");
+						$.ajax({
+							type: "POST",
+							url: "/api/captiveportal/access/logoff/",
+							dataType:"json",
+							data:{ user: '', password: '' }
+						}).done(function(data) {
+							window.location.reload();
+						}).fail(function(){
+							$("#errorMSGtext").html("unable to connect to authentication server");
+							$("#alertMSG").removeClass("hidden");
+						});
+					});
+
+					$("#btnCloseError").click(function(){
+						$("#alertMSG").addClass("hidden");
+					});
+
+					$.ajax({
+						type: "POST",
+						url: "/api/captiveportal/access/status/",
+						dataType:"json",
+						data:{ user: $("#inputUsername").val(), password: $("#inputPassword").val() }
+					}).done(function(data) {
+						if (data['clientState'] == 'AUTHORIZED') {
+						$("#logout_frm").removeClass('hidden');
+						} else if (data['authType'] == 'none') {
+							$("#login_none").removeClass('hidden');
+						} else {
+							$("#login_password").removeClass('hidden');
+						}
+					}).fail(function(){
+						$("#errorMSGtext").html("unable to connect to authentication server");
+						$("#alertMSG").removeClass("hidden");
+					});
+				});
+		</script>
+
+	</head>
+	<body>
+		<header>
+			<h1><a href="/"><img src="images/PeakEnergyLogo.png" class="maintenance-logo" alt="Peak Energy"></a></h1>
+		</header>
+		<main>
+			<section class="content-row">
+				<article class="wrapper">
+					<div class="welcome">
+						<p class="tagline">Guest Wi-Fi</p>
+						<p class="policy">Internet access for visitors. Ask reception for the guest username and password. Corporate systems are not reachable from this network.</p>
+					</div>
+					<div id="login_password" class="hidden">
+						<form class="form-signin">
+							<h2 class="form-signin-heading">Sign in to continue</h2>
+							<input type="text" id="inputUsername" class="form-control" placeholder="Username" required autofocus autocomplete="username" autocapitalize="none" autocorrect="off">
+							<input type="password" autocomplete="current-password" id="inputPassword" class="form-control" placeholder="Password" required>
+							<button class="btn" id="signin" type="button">Connect</button>
+						</form>
+					</div>
+					<div id="login_none" class="hidden">
+						<form class="form-signin">
+							<button class="btn" id="signin_anon" type="button">Connect to Guest Wi-Fi</button>
+						</form>
+					</div>
+					<div id="logout_frm" class="hidden">
+						<form class="form-signin">
+							<p class="connected">You are connected.</p>
+							<button class="btn btn-secondary" id="logoff" type="button">Disconnect</button>
+						</form>
+					</div>
+					<div class="alert alert-danger alert-dismissible hidden" role="alert" id="alertMSG">
+						<br/>
+						<button type="button" class="btn close" id="btnCloseError" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<span id="errorMSGtext"></span>
+					</div>
+				</article>
+			</section>
+		</main>
+		<footer>
+			<p class="footer-text">Peak Energy</p>
+		</footer>
+	</body>
+</html>

@@ -1,0 +1,157 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background: #000000;
+  color: #e8f4fc;
+  font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+  font-size: 18px;
+  font-weight: 300;
+  text-align: center;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 160px;
+  padding: 28px 16px 8px;
+}
+
+header h1,
+header a {
+  display: inline-block;
+  line-height: 1;
+  margin: 0;
+}
+
+header img {
+  display: block;
+  width: min(320px, 80vw);
+  height: auto;
+}
+
+footer {
+  padding: 24px 16px 32px;
+}
+
+.footer-text {
+  margin: 0;
+  color: #55c5f1;
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.content-row {
+  min-height: calc(100vh - 280px);
+  display: flex;
+  align-items: center;
+  padding: 24px 0 48px;
+}
+
+.wrapper {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.welcome {
+  margin-bottom: 28px;
+}
+
+.tagline {
+  margin: 0 0 10px;
+  color: #55c5f1;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.policy {
+  margin: 0;
+  color: #9bb8cc;
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.connected {
+  color: #55c5f1;
+  margin: 0 0 16px;
+}
+
+.form-signin {
+  margin: 0 auto;
+}
+
+.form-signin-heading {
+  color: #e8f4fc;
+  font-size: 20px;
+  margin: 0 0 18px;
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0 0 12px;
+  padding: 12px 14px;
+  border: 1px solid #1a4f73;
+  border-radius: 6px;
+  background: #0a1620;
+  color: #e8f4fc;
+  font-size: 16px;
+}
+
+.btn {
+  display: inline-block;
+  width: 100%;
+  margin-top: 8px;
+  padding: 14px 18px;
+  border: 0;
+  border-radius: 6px;
+  background: linear-gradient(180deg, #55c5f1 0%, #3aa9e4 100%);
+  color: #00355f;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn:hover {
+  filter: brightness(1.05);
+}
+
+.btn-secondary {
+  background: transparent;
+  border: 1px solid #3aa9e4;
+  color: #55c5f1;
+}
+
+.alert {
+  margin-top: 18px;
+  padding: 12px 14px;
+  border-radius: 6px;
+  background: #3a1010;
+  border: 1px solid #a94442;
+  color: #f2dede;
+  position: relative;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.close {
+  position: absolute;
+  right: 8px;
+  top: 4px;
+  width: auto;
+  padding: 4px 8px;
+  background: transparent;
+  color: #f2dede;
+  border: 0;
+}
