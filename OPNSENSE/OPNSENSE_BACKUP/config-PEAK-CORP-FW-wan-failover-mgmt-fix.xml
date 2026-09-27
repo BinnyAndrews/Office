@@ -224,7 +224,7 @@
   <interfaces>
     <wan>
       <if>re1</if>
-      <descr>AIRTEL-FIBER</descr>
+      <descr>WAN_AIRTEL</descr>
       <enable>1</enable>
       <spoofmac />
       <blockpriv>1</blockpriv>
@@ -257,7 +257,7 @@
     </lo0>
     <opt1>
       <if>re2</if>
-      <descr>JIO-RF</descr>
+      <descr>WAN_JIO</descr>
       <enable>1</enable>
       <lock>1</lock>
       <spoofmac />
@@ -481,13 +481,13 @@
       <target>10.80.100.10</target>
       <local-port>1433</local-port>
       <source>
-        <any>1</any>
+        <address>KEKA_HR</address>
       </source>
       <destination>
         <network>wanip</network>
         <port>1433</port>
       </destination>
-      <descr>ACS-SQL-Airtel (temp open; lock AKRIVIA_HR later)</descr>
+      <descr>ACS-SQL-Airtel (KEKA_HR; AKRIVIA_HR disabled)</descr>
       <associated-rule-id />
       <natreflection>purenat</natreflection>
       <enabled>1</enabled>
@@ -499,13 +499,13 @@
       <target>10.80.100.10</target>
       <local-port>1433</local-port>
       <source>
-        <any>1</any>
+        <address>KEKA_HR</address>
       </source>
       <destination>
         <network>opt1ip</network>
         <port>1433</port>
       </destination>
-      <descr>ACS-SQL-Jio (temp open; lock AKRIVIA_HR later)</descr>
+      <descr>ACS-SQL-Jio (KEKA_HR; AKRIVIA_HR disabled)</descr>
       <associated-rule-id />
       <natreflection>purenat</natreflection>
       <enabled>1</enabled>
@@ -1392,7 +1392,7 @@
             <protocol>TCP</protocol>
             <icmptype />
             <icmp6type />
-            <source_net>any</source_net>
+            <source_net>KEKA_HR</source_net>
             <source_not>0</source_not>
             <source_port />
             <destination_net>ACS_SERVER</destination_net>
@@ -1434,7 +1434,7 @@
             <tos />
             <shaper1 />
             <shaper2 />
-            <description>Allow ACS SQL 1433 from any (temp; add Keka then lock AKRIVIA_HR)</description>
+            <description>Allow ACS SQL 1433 from KEKA_HR (AKRIVIA_HR retained disabled)</description>
             <audit />
           </rule>
           <rule uuid="832c830f-abc7-4ca5-ac1a-68987b7144b3">
@@ -1678,7 +1678,7 @@
             <tos />
             <shaper1 />
             <shaper2 />
-            <description>Allow WireGuard UDP 51820 on wan</description>
+            <description>Allow WireGuard UDP 51820 on WAN_AIRTEL</description>
             <audit />
           </rule>
           <rule uuid="6a5ce743-d1c7-4cdd-aa5c-d6f8f088b80f">
@@ -1739,7 +1739,7 @@
             <tos />
             <shaper1 />
             <shaper2 />
-            <description>Allow WireGuard UDP 51820 on opt1</description>
+            <description>Allow WireGuard UDP 51820 on WAN_JIO</description>
             <audit />
           </rule>
           <rule uuid="855bf1aa-21de-463e-8bf9-fbc2542abceb">
@@ -2468,7 +2468,7 @@
             <description />
           </alias>
           <alias uuid="bf885dd2-ff17-4914-b803-e34c6b86e5dc">
-            <enabled>1</enabled>
+            <enabled>0</enabled>
             <name>AKRIVIA_HR</name>
             <type>host</type>
             <path_expression />
@@ -2482,7 +2482,25 @@
             <authtype />
             <expire />
             <categories />
-            <description />
+            <description>Akrivia HR retained disabled</description>
+          </alias>
+          <alias uuid="7c4e1a92-6b38-4d05-9f71-2e8a0c5d4b16">
+            <enabled>1</enabled>
+            <name>KEKA_HR</name>
+            <type>host</type>
+            <path_expression />
+            <proto />
+            <interface />
+            <counters>0</counters>
+            <updatefreq />
+            <content>4.187.147.25
+cin3.a.keka.com</content>
+            <password />
+            <username />
+            <authtype />
+            <expire />
+            <categories />
+            <description>Keka attendance sync cin3.a.keka.com</description>
           </alias>
           <alias uuid="c11d528e-a563-4f9b-8a23-f168f13e44f7">
             <enabled>1</enabled>
@@ -4236,7 +4254,7 @@ f2:2b:8d:10:05:ed</content>
   </OPNsense>
   <revision>
     <username>migration@wan-failover-mgmt</username>
-    <description>WAN failover (Airtel+Jio Tier1, monitoring, gw switch); MGMT to self+VLANs before WAN_LB</description>
+    <description>WAN failover (Airtel+Jio Tier1, monitoring, gw switch); MGMT to self+VLANs before WAN_LB; descriptions WAN_AIRTEL and WAN_JIO</description>
     <time>1790298784.1813</time>
   </revision>
   <sysctl version="1.0.2" persisted_at="1790214545.76" description="System Tunables">
