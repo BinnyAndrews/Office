@@ -284,7 +284,12 @@ def normalize_event(raw: dict[str, Any], dev: dict[str, Any]) -> dict[str, Any] 
     }
 
 
-def connect_sql(sql: dict[str, Any], database: str | None = None) -> pyodbc.Connection:
+def connect_sql(
+    sql: dict[str, Any],
+    database: str | None = None,
+    *,
+    autocommit: bool = False,
+) -> pyodbc.Connection:
     drivers = [sql.get("driver") or "ODBC Driver 18 for SQL Server", "ODBC Driver 17 for SQL Server"]
     installed = {d for d in pyodbc.drivers()}
     db = database if database is not None else sql["database"]
@@ -301,12 +306,198 @@ def connect_sql(sql: dict[str, Any], database: str | None = None) -> pyodbc.Conn
             "Encrypt=yes;TrustServerCertificate=yes;"
         )
         try:
-            return pyodbc.connect(conn_str, timeout=10)
+            return pyodbc.connect(conn_str, timeout=10, autocommit=autocommit)
         except pyodbc.Error as exc:
             last_err = exc
     raise RuntimeError(
         f"SQL connect failed. Installed ODBC drivers: {sorted(installed)}. Last error: {last_err}"
     )
+
+
+def ensure_atteninfo_database(sql: dict[str, Any]) -> list[str]:
+    """Create atteninfo + tables/indexes/seeds if missing. Returns status messages."""
+    db_name = (sql.get("database") or "atteninfo").strip() or "atteninfo"
+    # Only allow simple identifiers
+    if not all(c.isalnum() or c == "_" for c in db_name):
+        raise ValueError(f"Invalid database name: {db_name}")
+
+    notes: list[str] = []
+    master = connect_sql(sql, database="master", autocommit=True)
+    try:
+        cur = master.cursor()
+        cur.execute("SELECT DB_ID(?)", db_name)
+        row = cur.fetchone()
+        if row is None or row[0] is None:
+            cur.execute(f"CREATE DATABASE [{db_name}]")
+            notes.append(f"Created database [{db_name}].")
+        else:
+            notes.append(f"Database [{db_name}] already exists.")
+    finally:
+        master.close()
+
+    conn = connect_sql(sql, database=db_name, autocommit=True)
+    try:
+        cur = conn.cursor()
+        cur.execute("SET QUOTED_IDENTIFIER ON")
+        cur.execute("SET ANSI_NULLS ON")
+
+        statements = [
+            (
+                "AccessEvents",
+                """
+                IF OBJECT_ID(N'dbo.AccessEvents', N'U') IS NULL
+                BEGIN
+                    CREATE TABLE dbo.AccessEvents (
+                        RowId                 BIGINT IDENTITY(1, 1) NOT NULL
+                            CONSTRAINT PK_AccessEvents PRIMARY KEY,
+                        ID                    VARCHAR(50)  NOT NULL,
+                        [datetime]            VARCHAR(50)  NOT NULL,
+                        [date]                VARCHAR(50)  NOT NULL,
+                        [time]                VARCHAR(50)  NOT NULL,
+                        authenticationresult  VARCHAR(50)  NULL,
+                        authenticationtype    VARCHAR(50)  NULL,
+                        device                VARCHAR(50)  NULL,
+                        firstname             VARCHAR(50)  NULL,
+                        lastname              VARCHAR(50)  NULL,
+                        personname            VARCHAR(50)  NULL,
+                        persongroup           VARCHAR(50)  NULL,
+                        direction             VARCHAR(50)  NOT NULL,
+                        DeviceIP              NVARCHAR(64) NULL,
+                        SerialNo              BIGINT       NULL,
+                        InsertedAt            DATETIME2(0) NOT NULL
+                            CONSTRAINT DF_AccessEvents_InsertedAt DEFAULT (SYSUTCDATETIME())
+                    );
+                END
+                """,
+            ),
+            (
+                "UX_AccessEvents_DeviceSerial",
+                """
+                IF NOT EXISTS (
+                    SELECT 1 FROM sys.indexes
+                    WHERE name = N'UX_AccessEvents_DeviceSerial'
+                      AND object_id = OBJECT_ID(N'dbo.AccessEvents')
+                )
+                BEGIN
+                    CREATE UNIQUE INDEX UX_AccessEvents_DeviceSerial
+                        ON dbo.AccessEvents (DeviceIP, SerialNo)
+                        WHERE SerialNo IS NOT NULL;
+                END
+                """,
+            ),
+            (
+                "UX_AccessEvents_Punch",
+                """
+                IF NOT EXISTS (
+                    SELECT 1 FROM sys.indexes
+                    WHERE name = N'UX_AccessEvents_Punch'
+                      AND object_id = OBJECT_ID(N'dbo.AccessEvents')
+                )
+                BEGIN
+                    CREATE UNIQUE INDEX UX_AccessEvents_Punch
+                        ON dbo.AccessEvents (ID, [datetime], direction, device);
+                END
+                """,
+            ),
+            (
+                "CollectorState",
+                """
+                IF OBJECT_ID(N'dbo.CollectorState', N'U') IS NULL
+                BEGIN
+                    CREATE TABLE dbo.CollectorState (
+                        DeviceIP        NVARCHAR(64)  NOT NULL
+                            CONSTRAINT PK_CollectorState PRIMARY KEY,
+                        LastEventTime   DATETIME2(0)  NULL,
+                        LastSerialNo    BIGINT        NULL,
+                        LastSuccessUtc  DATETIME2(0)  NULL,
+                        LastError       NVARCHAR(400) NULL
+                    );
+                END
+                """,
+            ),
+            (
+                "DeviceConfig",
+                """
+                IF OBJECT_ID(N'dbo.DeviceConfig', N'U') IS NULL
+                BEGIN
+                    CREATE TABLE dbo.DeviceConfig (
+                        DeviceKey    VARCHAR(32)   NOT NULL
+                            CONSTRAINT PK_DeviceConfig PRIMARY KEY,
+                        DisplayName  NVARCHAR(64)  NOT NULL,
+                        IpAddress    VARCHAR(64)   NOT NULL,
+                        Port         INT           NOT NULL
+                            CONSTRAINT DF_DeviceConfig_Port DEFAULT (80),
+                        Username     NVARCHAR(64)  NOT NULL,
+                        Password     NVARCHAR(128) NOT NULL,
+                        Direction    VARCHAR(10)   NOT NULL,
+                        Https        BIT           NOT NULL
+                            CONSTRAINT DF_DeviceConfig_Https DEFAULT (0),
+                        Enabled      BIT           NOT NULL
+                            CONSTRAINT DF_DeviceConfig_Enabled DEFAULT (1),
+                        UpdatedAt    DATETIME2(0)  NOT NULL
+                            CONSTRAINT DF_DeviceConfig_UpdatedAt DEFAULT (SYSUTCDATETIME())
+                    );
+                END
+                """,
+            ),
+            (
+                "AppConfig",
+                """
+                IF OBJECT_ID(N'dbo.AppConfig', N'U') IS NULL
+                BEGIN
+                    CREATE TABLE dbo.AppConfig (
+                        ConfigKey    VARCHAR(64)    NOT NULL
+                            CONSTRAINT PK_AppConfig PRIMARY KEY,
+                        ConfigValue  NVARCHAR(512)  NOT NULL,
+                        UpdatedAt    DATETIME2(0)   NOT NULL
+                            CONSTRAINT DF_AppConfig_UpdatedAt DEFAULT (SYSUTCDATETIME())
+                    );
+                END
+                """,
+            ),
+            (
+                "seed DeviceConfig",
+                """
+                IF NOT EXISTS (SELECT 1 FROM dbo.DeviceConfig)
+                BEGIN
+                    INSERT INTO dbo.DeviceConfig
+                        (DeviceKey, DisplayName, IpAddress, Port, Username, Password, Direction, Https, Enabled)
+                    VALUES
+                        ('entry', N'Entry Reader', '10.80.100.11', 80, N'admin', N'CHANGE_ME', 'In',  0, 1),
+                        ('exit',  N'Exit Reader',  '10.80.100.12', 80, N'admin', N'CHANGE_ME', 'Out', 0, 1);
+                END
+                """,
+            ),
+            (
+                "seed AppConfig",
+                """
+                IF NOT EXISTS (SELECT 1 FROM dbo.AppConfig WHERE ConfigKey = N'SyncIntervalMinutes')
+                    INSERT INTO dbo.AppConfig (ConfigKey, ConfigValue) VALUES (N'SyncIntervalMinutes', N'1');
+                IF NOT EXISTS (SELECT 1 FROM dbo.AppConfig WHERE ConfigKey = N'MaxResults')
+                    INSERT INTO dbo.AppConfig (ConfigKey, ConfigValue) VALUES (N'MaxResults', N'30');
+                IF NOT EXISTS (SELECT 1 FROM dbo.AppConfig WHERE ConfigKey = N'OverlapSeconds')
+                    INSERT INTO dbo.AppConfig (ConfigKey, ConfigValue) VALUES (N'OverlapSeconds', N'120');
+                IF NOT EXISTS (SELECT 1 FROM dbo.AppConfig WHERE ConfigKey = N'FirstLookbackHours')
+                    INSERT INTO dbo.AppConfig (ConfigKey, ConfigValue) VALUES (N'FirstLookbackHours', N'24');
+                IF NOT EXISTS (SELECT 1 FROM dbo.AppConfig WHERE ConfigKey = N'TimeoutSeconds')
+                    INSERT INTO dbo.AppConfig (ConfigKey, ConfigValue) VALUES (N'TimeoutSeconds', N'20');
+                """,
+            ),
+        ]
+
+        for label, sql_text in statements:
+            cur.execute(sql_text)
+            notes.append(f"OK: {label}")
+
+        cur.execute(
+            "SELECT name FROM sys.tables WHERE schema_id = SCHEMA_ID('dbo') ORDER BY name"
+        )
+        tables = [r[0] for r in cur.fetchall()]
+        notes.append("Tables: " + ", ".join(tables))
+    finally:
+        conn.close()
+
+    return notes
 
 
 def load_runtime_config(appsettings_path: Path = APPSETTINGS) -> dict[str, Any]:

@@ -222,6 +222,7 @@ class KekaApp(tk.Tk):
         btn = ttk.Frame(footer)
         btn.grid(row=0, column=0, sticky="ew", pady=(4, 2))
         ttk.Button(btn, text="Save configuration", command=self.save_all).pack(side=tk.LEFT)
+        ttk.Button(btn, text="Create / Repair database", command=self.create_database).pack(side=tk.LEFT, padx=6)
         ttk.Button(btn, text="Test devices", command=self.test_devices).pack(side=tk.LEFT, padx=6)
         ttk.Button(btn, text="Run collector now", command=self.run_now).pack(side=tk.LEFT, padx=6)
         ttk.Button(btn, text="Reload", command=self.reload_all).pack(side=tk.LEFT, padx=6)
@@ -414,6 +415,43 @@ class KekaApp(tk.Tk):
         else:
             summary = f"{action}: failed device(s): {', '.join(failed_names)}"
         return ok, f"{summary}\n\n{body}"
+
+    def create_database(self) -> None:
+        """Create atteninfo + tables if SQL Server is already installed."""
+        if not messagebox.askyesno(
+            "Create / Repair database",
+            "Create or repair database from the SQL settings above?\n\n"
+            "Requires SQL Server already installed and a login that can create databases "
+            "(e.g. sa).",
+        ):
+            return
+        if not self.save_all(quiet=True):
+            return
+
+        def worker() -> None:
+            try:
+                self.after(0, lambda: self.set_status("Creating / repairing database…"))
+                boot = col.load_json(APPSETTINGS)
+                notes = col.ensure_atteninfo_database(boot["sql"])
+                text = "Database ready.\n\n" + "\n".join(notes)
+                self.after(0, lambda: self.append_log(text))
+                self.after(0, lambda: self.set_status("Database ready."))
+                self.after(0, lambda: messagebox.showinfo("Create / Repair database", text))
+                self.after(0, self.reload_all)
+            except Exception as exc:
+                msg = str(exc)
+                low = msg.lower()
+                if "login failed" in low:
+                    msg = (
+                        "SQL login failed. Check Server, Username, and Password.\n"
+                        "The login must be allowed to create databases (e.g. sa)."
+                    )
+                elif "cannot open database" in low and "master" in low:
+                    msg = "Cannot connect to SQL Server. Is the service running?"
+                self.after(0, lambda: self.set_status(f"Database setup failed: {msg}"))
+                self.after(0, lambda: messagebox.showerror("Create / Repair database", msg))
+
+        threading.Thread(target=worker, daemon=True).start()
 
     def test_devices(self) -> None:
         if not self.save_all(quiet=True):

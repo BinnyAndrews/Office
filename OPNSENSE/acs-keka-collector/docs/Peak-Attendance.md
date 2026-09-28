@@ -27,15 +27,13 @@ The exe cannot embed SQL Server itself.
 1. Double-click `PeakAttendance.exe`.
 2. It starts **in the system tray** (no window).
 3. Double-click the tray icon (or **Open Peak Attendance**) to open the UI.
-4. Set:
-   - **SQL Server** (example: `localhost\SQLEXPRESS` or `10.80.100.10\SQLEXPRESS`)
-   - Database `atteninfo`, user `sa`, password as configured
-   - Entry / Exit device IP, username, password
-   - Sync interval (minutes)
-5. Click **Save configuration**.
-6. **Test devices** — should show SUCCESS per device.
-7. **Run collector now** — inserts into `atteninfo.dbo.AccessEvents`.
-8. Optional: **Install / Start with Windows** — tray at logon + hidden collect every 1 minute.
+4. Set SQL Server (example: `localhost\SQLEXPRESS`), database `atteninfo`, user/password.
+5. Click **Create / Repair database** — creates `atteninfo` + tables if SQL is already installed.
+6. Set Entry / Exit device IP, username, password and sync interval.
+7. Click **Save configuration**.
+8. **Test devices** — should show SUCCESS per device.
+9. **Run collector now** — inserts into `atteninfo.dbo.AccessEvents`.
+10. Optional: **Install / Start with Windows** — tray at logon + hidden collect every 1 minute.
 
 On first run, `appsettings.json` is created **next to the exe** (editable SQL bootstrap). Device settings live in SQL (`DeviceConfig` / `AppConfig`).
 
