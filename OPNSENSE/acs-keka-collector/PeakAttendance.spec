@@ -8,6 +8,8 @@ block_cipher = None
 datas = [
     ("appsettings.example.json", "."),
     ("sql/02_atteninfo.sql", "sql"),
+    ("docs/Peak-Attendance.md", "docs"),
+    ("docs/Database-Schema.md", "docs"),
 ]
 
 hiddenimports = [

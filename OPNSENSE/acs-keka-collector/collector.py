@@ -563,6 +563,17 @@ def load_watermark(cur: pyodbc.Cursor, device_ip: str) -> datetime | None:
     return row[0] if row and row[0] else None
 
 
+def reset_device_watermark(sql: dict[str, Any], device_ip: str) -> None:
+    """Clear CollectorState for a device so the next collect uses FirstLookbackHours."""
+    conn = connect_sql(sql)
+    try:
+        cur = conn.cursor()
+        cur.execute("DELETE FROM dbo.CollectorState WHERE DeviceIP = ?", device_ip)
+        conn.commit()
+    finally:
+        conn.close()
+
+
 def save_watermark(
     cur: pyodbc.Cursor,
     device_ip: str,

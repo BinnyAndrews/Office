@@ -29,11 +29,15 @@ The exe cannot embed SQL Server itself.
 3. Double-click the tray icon (or **Open Peak Attendance**) to open the UI.
 4. Set SQL Server (example: `localhost\SQLEXPRESS`), database `atteninfo`, user/password.
 5. Click **Create / Repair database** — creates `atteninfo` + tables if SQL is already installed.
-6. Set Entry / Exit device IP, username, password and sync interval.
-7. Click **Save configuration**.
-8. **Test devices** — should show SUCCESS per device.
-9. **Run collector now** — inserts into `atteninfo.dbo.AccessEvents`.
-10. Optional: **Install / Start with Windows** — tray at logon + hidden collect every 1 minute.
+6. Set Entry / Exit device IP, username, password; optional **Enabled** / **HTTPS**.
+7. Per device: **Open device**, **Test this device**, or **Reset watermark** (re-pull from lookback).
+8. Under Collector: sync interval, lookback, timeout, overlap, max results.
+9. Click **Save configuration**.
+10. **Test devices** — should show SUCCESS for both.
+11. **Run collector now** — inserts into `atteninfo.dbo.AccessEvents` (status lines update).
+12. Optional: **Install / Start with Windows** — tray at logon + hidden collect every 1 minute.
+
+**Help:** click **Help** in the UI (or press **F1**, or tray → Help). **Open full guide** opens this file.
 
 On first run, `appsettings.json` is created **next to the exe** (editable SQL bootstrap). Device settings live in SQL (`DeviceConfig` / `AppConfig`).
 
@@ -44,8 +48,9 @@ Yes — no rebuild needed. Use the UI (or edit `appsettings.json` / SQL tables).
 | Setting | Stored in |
 |---|---|
 | SQL server / login | `appsettings.json` beside the exe |
-| Device IPs / passwords | SQL `dbo.DeviceConfig` |
-| Sync interval / lookback | SQL `dbo.AppConfig` |
+| Device IPs / passwords / Enabled / HTTPS | SQL `dbo.DeviceConfig` |
+| Sync / lookback / timeout / overlap / max results | SQL `dbo.AppConfig` |
+| Last success / last event / last error | SQL `dbo.CollectorState` (read-only in UI) |
 
 Rebuild the exe only when application **code** changes.
 
