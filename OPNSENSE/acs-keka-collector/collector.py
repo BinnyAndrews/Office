@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
-"""Pull attendance events from Hikvision DS-K1T terminals into MS-SQL for Keka.
-
-Devices stay the terminals. This process only reads access events over the LAN
-HTTP API and inserts rows Keka can map.
-"""
+"""Pull attendance events from Hikvision terminals into atteninfo for Keka."""
 
 from __future__ import annotations
 
@@ -23,12 +19,16 @@ import requests
 import urllib3
 from requests.auth import HTTPDigestAuth
 
+from paths import app_dir, resource_dir
+
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 IST = timezone(timedelta(hours=5, minutes=30))
-ROOT = Path(__file__).resolve().parent
+ROOT = app_dir()
+BUNDLE = resource_dir()
 FAIL_MINORS = {76}  # face auth failed — skip
-LOG = logging.getLogger("acs-keka")
+LOG = logging.getLogger("peak-attendance")
+APPSETTINGS = ROOT / "appsettings.json"
 
 
 def setup_logging() -> None:
@@ -39,17 +39,23 @@ def setup_logging() -> None:
         log_dir / "collector.log", maxBytes=5_000_000, backupCount=5, encoding="utf-8"
     )
     file_h.setFormatter(fmt)
-    stream_h = logging.StreamHandler(sys.stdout)
-    stream_h.setFormatter(fmt)
     LOG.setLevel(logging.INFO)
     LOG.handlers.clear()
     LOG.addHandler(file_h)
-    LOG.addHandler(stream_h)
+    # Avoid attaching a console under pythonw / Task Scheduler
+    if sys.stdout is not None and hasattr(sys.stdout, "isatty") and sys.stdout.isatty():
+        stream_h = logging.StreamHandler(sys.stdout)
+        stream_h.setFormatter(fmt)
+        LOG.addHandler(stream_h)
 
 
-def load_config(path: Path) -> dict[str, Any]:
-    with path.open(encoding="utf-8") as fh:
+def load_json(path: Path) -> dict[str, Any]:
+    with path.open(encoding="utf-8-sig") as fh:
         return json.load(fh)
+
+
+def save_json(path: Path, data: dict[str, Any]) -> None:
+    path.write_text(json.dumps(data, indent=2), encoding="utf-8")
 
 
 def parse_hik_time(value: str) -> datetime | None:
@@ -70,9 +76,7 @@ def parse_hik_time(value: str) -> datetime | None:
 
 
 def fmt_hik_time(dt: datetime) -> str:
-    # Hikvision AcsEvent requires an explicit offset. Naive local times are
-    # mis-parsed and return the wrong window (hours early), so recent punches
-    # never show up. Devices are on IST (+05:30).
+    # Hikvision AcsEvent requires an explicit offset (+05:30 for IST).
     if dt.tzinfo is None:
         dt = dt.replace(tzinfo=IST)
     else:
@@ -230,11 +234,23 @@ def as_int(value: Any) -> int | None:
         return None
 
 
+def split_name(full: str) -> tuple[str | None, str | None]:
+    parts = full.strip().split(None, 1)
+    if not parts:
+        return None, None
+    if len(parts) == 1:
+        return parts[0][:50], None
+    return parts[0][:50], parts[1][:50]
+
+
+def auth_result_label(minor: int | None) -> str:
+    if minor in FAIL_MINORS:
+        return "Failed"
+    return "Succeeded"
+
+
 def normalize_event(raw: dict[str, Any], dev: dict[str, Any]) -> dict[str, Any] | None:
-    emp = (
-        str(raw.get("employeeNoString") or raw.get("employeeNo") or "")
-        .strip()
-    )
+    emp = str(raw.get("employeeNoString") or raw.get("employeeNo") or "").strip()
     if not emp:
         return None
     minor = as_int(raw.get("minor"))
@@ -244,33 +260,42 @@ def normalize_event(raw: dict[str, Any], dev: dict[str, Any]) -> dict[str, Any] 
     if punch is None:
         return None
     serial = as_int(raw.get("serialNo") or raw.get("serialNO"))
+    person = (str(raw.get("name") or "").strip() or None)
+    first, last = split_name(person) if person else (None, None)
+    direction = str(dev.get("direction") or ("In" if int(dev.get("status", 0)) == 0 else "Out"))
+    device_label = str(dev.get("display_name") or dev.get("name") or dev["ip"])[:50]
+    dt_s = punch.strftime("%Y-%m-%d %H:%M:%S")
     return {
-        "DeviceNumber": int(dev["device_number"]),
-        "UserID": emp[:32],
-        "LogTime": punch,
-        "Status": int(dev["status"]),
+        "ID": emp[:50],
+        "datetime": dt_s,
+        "date": punch.strftime("%Y-%m-%d"),
+        "time": punch.strftime("%H:%M:%S"),
+        "authenticationresult": auth_result_label(minor)[:50],
+        "authenticationtype": (str(raw.get("currentVerifyMode") or "")[:50] or None),
+        "device": device_label,
+        "firstname": first,
+        "lastname": last,
+        "personname": (person[:50] if person else None),
+        "persongroup": None,
+        "direction": direction[:50],
         "DeviceIP": dev["ip"],
         "SerialNo": serial,
-        "EmployeeName": (str(raw.get("name") or "")[:128] or None),
-        "VerifyMode": (str(raw.get("currentVerifyMode") or "")[:64] or None),
-        "MinorCode": minor,
+        "LogTime": punch,  # for watermark
     }
 
 
-def connect_sql(cfg: dict[str, Any]) -> pyodbc.Connection:
-    sql = cfg["sql"]
-    drivers = [sql.get("driver") or "ODBC Driver 18 for SQL Server"]
-    if "ODBC Driver 17 for SQL Server" not in drivers:
-        drivers.append("ODBC Driver 17 for SQL Server")
-    last_err: Exception | None = None
+def connect_sql(sql: dict[str, Any], database: str | None = None) -> pyodbc.Connection:
+    drivers = [sql.get("driver") or "ODBC Driver 18 for SQL Server", "ODBC Driver 17 for SQL Server"]
     installed = {d for d in pyodbc.drivers()}
+    db = database if database is not None else sql["database"]
+    last_err: Exception | None = None
     for driver in drivers:
         if driver not in installed and installed:
             continue
         conn_str = (
             f"DRIVER={{{driver}}};"
             f"SERVER={sql['server']};"
-            f"DATABASE={sql['database']};"
+            f"DATABASE={db};"
             f"UID={sql['username']};"
             f"PWD={sql['password']};"
             "Encrypt=yes;TrustServerCertificate=yes;"
@@ -282,6 +307,60 @@ def connect_sql(cfg: dict[str, Any]) -> pyodbc.Connection:
     raise RuntimeError(
         f"SQL connect failed. Installed ODBC drivers: {sorted(installed)}. Last error: {last_err}"
     )
+
+
+def load_runtime_config(appsettings_path: Path = APPSETTINGS) -> dict[str, Any]:
+    """Bootstrap SQL from appsettings.json; devices/poll from DB tables."""
+    if not appsettings_path.exists():
+        example = ROOT / "appsettings.example.json"
+        raise FileNotFoundError(
+            f"Missing {appsettings_path}. Copy {example.name} to appsettings.json and edit."
+        )
+    boot = load_json(appsettings_path)
+    sql = boot["sql"]
+    conn = connect_sql(sql)
+    try:
+        cur = conn.cursor()
+        cur.execute(
+            """
+            SELECT DeviceKey, DisplayName, IpAddress, Port, Username, Password,
+                   Direction, Https, Enabled
+            FROM dbo.DeviceConfig
+            WHERE Enabled = 1
+            ORDER BY CASE DeviceKey WHEN 'entry' THEN 0 WHEN 'exit' THEN 1 ELSE 2 END, DeviceKey
+            """
+        )
+        devices: list[dict[str, Any]] = []
+        for row in cur.fetchall():
+            direction = (row.Direction or "In").strip()
+            status = 0 if direction.lower() in {"in", "entry", "0"} else 1
+            devices.append(
+                {
+                    "name": row.DeviceKey,
+                    "display_name": row.DisplayName,
+                    "ip": row.IpAddress,
+                    "port": int(row.Port or 80),
+                    "https": bool(row.Https),
+                    "username": row.Username,
+                    "password": row.Password,
+                    "direction": direction,
+                    "device_number": 1 if status == 0 else 2,
+                    "status": status,
+                }
+            )
+        cur.execute("SELECT ConfigKey, ConfigValue FROM dbo.AppConfig")
+        app_cfg = {r.ConfigKey: r.ConfigValue for r in cur.fetchall()}
+    finally:
+        conn.close()
+
+    poll = {
+        "max_results": int(app_cfg.get("MaxResults") or 30),
+        "overlap_seconds": int(app_cfg.get("OverlapSeconds") or 120),
+        "first_lookback_hours": int(app_cfg.get("FirstLookbackHours") or 24),
+        "timeout_seconds": int(app_cfg.get("TimeoutSeconds") or 20),
+        "sync_interval_minutes": int(app_cfg.get("SyncIntervalMinutes") or 1),
+    }
+    return {"sql": sql, "devices": devices, "poll": poll, "app_cfg": app_cfg}
 
 
 def load_watermark(cur: pyodbc.Cursor, device_ip: str) -> datetime | None:
@@ -329,30 +408,36 @@ def save_watermark(
 def insert_rows(cur: pyodbc.Cursor, rows: list[dict[str, Any]]) -> int:
     inserted = 0
     sql = """
-        INSERT INTO dbo.AttendanceLogs (
-            DeviceNumber, UserID, LogTime, Status, DeviceIP, SerialNo,
-            EmployeeName, VerifyMode, MinorCode
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
+        INSERT INTO dbo.AccessEvents (
+            ID, [datetime], [date], [time],
+            authenticationresult, authenticationtype, device,
+            firstname, lastname, personname, persongroup, direction,
+            DeviceIP, SerialNo
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
     """
     for row in rows:
         try:
             cur.execute(
                 sql,
-                row["DeviceNumber"],
-                row["UserID"],
-                row["LogTime"],
-                row["Status"],
+                row["ID"],
+                row["datetime"],
+                row["date"],
+                row["time"],
+                row["authenticationresult"],
+                row["authenticationtype"],
+                row["device"],
+                row["firstname"],
+                row["lastname"],
+                row["personname"],
+                row["persongroup"],
+                row["direction"],
                 row["DeviceIP"],
                 row["SerialNo"],
-                row["EmployeeName"],
-                row["VerifyMode"],
-                row["MinorCode"],
             )
             inserted += 1
         except pyodbc.IntegrityError:
             continue
         except pyodbc.Error as exc:
-            # 2627 / 2601 = unique index (already collected)
             if exc.args and str(exc.args[0]) in {"23000"}:
                 continue
             raise
@@ -385,7 +470,20 @@ def collect_device(
     conn: pyodbc.Connection | None,
     dry_run: bool,
     ignore_watermark: bool = False,
-) -> None:
+) -> dict[str, Any]:
+    """Collect one device. Returns a result dict; does not raise for device errors."""
+    name = str(dev.get("name") or "?")
+    ip = str(dev.get("ip") or "?")
+    result: dict[str, Any] = {
+        "name": name,
+        "ip": ip,
+        "ok": False,
+        "reason": "",
+        "detail": "",
+        "inserted": 0,
+        "events": 0,
+        "punches": 0,
+    }
     poll = cfg.get("poll") or {}
     timeout = int(poll.get("timeout_seconds") or 20)
     max_results = int(poll.get("max_results") or 30)
@@ -394,28 +492,34 @@ def collect_device(
     start, end = window_for(dev, cur, poll, ignore_watermark=ignore_watermark)
     LOG.info(
         "%s (%s) searching %s → %s",
-        dev.get("name"),
-        dev["ip"],
+        name,
+        ip,
         fmt_hik_time(start),
         fmt_hik_time(end),
     )
     try:
         raw_events = hik.search_events(start, end, max_results)
         rows = [r for r in (normalize_event(e, dev) for e in raw_events) if r]
-        LOG.info("%s: %s device events, %s punches after filter", dev["ip"], len(raw_events), len(rows))
+        result["events"] = len(raw_events)
+        result["punches"] = len(rows)
+        LOG.info("%s: %s device events, %s punches after filter", ip, len(raw_events), len(rows))
         if dry_run:
             for row in rows:
                 LOG.info(
-                    "DRY %s user=%s time=%s status=%s serial=%s",
+                    "DRY %s id=%s time=%s dir=%s serial=%s",
                     row["DeviceIP"],
-                    row["UserID"],
-                    row["LogTime"],
-                    row["Status"],
+                    row["ID"],
+                    row["datetime"],
+                    row["direction"],
                     row["SerialNo"],
                 )
-            return
-        assert cur is not None
+            result["ok"] = True
+            result["reason"] = "success"
+            result["detail"] = f"Dry-run OK — {len(rows)} punch(es) (not written)."
+            return result
+        assert cur is not None and conn is not None
         added = insert_rows(cur, rows)
+        result["inserted"] = added
         last_event = max((r["LogTime"] for r in rows), default=None)
         last_serial = None
         serials = [r["SerialNo"] for r in rows if r["SerialNo"] is not None]
@@ -423,38 +527,146 @@ def collect_device(
             last_serial = max(serials)
         save_watermark(cur, dev["ip"], last_event, last_serial, None)
         conn.commit()
-        LOG.info("%s: inserted %s new row(s)", dev["ip"], added)
+        LOG.info("%s: inserted %s new row(s)", ip, added)
+        result["ok"] = True
+        result["reason"] = "success"
+        result["detail"] = (
+            f"OK — {len(raw_events)} event(s), {len(rows)} punch(es), inserted {added} new row(s)."
+        )
+        return result
     except Exception as exc:
-        LOG.exception("%s: collect failed: %s", dev["ip"], exc)
+        code, detail = classify_device_error(exc)
+        result["reason"] = code
+        result["detail"] = detail
+        if code in {"connectivity", "password", "http"}:
+            LOG.error("%s (%s) FAILED [%s]: %s", name, ip, code, detail)
+        else:
+            LOG.exception("%s (%s) FAILED [%s]: %s", name, ip, code, detail)
         if cur is not None and conn is not None:
             try:
-                save_watermark(cur, dev["ip"], None, None, str(exc)[:400])
+                save_watermark(cur, dev["ip"], None, None, detail[:400])
                 conn.commit()
             except Exception:
                 conn.rollback()
-        raise
+        return result
 
 
-def probe_all(cfg: dict[str, Any]) -> int:
+def collect_all(
+    cfg: dict[str, Any],
+    dry_run: bool = False,
+    ignore_watermark: bool = False,
+) -> list[dict[str, Any]]:
+    conn = None if dry_run else connect_sql(cfg["sql"])
+    results: list[dict[str, Any]] = []
+    try:
+        for dev in cfg["devices"]:
+            results.append(
+                collect_device(
+                    cfg, dev, conn, dry_run=dry_run, ignore_watermark=ignore_watermark
+                )
+            )
+    finally:
+        if conn is not None:
+            conn.close()
+    return results
+
+
+def classify_device_error(exc: BaseException) -> tuple[str, str]:
+    """Return (reason_code, human_message) for probe/collect failures."""
+    if isinstance(exc, requests.exceptions.ConnectTimeout):
+        return "connectivity", "Connectivity failed — connection timed out (device unreachable or wrong IP)."
+    if isinstance(exc, requests.exceptions.ReadTimeout):
+        return "connectivity", "Connectivity failed — device did not respond in time."
+    if isinstance(exc, requests.exceptions.ConnectionError):
+        text = str(exc).lower()
+        if "name or service not known" in text or "getaddrinfo failed" in text:
+            return "connectivity", "Connectivity failed — hostname/IP could not be resolved."
+        if "refused" in text:
+            return "connectivity", "Connectivity failed — connection refused (wrong IP/port or device offline)."
+        if "timed out" in text or "timeout" in text:
+            return "connectivity", "Connectivity failed — network timeout (VPN/LAN or wrong IP)."
+        return "connectivity", f"Connectivity failed — {exc}"
+    if isinstance(exc, requests.exceptions.HTTPError):
+        resp = getattr(exc, "response", None)
+        code = getattr(resp, "status_code", None)
+        if code == 401:
+            return "password", "Wrong username/password, or device temporarily locked after failed logins."
+        if code == 403:
+            return "password", "Access forbidden (HTTP 403) — check user permissions on the device."
+        return "http", f"HTTP error {code}: {exc}"
+    msg = str(exc)
+    low = msg.lower()
+    if "401" in msg or "auth failed" in low or "device locked" in low:
+        return "password", "Wrong username/password, or device temporarily locked after failed logins."
+    if "timed out" in low or "timeout" in low:
+        return "connectivity", "Connectivity failed — network timeout (VPN/LAN or wrong IP)."
+    if "refused" in low or "unreachable" in low:
+        return "connectivity", "Connectivity failed — device unreachable."
+    return "other", msg
+
+
+def probe_devices(cfg: dict[str, Any]) -> list[dict[str, Any]]:
+    """Probe each enabled device; return per-device result dicts."""
     poll = cfg.get("poll") or {}
     timeout = int(poll.get("timeout_seconds") or 20)
-    failures = 0
+    results: list[dict[str, Any]] = []
     for dev in cfg["devices"]:
+        name = str(dev.get("name") or "?")
+        ip = str(dev.get("ip") or "?")
+        base = device_base(dev)
+        item: dict[str, Any] = {
+            "name": name,
+            "ip": ip,
+            "url": base,
+            "ok": False,
+            "reason": "",
+            "detail": "",
+            "info": "",
+        }
         try:
             hik = HikTerminal(dev, timeout=timeout)
             info = hik.probe()
-            LOG.info("OK %s %s → %s", dev.get("name"), device_base(dev), info)
+            item["ok"] = True
+            item["reason"] = "success"
+            item["info"] = info
+            item["detail"] = f"Connected OK — {info}"
+            LOG.info("OK %s %s -> %s", name, base, info)
         except Exception as exc:
-            failures += 1
-            LOG.error("FAIL %s %s: %s", dev.get("name"), dev["ip"], exc)
-    return failures
+            code, detail = classify_device_error(exc)
+            item["reason"] = code
+            item["detail"] = detail
+            LOG.error("FAIL %s %s [%s]: %s", name, ip, code, detail)
+        results.append(item)
+    return results
+
+
+def probe_all(cfg: dict[str, Any]) -> int:
+    results = probe_devices(cfg)
+    for r in results:
+        if r["ok"]:
+            _console_print(f"SUCCESS  {r['name']} ({r['ip']}): {r['detail']}")
+        else:
+            _console_print(f"FAILED   {r['name']} ({r['ip']}): {r['detail']}")
+    failed = sum(1 for r in results if not r["ok"])
+    if failed:
+        _console_print(f"Result: FAILED — {failed} of {len(results)} device(s) failed.")
+    else:
+        _console_print(f"Result: SUCCESS — all {len(results)} device(s) OK.")
+    return failed
+
+
+def _console_print(msg: str) -> None:
+    """Print only when an interactive console exists (never under Task Scheduler/pythonw)."""
+    LOG.info("%s", msg)
+    if sys.stdout is not None and hasattr(sys.stdout, "isatty") and sys.stdout.isatty():
+        print(msg)
 
 
 def main() -> int:
     setup_logging()
-    parser = argparse.ArgumentParser(description="Hikvision terminal → SQL collector for Keka")
-    parser.add_argument("--config", default=str(ROOT / "config.json"))
-    parser.add_argument("--probe", action="store_true", help="Ping both terminals and exit")
+    parser = argparse.ArgumentParser(description="Hikvision → atteninfo collector for Keka")
+    parser.add_argument("--config", default=str(APPSETTINGS), help="Bootstrap appsettings.json path")
+    parser.add_argument("--probe", action="store_true", help="Ping terminals and exit")
     parser.add_argument("--dry-run", action="store_true", help="Print events, do not write SQL")
     parser.add_argument(
         "--since-hours",
@@ -463,12 +675,14 @@ def main() -> int:
         help="Ignore watermark and pull this many hours (still de-dupes in SQL)",
     )
     args = parser.parse_args()
-    cfg_path = Path(args.config)
-    if not cfg_path.exists():
-        example = ROOT / "config.example.json"
-        LOG.error("Missing %s — copy %s to config.json and edit passwords", cfg_path, example)
+    try:
+        cfg = load_runtime_config(Path(args.config))
+    except Exception as exc:
+        LOG.error("%s", exc)
         return 2
-    cfg = load_config(cfg_path)
+    if not cfg["devices"]:
+        LOG.error("No enabled devices in dbo.DeviceConfig")
+        return 2
     if args.probe:
         return 1 if probe_all(cfg) else 0
     ignore_watermark = False
@@ -478,21 +692,25 @@ def main() -> int:
         ignore_watermark = True
         LOG.info("Ignoring watermark; pulling last %s hour(s)", args.since_hours)
 
-    conn = None
-    if not args.dry_run:
-        conn = connect_sql(cfg)
-
-    errors = 0
-    for dev in cfg["devices"]:
-        try:
-            collect_device(
-                cfg, dev, conn, dry_run=args.dry_run, ignore_watermark=ignore_watermark
-            )
-        except Exception:
-            errors += 1
-    if conn is not None:
-        conn.close()
-    return 1 if errors else 0
+    results = collect_all(cfg, dry_run=args.dry_run, ignore_watermark=ignore_watermark)
+    failed = 0
+    for r in results:
+        if r["ok"]:
+            _console_print(f"SUCCESS  {r['name']} ({r['ip']}): {r['detail']}")
+        else:
+            failed += 1
+            reason = {
+                "connectivity": "Connectivity",
+                "password": "Wrong password / auth",
+                "http": "HTTP error",
+                "other": "Error",
+            }.get(str(r["reason"]), str(r["reason"]))
+            _console_print(f"FAILED   {r['name']} ({r['ip']}): [{reason}] {r['detail']}")
+    if failed:
+        _console_print(f"Result: FAILED — {failed} of {len(results)} device(s) failed.")
+        return 1
+    _console_print(f"Result: SUCCESS — all {len(results)} device(s) OK.")
+    return 0
 
 
 if __name__ == "__main__":
