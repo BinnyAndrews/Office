@@ -36,6 +36,7 @@ The exe cannot embed SQL Server itself.
 10. **Test devices** — should show SUCCESS for both.
 11. **Run collector now** — inserts into `atteninfo.dbo.AccessEvents` (status lines update).
 12. Optional: **Install / Start with Windows** — tray at logon + hidden collect every 1 minute.
+13. Optional: **Uninstall / Stop with Windows** — removes tasks + shortcuts (keeps exe and database).
 
 **Help:** click **Help** in the UI (or press **F1**, or tray → Help). **Open full guide** opens this file.
 

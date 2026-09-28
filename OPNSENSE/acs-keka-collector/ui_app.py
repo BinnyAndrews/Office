@@ -47,6 +47,7 @@ FIRST RUN
   4. Save configuration → Test devices (both SUCCESS).
   5. Run collector now.
   6. Optional: Install / Start with Windows (tray + collect every minute).
+     When installed, only Uninstall is enabled; when not, only Install.
 
 DEVICE BUTTONS
   Open device       — opens the reader web page (uses on-screen login)
@@ -311,9 +312,17 @@ class KekaApp(tk.Tk):
         ttk.Button(btn, text="Test devices", command=self.test_devices).pack(side=tk.LEFT, padx=6)
         ttk.Button(btn, text="Run collector now", command=self.run_now).pack(side=tk.LEFT, padx=6)
         ttk.Button(btn, text="Reload", command=self.reload_all).pack(side=tk.LEFT, padx=6)
-        ttk.Button(btn, text="Install / Start with Windows", command=self.install_startup).pack(side=tk.LEFT, padx=6)
+        self.btn_install = ttk.Button(
+            btn, text="Install / Start with Windows", command=self.install_startup
+        )
+        self.btn_install.pack(side=tk.LEFT, padx=6)
+        self.btn_uninstall = ttk.Button(
+            btn, text="Uninstall / Stop with Windows", command=self.uninstall_startup
+        )
+        self.btn_uninstall.pack(side=tk.LEFT, padx=6)
         ttk.Button(btn, text="Help", command=self.show_help).pack(side=tk.LEFT, padx=6)
         ttk.Button(btn, text="Minimize to tray", command=self.hide_to_tray).pack(side=tk.RIGHT)
+        self.after(300, self._refresh_install_buttons)
 
         self.status = tk.StringVar(value="Ready.")
         self.status_lbl = ttk.Label(footer, textvariable=self.status, wraplength=900)
@@ -476,10 +485,12 @@ class KekaApp(tk.Tk):
                     vars_["last_error"].set("—")
             self.set_status("Configuration loaded.")
             self.after(50, self._fit_to_screen)
+            self.after(100, self._refresh_install_buttons)
         except Exception as exc:
             self.set_status(f"Load failed: {exc}")
             messagebox.showerror("Load failed", str(exc))
             self.after(50, self._fit_to_screen)
+            self.after(100, self._refresh_install_buttons)
 
     def save_all(self, quiet: bool = False) -> bool:
         try:
@@ -805,8 +816,40 @@ class KekaApp(tk.Tk):
 
         threading.Thread(target=worker, daemon=True).start()
 
+    def _is_startup_installed(self) -> bool:
+        """True if the Windows collector task is registered."""
+        r = subprocess.run(
+            ["schtasks", "/Query", "/TN", "Peak-Attendance-Collector"],
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+        )
+        return r.returncode == 0
+
+    def _refresh_install_buttons(self) -> None:
+        """Show Install when not registered; Uninstall when registered."""
+        try:
+            installed = self._is_startup_installed()
+        except Exception:
+            installed = False
+        if installed:
+            self.btn_install.state(["disabled"])
+            self.btn_uninstall.state(["!disabled"])
+        else:
+            self.btn_install.state(["!disabled"])
+            self.btn_uninstall.state(["disabled"])
+
     def install_startup(self) -> None:
         """Register Start-with-Windows, collector task, shortcuts."""
+        if self._is_startup_installed():
+            messagebox.showinfo(
+                "Already installed",
+                "Peak Attendance is already registered for Windows startup.\n"
+                "Use Uninstall / Stop with Windows first if you want to change it.",
+            )
+            self._refresh_install_buttons()
+            return
         if not messagebox.askyesno(
             "Install / Start with Windows",
             "Register Peak Attendance to:\n"
@@ -843,6 +886,7 @@ class KekaApp(tk.Tk):
                     msg = ((proc.stdout or "") + (proc.stderr or "")).strip() or f"(exit {proc.returncode})"
                     ok = proc.returncode == 0
                 self.after(0, lambda: self.append_log(msg[-1500:]))
+                self.after(0, self._refresh_install_buttons)
                 if ok:
                     self.after(0, lambda: self.set_status("Installed — starts with Windows; collector every 1 min."))
                     self.after(
@@ -859,10 +903,126 @@ class KekaApp(tk.Tk):
                     self.after(0, lambda: self.set_status("Install failed"))
                     self.after(0, lambda: messagebox.showerror("Install failed", msg[-1500:]))
             except Exception as exc:
+                self.after(0, self._refresh_install_buttons)
                 self.after(0, lambda: self.set_status(f"Install failed: {exc}"))
                 self.after(0, lambda: messagebox.showerror("Install failed", str(exc)))
 
         threading.Thread(target=worker, daemon=True).start()
+
+    def uninstall_startup(self) -> None:
+        """Remove Start-with-Windows, collector task, and shortcuts (keeps exe + DB)."""
+        if not self._is_startup_installed():
+            messagebox.showinfo(
+                "Not installed",
+                "Peak Attendance is not registered for Windows startup.\n"
+                "Use Install / Start with Windows to register it.",
+            )
+            self._refresh_install_buttons()
+            return
+        if not messagebox.askyesno(
+            "Uninstall / Stop with Windows",
+            "Remove Peak Attendance from Windows startup and stop automatic collection?\n\n"
+            "This will:\n"
+            "• Delete the every-minute collector task\n"
+            "• Remove Startup / Start Menu / Desktop shortcuts\n\n"
+            "This will NOT:\n"
+            "• Delete PeakAttendance.exe or appsettings.json\n"
+            "• Delete the atteninfo database or punches\n\n"
+            "Continue?",
+        ):
+            return
+
+        def worker() -> None:
+            try:
+                self.after(0, lambda: self.set_status("Uninstalling startup / collector…"))
+                msg = self._uninstall_startup()
+                self.after(0, lambda: self.append_log(msg))
+                self.after(0, self._refresh_install_buttons)
+                self.after(0, lambda: self.set_status("Uninstalled — no longer starts with Windows."))
+                self.after(
+                    0,
+                    lambda: messagebox.showinfo(
+                        "Uninstall complete",
+                        "Automatic startup and collector task removed.\n\n"
+                        "The exe and database were left in place.\n"
+                        "You can still open the app and use Run collector now.",
+                    ),
+                )
+            except Exception as exc:
+                self.after(0, self._refresh_install_buttons)
+                self.after(0, lambda: self.set_status(f"Uninstall failed: {exc}"))
+                self.after(0, lambda: messagebox.showerror("Uninstall failed", str(exc)))
+
+        threading.Thread(target=worker, daemon=True).start()
+
+    def _uninstall_startup(self) -> str:
+        """Remove tasks and shortcuts created by Install / Start with Windows."""
+        lines: list[str] = []
+        for task in ("Peak-Attendance-Collector", "Peak-Attendance-UI"):
+            r = subprocess.run(
+                ["schtasks", "/Delete", "/TN", task, "/F"],
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                errors="replace",
+            )
+            if r.returncode == 0:
+                lines.append(f"Removed task: {task}")
+            else:
+                err = ((r.stderr or "") + (r.stdout or "")).strip()
+                if "cannot find" in err.lower() or "does not exist" in err.lower() or r.returncode != 0:
+                    lines.append(f"Task not present (ok): {task}")
+
+        paths = [
+            Path.home()
+            / "AppData"
+            / "Roaming"
+            / "Microsoft"
+            / "Windows"
+            / "Start Menu"
+            / "Programs"
+            / "Startup"
+            / "Peak Attendance.lnk",
+            Path.home()
+            / "AppData"
+            / "Roaming"
+            / "Microsoft"
+            / "Windows"
+            / "Start Menu"
+            / "Programs"
+            / "Peak Attendance"
+            / "Peak Attendance.lnk",
+            Path.home() / "Desktop" / "Peak Attendance.lnk",
+        ]
+        if getattr(sys, "frozen", False):
+            paths.append(Path(sys.executable).resolve().parent / "run-collector.vbs")
+
+        for path in paths:
+            try:
+                if path.exists():
+                    path.unlink()
+                    lines.append(f"Removed: {path}")
+            except OSError as exc:
+                lines.append(f"Could not remove {path}: {exc}")
+
+        menu_dir = (
+            Path.home()
+            / "AppData"
+            / "Roaming"
+            / "Microsoft"
+            / "Windows"
+            / "Start Menu"
+            / "Programs"
+            / "Peak Attendance"
+        )
+        try:
+            if menu_dir.exists() and not any(menu_dir.iterdir()):
+                menu_dir.rmdir()
+                lines.append(f"Removed folder: {menu_dir}")
+        except OSError:
+            pass
+
+        return "\n".join(lines) if lines else "Nothing to remove."
 
     def _install_frozen(self) -> str:
         """Register shortcuts + tasks when running as PeakAttendance.exe."""
