@@ -70,7 +70,14 @@ def parse_hik_time(value: str) -> datetime | None:
 
 
 def fmt_hik_time(dt: datetime) -> str:
-    return dt.replace(microsecond=0).strftime("%Y-%m-%dT%H:%M:%S")
+    # Hikvision AcsEvent requires an explicit offset. Naive local times are
+    # mis-parsed and return the wrong window (hours early), so recent punches
+    # never show up. Devices are on IST (+05:30).
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=IST)
+    else:
+        dt = dt.astimezone(IST)
+    return dt.replace(microsecond=0).strftime("%Y-%m-%dT%H:%M:%S%z").replace("+0530", "+05:30")
 
 
 def device_base(dev: dict[str, Any]) -> str:

@@ -45,7 +45,7 @@
       <priv/>
       <language>en_US</language>
       <descr>System Administrator</descr>
-      <dashboard>eyJvcHRpb25zIjpbXSwid2lkZ2V0cyI6W3siaWQiOiJzeXN0ZW1pbmZvcm1hdGlvbiIsIm1pblciOjIsIngiOjAsInkiOjAsImgiOjYxMCwid2lkZ2V0IjpbXX0seyJpZCI6Im1lbW9yeSIsIm1pblciOjEsIngiOjIsInkiOjAsImgiOjk3LCJ3aWRnZXQiOltdfSx7ImlkIjoiZGlzayIsIm1pblciOjEsIngiOjMsInkiOjAsImgiOjk3LCJ3aWRnZXQiOltdfSx7ImlkIjoiaW50ZXJmYWNlc3RhdGlzdGljcyIsIm1pblciOjIsIngiOjQsInkiOjAsInciOjQsImgiOjIyMywid2lkZ2V0IjpbXX0seyJpZCI6ImZpcmV3YWxsIiwibWluVyI6MiwieCI6OCwieSI6MCwidyI6NCwiaCI6MjIzLCJ3aWRnZXQiOnsiY29sb3JzY2hlbWUiOiJjb250cmFzdCJ9fSx7ImlkIjoiZ2F0ZXdheXMiLCJtaW5XIjoyLCJ4IjoyLCJ5Ijo5Nywic2l6ZVRvQ29udGVudCI6NjUwLCJoIjozMTcsIndpZGdldCI6eyJnYXRld2F5cyI6WyJmN2U4MGQxNS00ZThkLTQ5ODItYTExNC03ZTg3ZGU5YWExY2MiLCI2NjFmYTA4NC03ZTY2LTQ2ODctYTA5Yi03YjNhYTY1MGMzMDciXX19LHsiaWQiOiJpbnRlcmZhY2VzIiwibWluVyI6MiwieCI6NCwieSI6MjIzLCJ3Ijo0LCJzaXplVG9Db250ZW50Ijo2NTAsImgiOjQxMSwid2lkZ2V0IjpbXX0seyJpZCI6InRyYWZmaWMiLCJtaW5XIjoyLCJ4Ijo4LCJ5IjoyMjMsInciOjQsImgiOjQ0Niwid2lkZ2V0Ijp7ImludGVyZmFjZXMiOlsid2FuIiwibGFuIl19fSx7ImlkIjoiYW5ub3VuY2VtZW50cyIsIm1pblciOjIsIngiOjIsInkiOjQxNCwic2l6ZVRvQ29udGVudCI6MzUwLCJoIjozNTAsIndpZGdldCI6W119LHsiaWQiOiJjcHUiLCJtaW5XIjoyLCJ4IjowLCJ5Ijo2MTAsImgiOjIxNCwid2lkZ2V0Ijp7ImdyYXBocyI6WyJ0b3RhbCJdfX0seyJpZCI6InNlcnZpY2VzIiwibWluVyI6MiwieCI6NCwieSI6NjM0LCJ3Ijo0LCJzaXplVG9Db250ZW50Ijo2NTAsImgiOjY0Nywid2lkZ2V0IjpbXX0seyJpZCI6ImtlYWxlYXNlcyIsIm1pblciOjIsInNpemVUb0NvbnRlbnQiOjY1MCwieCI6OCwieSI6NjY5LCJoIjoyOTQsIndpZGdldCI6eyJsZWFzZXNUb1Nob3ciOiIyIn19LHsiaWQiOiJtb25pdCIsIm1pblciOjIsIngiOjEwLCJ5Ijo2NjksImgiOjEwMywid2lkZ2V0IjpbXX0seyJpZCI6InN3YXAiLCJtaW5XIjoxLCJ4IjoyLCJ5Ijo3NjQsImgiOjk3LCJ3aWRnZXQiOltdfSx7ImlkIjoiV2lyZWd1YXJkIiwibWluVyI6Miwic2l6ZVRvQ29udGVudCI6NjUwLCJ4IjoxMCwieSI6NzcyLCJoIjoxMTksIndpZGdldCI6W119LHsiaWQiOiJ0aGVybWFsc2Vuc29ycyIsIm1pblciOjIsIngiOjgsInkiOjk2MywiaCI6MTk4LCJ3aWRnZXQiOnsic2Vuc29ycyI6WyJkZXYuY3B1LjAudGVtcGVyYXR1cmUiLCJkZXYuY3B1LjEudGVtcGVyYXR1cmUiLCJody5hY3BpLnRoZXJtYWwudHowLnRlbXBlcmF0dXJlIl19fV0sImxheW91dHMiOnsiMTIiOnsic3lzdGVtaW5mb3JtYXRpb24iOnsiaWQiOiJzeXN0ZW1pbmZvcm1hdGlvbiIsIngiOjAsInkiOjAsInciOjIsImgiOjYxMH0sIm1lbW9yeSI6eyJpZCI6Im1lbW9yeSIsIngiOjIsInkiOjAsInciOm51bGwsImgiOjk3fSwiZGlzayI6eyJpZCI6ImRpc2siLCJ4IjozLCJ5IjowLCJ3IjpudWxsLCJoIjo5N30sImludGVyZmFjZXN0YXRpc3RpY3MiOnsiaWQiOiJpbnRlcmZhY2VzdGF0aXN0aWNzIiwieCI6NCwieSI6MCwidyI6NCwiaCI6MjIzfSwiZmlyZXdhbGwiOnsiaWQiOiJmaXJld2FsbCIsIngiOjgsInkiOjAsInciOjQsImgiOjIyM30sImdhdGV3YXlzIjp7ImlkIjoiZ2F0ZXdheXMiLCJ4IjoyLCJ5Ijo5NywidyI6MiwiaCI6MzE3fSwiaW50ZXJmYWNlcyI6eyJpZCI6ImludGVyZmFjZXMiLCJ4Ijo0LCJ5IjoyMjMsInciOjQsImgiOjQxMX0sImFubm91bmNlbWVudHMiOnsiaWQiOiJhbm5vdW5jZW1lbnRzIiwieCI6MiwieSI6NDE0LCJ3IjoyLCJoIjozNTB9LCJjcHUiOnsiaWQiOiJjcHUiLCJ4IjowLCJ5Ijo2MTAsInciOjIsImgiOjIxNH0sInNlcnZpY2VzIjp7ImlkIjoic2VydmljZXMiLCJ4Ijo0LCJ5Ijo2MzQsInciOjQsImgiOjY0N30sImtlYWxlYXNlcyI6eyJpZCI6ImtlYWxlYXNlcyIsIngiOjgsInkiOjY2OSwidyI6MiwiaCI6Mjk0fSwibW9uaXQiOnsiaWQiOiJtb25pdCIsIngiOjEwLCJ5Ijo2NjksInciOjIsImgiOjEwM30sInN3YXAiOnsiaWQiOiJzd2FwIiwieCI6MiwieSI6NzY0LCJ3IjpudWxsLCJoIjo5N30sIldpcmVndWFyZCI6eyJpZCI6IldpcmVndWFyZCIsIngiOjEwLCJ5Ijo3NzIsInciOjIsImgiOjExOX0sInRoZXJtYWxzZW5zb3JzIjp7ImlkIjoidGhlcm1hbHNlbnNvcnMiLCJ4Ijo4LCJ5Ijo5NjMsInciOjIsImgiOjE5OH0sInRyYWZmaWMiOnsiaWQiOiJ0cmFmZmljIiwieCI6OCwieSI6MjIzLCJ3Ijo0LCJoIjo0NDZ9fX19</dashboard>
+      <dashboard>eyJvcHRpb25zIjpbXSwid2lkZ2V0cyI6W3siaWQiOiJzeXN0ZW1pbmZvcm1hdGlvbiIsIm1pblciOjIsIngiOjAsInkiOjAsImgiOjQ4Niwid2lkZ2V0IjpbXX0seyJpZCI6Im1lbW9yeSIsIm1pblciOjEsIngiOjIsInkiOjAsImgiOjE3MCwid2lkZ2V0IjpbXSwidyI6Mn0seyJpZCI6ImludGVyZmFjZXN0YXRpc3RpY3MiLCJtaW5XIjoyLCJ4Ijo0LCJ5IjowLCJ3Ijo0LCJoIjoyODMsIndpZGdldCI6W119LHsiaWQiOiJmaXJld2FsbCIsIm1pblciOjIsIngiOjgsInkiOjAsInciOjQsImgiOjI4Mywid2lkZ2V0Ijp7ImNvbG9yc2NoZW1lIjoiY29udHJhc3QifX0seyJpZCI6Im1idWYiLCJtaW5XIjoxLCJ4IjoyLCJ5IjoxNzAsInciOjIsImgiOjE3MCwid2lkZ2V0IjpbXX0seyJpZCI6ImludGVyZmFjZXMiLCJtaW5XIjoyLCJ4Ijo0LCJ5IjoyODMsInciOjQsInNpemVUb0NvbnRlbnQiOjQxMSwiaCI6NDExLCJ3aWRnZXQiOltdfSx7ImlkIjoidHJhZmZpYyIsIm1pblciOjIsIngiOjgsInkiOjI4MywidyI6NCwiaCI6NDQ2LCJ3aWRnZXQiOnsiaW50ZXJmYWNlcyI6WyJ3YW4iLCJvcHQxIiwibGFuIiwib3B0MiIsIm9wdDMiLCJvcHQ0Il19fSx7ImlkIjoiZGlzayIsIm1pblciOjEsIngiOjIsInkiOjM0MCwiaCI6MTcwLCJ3aWRnZXQiOltdLCJ3IjoyfSx7ImlkIjoiY3B1IiwibWluVyI6MiwieCI6MCwieSI6NDg2LCJoIjo0MTEsIndpZGdldCI6eyJncmFwaHMiOlsidG90YWwiLCJpbnRyIiwidXNlciIsInN5cyJdfX0seyJpZCI6InN3YXAiLCJtaW5XIjoxLCJ4IjoyLCJ5Ijo1MTAsImgiOjE3MCwid2lkZ2V0IjpbXSwidyI6Mn0seyJpZCI6ImdhdGV3YXlzIiwibWluVyI6MiwieCI6MiwieSI6NjgwLCJzaXplVG9Db250ZW50IjoyMTksImgiOjIxOSwid2lkZ2V0Ijp7ImdhdGV3YXlzIjpbImY3ZTgwZDE1LTRlOGQtNDk4Mi1hMTE0LTdlODdkZTlhYTFjYyIsIjY2MWZhMDg0LTdlNjYtNDY4Ny1hMDliLTdiM2FhNjUwYzMwNyJdfX0seyJpZCI6InNlcnZpY2VzIiwibWluVyI6MiwieCI6NCwieSI6Njk0LCJ3Ijo0LCJzaXplVG9Db250ZW50IjozODMsImgiOjM4Mywid2lkZ2V0IjpbXX0seyJpZCI6ImtlYWxlYXNlcyIsIm1pblciOjIsInNpemVUb0NvbnRlbnQiOjM1MiwieCI6OCwieSI6NzI5LCJoIjozNTIsIndpZGdldCI6eyJsZWFzZXNUb1Nob3ciOiI1MCJ9fSx7ImlkIjoibW9uaXQiLCJtaW5XIjoyLCJ4IjoxMCwieSI6NzI5LCJoIjoxODcsIndpZGdldCI6W119LHsiaWQiOiJ0aGVybWFsc2Vuc29ycyIsIm1pblciOjIsIngiOjAsInkiOjg5NywiaCI6MTgwLCJ3aWRnZXQiOnsic2Vuc29ycyI6WyJkZXYuY3B1LjAudGVtcGVyYXR1cmUiLCJkZXYuY3B1LjEudGVtcGVyYXR1cmUiLCJody5hY3BpLnRoZXJtYWwudHowLnRlbXBlcmF0dXJlIl19fSx7ImlkIjoiV2lyZWd1YXJkIiwibWluVyI6Miwic2l6ZVRvQ29udGVudCI6MTAxLCJ4IjoxMCwieSI6OTE2LCJoIjoxMDEsIndpZGdldCI6W119XSwibGF5b3V0cyI6eyIxMiI6eyJzeXN0ZW1pbmZvcm1hdGlvbiI6eyJpZCI6InN5c3RlbWluZm9ybWF0aW9uIiwieCI6MCwieSI6MCwidyI6MiwiaCI6NDg2fSwibWVtb3J5Ijp7ImlkIjoibWVtb3J5IiwieCI6MiwieSI6MCwidyI6MiwiaCI6MTcwfSwiaW50ZXJmYWNlc3RhdGlzdGljcyI6eyJpZCI6ImludGVyZmFjZXN0YXRpc3RpY3MiLCJ4Ijo0LCJ5IjowLCJ3Ijo0LCJoIjoyODN9LCJmaXJld2FsbCI6eyJpZCI6ImZpcmV3YWxsIiwieCI6OCwieSI6MCwidyI6NCwiaCI6MjgzfSwibWJ1ZiI6eyJpZCI6Im1idWYiLCJ4IjoyLCJ5IjoxNzAsInciOjIsImgiOjE3MH0sImludGVyZmFjZXMiOnsiaWQiOiJpbnRlcmZhY2VzIiwieCI6NCwieSI6MjgzLCJ3Ijo0LCJoIjo0MTF9LCJkaXNrIjp7ImlkIjoiZGlzayIsIngiOjIsInkiOjM0MCwidyI6MiwiaCI6MTcwfSwiY3B1Ijp7ImlkIjoiY3B1IiwieCI6MCwieSI6NDg2LCJ3IjoyLCJoIjo0MTF9LCJzd2FwIjp7ImlkIjoic3dhcCIsIngiOjIsInkiOjUxMCwidyI6MiwiaCI6MTcwfSwiZ2F0ZXdheXMiOnsiaWQiOiJnYXRld2F5cyIsIngiOjIsInkiOjY4MCwidyI6MiwiaCI6MjE5fSwic2VydmljZXMiOnsiaWQiOiJzZXJ2aWNlcyIsIngiOjQsInkiOjY5NCwidyI6NCwiaCI6MzgzfSwia2VhbGVhc2VzIjp7ImlkIjoia2VhbGVhc2VzIiwieCI6OCwieSI6NzI5LCJ3IjoyLCJoIjozNTJ9LCJtb25pdCI6eyJpZCI6Im1vbml0IiwieCI6MTAsInkiOjcyOSwidyI6MiwiaCI6MTg3fSwidGhlcm1hbHNlbnNvcnMiOnsiaWQiOiJ0aGVybWFsc2Vuc29ycyIsIngiOjAsInkiOjg5NywidyI6MiwiaCI6MTgwfSwiV2lyZWd1YXJkIjp7ImlkIjoiV2lyZWd1YXJkIiwieCI6MTAsInkiOjkxNiwidyI6MiwiaCI6MTAxfSwidHJhZmZpYyI6eyJpZCI6InRyYWZmaWMiLCJ4Ijo4LCJ5IjoyODMsInciOjQsImgiOjQ0Nn19fX0=</dashboard>
       <menu_favorites/>
     </user>
     <user uuid="abf051aa-608f-42d5-b542-a67a9365f233">
@@ -57,8 +57,8 @@
       <authorizedkeys/>
       <otp_seed/>
       <shell/>
-      <password>$2y$11$U6GDW4QDDeFwZV1GZrA9Tu8nzK6YzMdz6/rpFmSjnoQseokmFMB1O</password>
-      <pwd_changed_at>1790213496.1373</pwd_changed_at>
+      <password>$2y$11$vbc3NK51YaUKO9m/ZZcN.ur15cQygSQpF6g7tIwvugocqNhz.daqm</password>
+      <pwd_changed_at>1790230958.0062</pwd_changed_at>
       <landing_page/>
       <comment>Shared guest captive-portal account &#x2014; rotate password every 90 days</comment>
       <email/>
@@ -78,8 +78,8 @@
       <authorizedkeys/>
       <otp_seed/>
       <shell/>
-      <password>$2y$11$6ey5HEOUohd.bl3U06JECOPbtpL8NyLg20NYq86UZUzNt9PjD6ZD2</password>
-      <pwd_changed_at>1790213524.3732</pwd_changed_at>
+      <password>$2y$11$bpuzRkWABfFl8vryqoz4t.g2JQNfb2MxZbBjbpQMyjjU4QcM7nTa2</password>
+      <pwd_changed_at>1790231003.8735</pwd_changed_at>
       <landing_page/>
       <comment>Shared guest captive-portal account &#x2014; rotate password every 90 days</comment>
       <email/>
@@ -99,8 +99,8 @@
       <authorizedkeys/>
       <otp_seed/>
       <shell/>
-      <password>$2y$11$VuThh9Jrmc3zk7EE7Viq8OcXG.I08P18iq17fteDxSPIShRjSg.6S</password>
-      <pwd_changed_at>1790213531.2506</pwd_changed_at>
+      <password>$2y$11$Yi6.8XKagj1jg5WQWVFwEelDtRE.bU4HdNvYuZ3B9FQqbwX1OErUu</password>
+      <pwd_changed_at>1790231009.8965</pwd_changed_at>
       <landing_page/>
       <comment>Shared guest captive-portal account &#x2014; rotate password every 90 days</comment>
       <email/>
@@ -120,8 +120,8 @@
       <authorizedkeys/>
       <otp_seed/>
       <shell/>
-      <password>$2y$11$lj6IfJsAAOu/X9UysRKQ3uLIz/HZ5BQjuzIhnVnsw2s9ZV7JEt0L.</password>
-      <pwd_changed_at>1790213536.9957</pwd_changed_at>
+      <password>$2y$11$cgEg3UB9BE.4JfIN6leVqOWwZZ3UunLklyTFNRCGc4/gVgsQzMcaG</password>
+      <pwd_changed_at>1790231015.9632</pwd_changed_at>
       <landing_page/>
       <comment>Shared guest captive-portal account &#x2014; rotate password every 90 days</comment>
       <email/>
@@ -141,8 +141,8 @@
       <authorizedkeys/>
       <otp_seed/>
       <shell/>
-      <password>$2y$11$0zwhUL6tvha9ACfi5u.WHumeQ2ai1aZEPdvGGvuhlnfj8VZoAjwDq</password>
-      <pwd_changed_at>1790213544.3999</pwd_changed_at>
+      <password>$2y$11$uZgBJnLn8m4B2j2sO4dC3ON/JuNRlnlP/I5EiBb8qyK0Q98VnpxVm</password>
+      <pwd_changed_at>1790231020.8508</pwd_changed_at>
       <landing_page/>
       <comment>Shared guest captive-portal account &#x2014; rotate password every 90 days</comment>
       <email/>
@@ -212,17 +212,21 @@
     <dns7gw>none</dns7gw>
     <dns8gw>none</dns8gw>
     <thermal_hardware>coretemp</thermal_hardware>
-    <use_mfs_var>1</use_mfs_var>
-    <use_mfs_tmp>1</use_mfs_tmp>
-    <use_swap_file>2048</use_swap_file>
     <authserver/>
     <powerd_enable>1</powerd_enable>
-    <crypto_hardware>qat</crypto_hardware>
+    <maximumstates/>
+    <maximumfrags/>
+    <aliasesresolveinterval/>
+    <maximumtableentries/>
+    <pfdebug>urgent</pfdebug>
+    <gw_switch_default>1</gw_switch_default>
+    <secondaryconsole/>
+    <serialusb/>
   </system>
   <interfaces>
     <wan>
       <if>re1</if>
-      <descr>AIRTEL-FIBER</descr>
+      <descr>WAN_AIRTEL</descr>
       <enable>1</enable>
       <spoofmac/>
       <blockpriv>1</blockpriv>
@@ -255,7 +259,7 @@
     </lo0>
     <opt1>
       <if>re2</if>
-      <descr>JIO-RF</descr>
+      <descr>WAN_JIO</descr>
       <enable>1</enable>
       <lock>1</lock>
       <spoofmac/>
@@ -298,8 +302,7 @@
     <opt5>
       <if>re3</if>
       <descr>SPARE</descr>
-      <enable>0</enable>
-      <lock>0</lock>
+      <lock>1</lock>
       <blockpriv>0</blockpriv>
       <blockbogons>0</blockbogons>
     </opt5>
@@ -317,7 +320,7 @@
       <name>WAN_AIRTEL</name>
       <interface>wan</interface>
       <gateway>125.19.224.17</gateway>
-      <defaultgw>0</defaultgw>
+      <defaultgw>1</defaultgw>
       <fargw>0</fargw>
       <monitor_disable>0</monitor_disable>
       <monitorip>8.8.8.8</monitorip>
@@ -342,10 +345,11 @@
     </gateway_item>
     <gateway_group uuid="e67849b4-9bbe-427d-aeb1-31e34a2351b9">
       <name>WAN_LB</name>
-      <descr>Dual-WAN load balance (FortiGate SD-WAN replacement)</descr>
-      <trigger>both</trigger>
-      <item>WAN_AIRTEL|1|3</item>
-      <item>WAN_JIO|1|3</item>
+      <trigger>down</trigger>
+      <poolopts/>
+      <descr>Dual-WAN load balance + failover (Airtel+Jio Tier1)</descr>
+      <item>WAN_AIRTEL|1|0</item>
+      <item>WAN_JIO|1|0</item>
     </gateway_group>
   </gateways>
   <schedules>
@@ -481,13 +485,13 @@
       <target>10.80.100.10</target>
       <local-port>1433</local-port>
       <source>
-        <address>AKRIVIA_HR</address>
+        <address>KEKA_HR</address>
       </source>
       <destination>
         <network>wanip</network>
         <port>1433</port>
       </destination>
-      <descr>ACS-SQL-Airtel</descr>
+      <descr>ACS-SQL-Airtel (KEKA_HR; AKRIVIA_HR disabled)</descr>
       <associated-rule-id/>
       <natreflection>purenat</natreflection>
       <enabled>1</enabled>
@@ -499,13 +503,13 @@
       <target>10.80.100.10</target>
       <local-port>1433</local-port>
       <source>
-        <address>AKRIVIA_HR</address>
+        <address>KEKA_HR</address>
       </source>
       <destination>
         <network>opt1ip</network>
         <port>1433</port>
       </destination>
-      <descr>ACS-SQL-Jio</descr>
+      <descr>ACS-SQL-Jio (KEKA_HR; AKRIVIA_HR disabled)</descr>
       <associated-rule-id/>
       <natreflection>purenat</natreflection>
       <enabled>1</enabled>
@@ -522,11 +526,194 @@
       <Filter version="1.0.6" persisted_at="1790153636.57" description="Firewall rules (new)">
         <general/>
         <rules>
+          <rule uuid="6e07864c-a5e2-4af6-a498-a0d4ff58ad77">
+            <enabled>1</enabled>
+            <statetype>keep</statetype>
+            <state-policy/>
+            <sequence>12</sequence>
+            <action>pass</action>
+            <quick>1</quick>
+            <interfacenot>0</interfacenot>
+            <interface>lan</interface>
+            <received-on-not>0</received-on-not>
+            <received-on/>
+            <direction>in</direction>
+            <ipprotocol>inet</ipprotocol>
+            <protocol>any</protocol>
+            <icmptype/>
+            <icmp6type/>
+            <source_net>MGMT</source_net>
+            <source_not>0</source_not>
+            <source_port/>
+            <destination_net>WL_GUEST</destination_net>
+            <destination_not>0</destination_not>
+            <destination_port/>
+            <divert-to/>
+            <gateway/>
+            <replyto/>
+            <disablereplyto>0</disablereplyto>
+            <log>0</log>
+            <allowopts>0</allowopts>
+            <nosync>0</nosync>
+            <nopfsync>0</nopfsync>
+            <statetimeout/>
+            <udp-first/>
+            <udp-multiple/>
+            <udp-single/>
+            <max-src-nodes/>
+            <max-src-states/>
+            <max-src-conn/>
+            <max/>
+            <max-src-conn-rate/>
+            <max-src-conn-rates/>
+            <max-pkt-rate-number/>
+            <max-pkt-rate-seconds/>
+            <overload/>
+            <adaptivestart/>
+            <adaptiveend/>
+            <prio/>
+            <set-prio/>
+            <set-prio-low/>
+            <tag/>
+            <tagged/>
+            <tcpflags1/>
+            <tcpflags2/>
+            <tcpflags_any>0</tcpflags_any>
+            <categories/>
+            <sched/>
+            <tos/>
+            <shaper1/>
+            <shaper2/>
+            <description>MGMT to WL_GUEST</description>
+            <audit/>
+          </rule>
+          <rule uuid="d44d0f95-e3ac-4f1a-b6fb-c577ce7f865a">
+            <enabled>1</enabled>
+            <statetype>keep</statetype>
+            <state-policy/>
+            <sequence>11</sequence>
+            <action>pass</action>
+            <quick>1</quick>
+            <interfacenot>0</interfacenot>
+            <interface>lan</interface>
+            <received-on-not>0</received-on-not>
+            <received-on/>
+            <direction>in</direction>
+            <ipprotocol>inet</ipprotocol>
+            <protocol>any</protocol>
+            <icmptype/>
+            <icmp6type/>
+            <source_net>MGMT</source_net>
+            <source_not>0</source_not>
+            <source_port/>
+            <destination_net>WL_CORP</destination_net>
+            <destination_not>0</destination_not>
+            <destination_port/>
+            <divert-to/>
+            <gateway/>
+            <replyto/>
+            <disablereplyto>0</disablereplyto>
+            <log>0</log>
+            <allowopts>0</allowopts>
+            <nosync>0</nosync>
+            <nopfsync>0</nopfsync>
+            <statetimeout/>
+            <udp-first/>
+            <udp-multiple/>
+            <udp-single/>
+            <max-src-nodes/>
+            <max-src-states/>
+            <max-src-conn/>
+            <max/>
+            <max-src-conn-rate/>
+            <max-src-conn-rates/>
+            <max-pkt-rate-number/>
+            <max-pkt-rate-seconds/>
+            <overload/>
+            <adaptivestart/>
+            <adaptiveend/>
+            <prio/>
+            <set-prio/>
+            <set-prio-low/>
+            <tag/>
+            <tagged/>
+            <tcpflags1/>
+            <tcpflags2/>
+            <tcpflags_any>0</tcpflags_any>
+            <categories/>
+            <sched/>
+            <tos/>
+            <shaper1/>
+            <shaper2/>
+            <description>MGMT to WL_CORP</description>
+            <audit/>
+          </rule>
+          <rule uuid="d7583097-3044-4ccd-a391-67c1fde978d5">
+            <enabled>1</enabled>
+            <statetype>keep</statetype>
+            <state-policy/>
+            <sequence>1</sequence>
+            <action>pass</action>
+            <quick>1</quick>
+            <interfacenot>0</interfacenot>
+            <interface>lan</interface>
+            <received-on-not>0</received-on-not>
+            <received-on/>
+            <direction>in</direction>
+            <ipprotocol>inet</ipprotocol>
+            <protocol>any</protocol>
+            <icmptype/>
+            <icmp6type/>
+            <source_net>MGMT</source_net>
+            <source_not>0</source_not>
+            <source_port/>
+            <destination_net>(self)</destination_net>
+            <destination_not>0</destination_not>
+            <destination_port/>
+            <divert-to/>
+            <gateway/>
+            <replyto/>
+            <disablereplyto>0</disablereplyto>
+            <log>0</log>
+            <allowopts>0</allowopts>
+            <nosync>0</nosync>
+            <nopfsync>0</nopfsync>
+            <statetimeout/>
+            <udp-first/>
+            <udp-multiple/>
+            <udp-single/>
+            <max-src-nodes/>
+            <max-src-states/>
+            <max-src-conn/>
+            <max/>
+            <max-src-conn-rate/>
+            <max-src-conn-rates/>
+            <max-pkt-rate-number/>
+            <max-pkt-rate-seconds/>
+            <overload/>
+            <adaptivestart/>
+            <adaptiveend/>
+            <prio/>
+            <set-prio/>
+            <set-prio-low/>
+            <tag/>
+            <tagged/>
+            <tcpflags1/>
+            <tcpflags2/>
+            <tcpflags_any>0</tcpflags_any>
+            <categories/>
+            <sched/>
+            <tos/>
+            <shaper1/>
+            <shaper2/>
+            <description>Allow MGMT to firewall (self)</description>
+            <audit/>
+          </rule>
           <rule uuid="abf92213-2f30-496f-af4a-f57fd51fae8b">
             <enabled>1</enabled>
             <statetype>keep</statetype>
             <state-policy/>
-            <sequence>51</sequence>
+            <sequence>100</sequence>
             <action>pass</action>
             <quick>1</quick>
             <interfacenot>0</interfacenot>
@@ -587,7 +774,7 @@
             <enabled>1</enabled>
             <statetype>keep</statetype>
             <state-policy/>
-            <sequence>101</sequence>
+            <sequence>10</sequence>
             <action>pass</action>
             <quick>1</quick>
             <interfacenot>0</interfacenot>
@@ -609,7 +796,7 @@
             <gateway/>
             <replyto/>
             <disablereplyto>0</disablereplyto>
-            <log>1</log>
+            <log>0</log>
             <allowopts>0</allowopts>
             <nosync>0</nosync>
             <nopfsync>0</nopfsync>
@@ -1206,15 +1393,15 @@
             <received-on/>
             <direction>in</direction>
             <ipprotocol>inet</ipprotocol>
-            <protocol>any</protocol>
+            <protocol>TCP</protocol>
             <icmptype/>
             <icmp6type/>
-            <source_net>AKRIVIA_HR</source_net>
+            <source_net>KEKA_HR</source_net>
             <source_not>0</source_not>
             <source_port/>
             <destination_net>ACS_SERVER</destination_net>
             <destination_not>0</destination_not>
-            <destination_port/>
+            <destination_port>1433</destination_port>
             <divert-to/>
             <gateway/>
             <replyto/>
@@ -1251,7 +1438,7 @@
             <tos/>
             <shaper1/>
             <shaper2/>
-            <description>Allow ACS SQL from Akrivia/Keka</description>
+            <description>Allow ACS SQL 1433 from KEKA_HR (AKRIVIA_HR retained disabled)</description>
             <audit/>
           </rule>
           <rule uuid="832c830f-abc7-4ca5-ac1a-68987b7144b3">
@@ -1495,7 +1682,7 @@
             <tos/>
             <shaper1/>
             <shaper2/>
-            <description>Allow WireGuard UDP 51820 on wan</description>
+            <description>Allow WireGuard UDP 51820 on WAN_AIRTEL</description>
             <audit/>
           </rule>
           <rule uuid="6a5ce743-d1c7-4cdd-aa5c-d6f8f088b80f">
@@ -1556,7 +1743,7 @@
             <tos/>
             <shaper1/>
             <shaper2/>
-            <description>Allow WireGuard UDP 51820 on opt1</description>
+            <description>Allow WireGuard UDP 51820 on WAN_JIO</description>
             <audit/>
           </rule>
           <rule uuid="855bf1aa-21de-463e-8bf9-fbc2542abceb">
@@ -1807,7 +1994,7 @@
             <enabled>1</enabled>
             <statetype>keep</statetype>
             <state-policy/>
-            <sequence>1</sequence>
+            <sequence>2</sequence>
             <action>pass</action>
             <quick>1</quick>
             <interfacenot>0</interfacenot>
@@ -1829,7 +2016,7 @@
             <gateway/>
             <replyto/>
             <disablereplyto>0</disablereplyto>
-            <log>1</log>
+            <log>0</log>
             <allowopts>0</allowopts>
             <nosync>0</nosync>
             <nopfsync>0</nopfsync>
@@ -2285,7 +2472,7 @@
             <description/>
           </alias>
           <alias uuid="bf885dd2-ff17-4914-b803-e34c6b86e5dc">
-            <enabled>1</enabled>
+            <enabled>0</enabled>
             <name>AKRIVIA_HR</name>
             <type>host</type>
             <path_expression/>
@@ -2299,7 +2486,25 @@
             <authtype/>
             <expire/>
             <categories/>
-            <description/>
+            <description>Akrivia HR retained disabled</description>
+          </alias>
+          <alias uuid="7c4e1a92-6b38-4d05-9f71-2e8a0c5d4b16">
+            <enabled>1</enabled>
+            <name>KEKA_HR</name>
+            <type>host</type>
+            <path_expression/>
+            <proto/>
+            <interface/>
+            <counters>0</counters>
+            <updatefreq/>
+            <content>4.187.147.25
+cin3.a.keka.com</content>
+            <password/>
+            <username/>
+            <authtype/>
+            <expire/>
+            <categories/>
+            <description>Keka attendance sync cin3.a.keka.com</description>
           </alias>
           <alias uuid="c11d528e-a563-4f9b-8a23-f168f13e44f7">
             <enabled>1</enabled>
@@ -2562,7 +2767,7 @@ f2:2b:8d:10:05:ed</content>
         </template>
       </templates>
     </captiveportal>
-    <Gateways version="1.0.0" persisted_at="1789732464.35" description="Gateways configuration">
+    <Gateways version="1.0.0" persisted_at="1790297872.81" description="Gateways configuration">
       <gateway_item uuid="661fa084-7e66-4687-a09b-7b3aa650c307">
         <disabled>0</disabled>
         <name>WAN_AIRTEL</name>
@@ -2570,16 +2775,16 @@ f2:2b:8d:10:05:ed</content>
         <interface>wan</interface>
         <ipprotocol>inet</ipprotocol>
         <gateway>125.19.224.17</gateway>
-        <defaultgw>0</defaultgw>
+        <defaultgw>1</defaultgw>
         <fargw>0</fargw>
         <monitor_disable>0</monitor_disable>
         <monitor_noroute>0</monitor_noroute>
-        <monitor_killstates>0</monitor_killstates>
+        <monitor_killstates>1</monitor_killstates>
         <monitor_killstates_priority>0</monitor_killstates_priority>
-        <monitor>125.19.224.17</monitor>
+        <monitor>8.8.8.8</monitor>
         <force_down>0</force_down>
         <nosync>0</nosync>
-        <priority>255</priority>
+        <priority>1</priority>
         <weight>1</weight>
         <latencylow/>
         <latencyhigh/>
@@ -2601,12 +2806,12 @@ f2:2b:8d:10:05:ed</content>
         <fargw>0</fargw>
         <monitor_disable>0</monitor_disable>
         <monitor_noroute>0</monitor_noroute>
-        <monitor_killstates>0</monitor_killstates>
+        <monitor_killstates>1</monitor_killstates>
         <monitor_killstates_priority>0</monitor_killstates_priority>
         <monitor>1.1.1.1</monitor>
         <force_down>0</force_down>
         <nosync>0</nosync>
-        <priority>1</priority>
+        <priority>2</priority>
         <weight>1</weight>
         <latencylow/>
         <latencyhigh/>
@@ -2827,11 +3032,78 @@ f2:2b:8d:10:05:ed</content>
       <Instances/>
       <StaticKeys/>
     </OpenVPN>
-    <IDS version="1.1.2" persisted_at="1790140841.82" description="Intrusion detection">
+    <IDS version="1.1.2" persisted_at="1790559072.55" description="Intrusion detection">
       <rules/>
-      <policies/>
+      <policies>
+        <policy uuid="50af0d62-7c15-461c-8f99-b18e69b866c5">
+          <enabled>1</enabled>
+          <prio>0</prio>
+          <action>alert</action>
+          <rulesets>7c0582b0-31d5-4266-adf4-51dc17485210,9d8de42e-9222-4573-9f33-b044609fbf9b,de63fea1-ff3c-4e7f-9e4f-e38a7968d420,3763103b-dd64-4ea5-800f-c62f9f1ce215,d385afbb-6939-4a3b-9fc0-250a42f06db4,35b5b2bb-c35e-4eba-8935-70bfab2942ec,fcdc8459-37ea-4857-9102-ca5abeeedfc3,36ca1c57-76b4-4f4e-b812-cad8fceec2ef,319d43fc-ea89-48a5-96a7-7381fe0f42cc,81cc76ee-d739-40a7-84b4-021c8a94fad7,81aa3217-3c5c-4407-a11e-52f59567ccb3,64dfd8da-1ceb-4e5c-aa54-74decf2d8572,23168a4e-bca2-4e99-bc94-3c46633fca4e,a9e3872b-d362-4073-92c9-3a77037e77c7</rulesets>
+          <content>affected_product.Adobe_Coldfusion,affected_product.Adobe_Experience_Manager,affected_product.Adobe_Reader,affected_product.Alcatel_Lucent,affected_product.Android,affected_product.Apache_CouchDB,affected_product.Apache_HTTP_server,affected_product.Apache_RocketMQ,affected_product.Apache_Solr,affected_product.Github,affected_product.Google_Chrome,affected_product.HTTP_Server,affected_product.MS_Office,affected_product.Microsoft_SQL_Server,affected_product.Microsoft_Sharepoint,affected_product.Windows_11,affected_product.iOS,attack_target.Client_Endpoint,attack_target.Client_and_Server,attack_target.DNS_Server,attack_target.FTP_Server,attack_target.IoT,attack_target.Linux_Unix,attack_target.Mobile_Client,attack_target.Networking_Equipment,attack_target.SMB_Client,attack_target.SMB_Server,attack_target.SMTP_Server,attack_target.SQL_Server,attack_target.Server,attack_target.Web_Server,classtype.attempted-admin,classtype.attempted-dos,classtype.attempted-recon,classtype.attempted-user,classtype.credential-theft,classtype.default-login-attempt,classtype.denial-of-service</content>
+          <new_action>alert</new_action>
+          <description>Peak Policy</description>
+        </policy>
+      </policies>
       <userDefinedRules/>
-      <files/>
+      <files>
+        <file uuid="9d8de42e-9222-4573-9f33-b044609fbf9b">
+          <filename>abuse.ch.threatfox.rules</filename>
+          <enabled>1</enabled>
+        </file>
+        <file uuid="de63fea1-ff3c-4e7f-9e4f-e38a7968d420">
+          <filename>abuse.ch.urlhaus.rules</filename>
+          <enabled>1</enabled>
+        </file>
+        <file uuid="7c0582b0-31d5-4266-adf4-51dc17485210">
+          <filename>abuse.ch.sslipblacklist.rules</filename>
+          <enabled>1</enabled>
+        </file>
+        <file uuid="36ca1c57-76b4-4f4e-b812-cad8fceec2ef">
+          <filename>emerging-malware.rules</filename>
+          <enabled>1</enabled>
+        </file>
+        <file uuid="319d43fc-ea89-48a5-96a7-7381fe0f42cc">
+          <filename>emerging-phishing.rules</filename>
+          <enabled>1</enabled>
+        </file>
+        <file uuid="fcdc8459-37ea-4857-9102-ca5abeeedfc3">
+          <filename>emerging-exploit.rules</filename>
+          <enabled>1</enabled>
+        </file>
+        <file uuid="d385afbb-6939-4a3b-9fc0-250a42f06db4">
+          <filename>emerging-current_events.rules</filename>
+          <enabled>1</enabled>
+        </file>
+        <file uuid="a9e3872b-d362-4073-92c9-3a77037e77c7">
+          <filename>emerging-worm.rules</filename>
+          <enabled>1</enabled>
+        </file>
+        <file uuid="81aa3217-3c5c-4407-a11e-52f59567ccb3">
+          <filename>emerging-shellcode.rules</filename>
+          <enabled>1</enabled>
+        </file>
+        <file uuid="81cc76ee-d739-40a7-84b4-021c8a94fad7">
+          <filename>emerging-scan.rules</filename>
+          <enabled>1</enabled>
+        </file>
+        <file uuid="3763103b-dd64-4ea5-800f-c62f9f1ce215">
+          <filename>emerging-attack_response.rules</filename>
+          <enabled>1</enabled>
+        </file>
+        <file uuid="35b5b2bb-c35e-4eba-8935-70bfab2942ec">
+          <filename>emerging-dns.rules</filename>
+          <enabled>1</enabled>
+        </file>
+        <file uuid="64dfd8da-1ceb-4e5c-aa54-74decf2d8572">
+          <filename>emerging-web_client.rules</filename>
+          <enabled>1</enabled>
+        </file>
+        <file uuid="23168a4e-bca2-4e99-bc94-3c46633fca4e">
+          <filename>emerging-web_server.rules</filename>
+          <enabled>1</enabled>
+        </file>
+      </files>
       <fileTags/>
       <general>
         <enabled>0</enabled>
@@ -2916,7 +3188,7 @@ f2:2b:8d:10:05:ed</content>
           <server_port>53001</server_port>
         </general>
       </ddns>
-      <dhcp4 version="1.0.6" persisted_at="1790215540.16" description="Kea DHCPv4 configuration">
+      <dhcp4 version="1.0.6" persisted_at="1790557793.83" description="Kea DHCPv4 configuration">
         <general>
           <enabled>1</enabled>
           <manual_config>0</manual_config>
@@ -3143,7 +3415,7 @@ f2:2b:8d:10:05:ed</content>
           </reservation>
           <reservation uuid="ef5e32bb-b97d-4ee9-b647-fa6a76f7ca51">
             <subnet>468ec3ca-e83c-4574-9b5d-ab5de40cf661</subnet>
-            <ip_address>10.80.100.52</ip_address>
+            <ip_address>10.80.100.53</ip_address>
             <hw_address>d4:a2:cd:aa:7a:fd</hw_address>
             <client_id/>
             <hostname>peak-ws-3</hostname>
@@ -3165,11 +3437,11 @@ f2:2b:8d:10:05:ed</content>
           </reservation>
           <reservation uuid="5b41e39c-c36a-473e-81ef-5dcda9d954e5">
             <subnet>468ec3ca-e83c-4574-9b5d-ab5de40cf661</subnet>
-            <ip_address>10.80.100.50</ip_address>
+            <ip_address>10.80.100.52</ip_address>
             <hw_address>4c:d7:17:a4:2a:d0</hw_address>
             <client_id/>
-            <hostname>peak-ws-1</hostname>
-            <description>Workstation 1</description>
+            <hostname>peak-ws-2</hostname>
+            <description>Workstation 2</description>
             <next_server/>
             <option_data>
               <domain_name_servers/>
@@ -3190,8 +3462,8 @@ f2:2b:8d:10:05:ed</content>
             <ip_address>10.80.100.51</ip_address>
             <hw_address>4c:d7:17:a4:2b:11</hw_address>
             <client_id/>
-            <hostname>peak-ws-2</hostname>
-            <description>Workstation 2</description>
+            <hostname>peak-ws-1</hostname>
+            <description>Workstation 1</description>
             <next_server/>
             <option_data>
               <domain_name_servers/>
@@ -3363,7 +3635,7 @@ f2:2b:8d:10:05:ed</content>
           </reservation>
           <reservation uuid="fc938aff-9111-42f4-90af-88fd83050889">
             <subnet>468ec3ca-e83c-4574-9b5d-ab5de40cf661</subnet>
-            <ip_address>10.80.100.53</ip_address>
+            <ip_address>10.80.100.54</ip_address>
             <hw_address>ac:b4:80:3c:dd:b9</hw_address>
             <client_id/>
             <hostname>dev-ws-1</hostname>
@@ -3385,7 +3657,7 @@ f2:2b:8d:10:05:ed</content>
           </reservation>
           <reservation uuid="66e5ea23-3a3e-4e52-8114-ba118d337814">
             <subnet>468ec3ca-e83c-4574-9b5d-ab5de40cf661</subnet>
-            <ip_address>10.80.100.54</ip_address>
+            <ip_address>10.80.100.55</ip_address>
             <hw_address>84:47:09:33:82:b4</hw_address>
             <client_id/>
             <hostname>peak801-in-conf</hostname>
@@ -3581,6 +3853,28 @@ f2:2b:8d:10:05:ed</content>
             </option_data>
             <option/>
           </reservation>
+          <reservation uuid="9ec34c0a-c148-4968-a5c0-2a8a513dbf6c">
+            <subnet>dd019bde-93a5-4dfd-bb87-595746ba9769</subnet>
+            <ip_address>10.80.99.24</ip_address>
+            <hw_address>b0:19:21:74:20:f8</hw_address>
+            <client_id/>
+            <hostname>eap225-3</hostname>
+            <description>EAP225-3</description>
+            <next_server/>
+            <option_data>
+              <domain_name_servers/>
+              <domain_search/>
+              <routers/>
+              <static_routes/>
+              <classless_static_route/>
+              <domain_name/>
+              <ntp_servers/>
+              <time_servers/>
+              <tftp_server_name/>
+              <boot_file_name/>
+            </option_data>
+            <option/>
+          </reservation>
         </reservations>
         <options/>
         <ha_peers/>
@@ -3618,7 +3912,7 @@ f2:2b:8d:10:05:ed</content>
         <MinProtocol_DTLS/>
       </general>
     </trust>
-    <unboundplus version="1.0.15" persisted_at="1790140715.47" description="Unbound configuration">
+    <unboundplus version="1.0.15" persisted_at="1790297957.04" description="Unbound configuration">
       <general>
         <enabled>1</enabled>
         <port>53</port>
@@ -3637,7 +3931,7 @@ f2:2b:8d:10:05:ed</content>
         <cacheflush>0</cacheflush>
         <safesearch>0</safesearch>
         <local_zone_type>transparent</local_zone_type>
-        <outgoing_interface>opt1</outgoing_interface>
+        <outgoing_interface/>
         <enable_wpad>0</enable_wpad>
       </general>
       <advanced>
@@ -3689,7 +3983,7 @@ f2:2b:8d:10:05:ed</content>
           <enabled>1</enabled>
           <type>ag,sb</type>
           <lists/>
-          <allowlists/>
+          <allowlists>ecs.office.com</allowlists>
           <blocklists/>
           <wildcards/>
           <source_nets/>
@@ -3996,8 +4290,8 @@ f2:2b:8d:10:05:ed</content>
   </OPNsense>
   <revision>
     <username>root@10.80.99.101</username>
-    <description>/api/kea/dhcpv4/set made changes</description>
-    <time>1790215540.16</time>
+    <description>/api/ids/settings/add_policy/ made changes</description>
+    <time>1790559072.55</time>
   </revision>
   <sysctl version="1.0.2" persisted_at="1790214545.76" description="System Tunables">
     <item uuid="13df480e-62ed-4840-b7c4-fc2afb2bfea1">
@@ -4064,6 +4358,10 @@ f2:2b:8d:10:05:ed</content>
   <ppps>
     <ppp/>
   </ppps>
-  <syslog/>
+  <syslog>
+    <nologdefaultpass>1</nologdefaultpass>
+    <nologbogons>1</nologbogons>
+    <nologprivatenets>1</nologprivatenets>
+  </syslog>
   <wireless version="1.0.0" persisted_at="1790135471.74" description="Wireless configuration"/>
 </opnsense>

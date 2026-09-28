@@ -1,0 +1,8 @@
+Field	Value
+Type
+Domain Name
+Information
+epdg.epc.mnc045.mcc404.pub.3gppnetwork.org
+Priority
+Voice
+That’s Airtel Karnataka (MCC 404 / MNC 045).
