@@ -1,5 +1,5 @@
 # -*- mode: python ; coding: utf-8 -*-
-"""PyInstaller spec for Peak Attendance (one-file exe)."""
+"""PyInstaller spec for Peak Energy Biometrics (one-file exe)."""
 
 from PyInstaller.utils.hooks import collect_all
 
@@ -11,7 +11,7 @@ datas = [
     ("docs/Peak-Attendance.md", "docs"),
     ("docs/Database-Schema.md", "docs"),
     ("PeakEnergyLogo.png", "."),
-    ("PeakAttendance.ico", "."),
+    ("PeakEnergyBiometrics.ico", "."),
 ]
 
 hiddenimports = [
@@ -67,7 +67,7 @@ exe = EXE(
     a.zipfiles,
     a.datas,
     [],
-    name="PeakAttendance",
+    name="PeakEnergyBiometrics",
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
@@ -80,5 +80,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon="PeakAttendance.ico",
+    icon="PeakEnergyBiometrics.ico",
 )

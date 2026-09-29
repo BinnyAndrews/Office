@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Peak Attendance desktop UI — config, status, minimize to tray."""
+"""Peak Energy Biometrics desktop UI — config, status, minimize to tray."""
 
 from __future__ import annotations
 
@@ -31,33 +31,33 @@ import theme as ui_theme  # noqa: E402
 APPSETTINGS = ROOT / "appsettings.json"
 SINGLETON_HOST = "127.0.0.1"
 SINGLETON_PORT = 58741
-MUTEX_NAME = "Local\\PeakAttendanceUI_SingleInstance"
+MUTEX_NAME = "Local\\PeakEnergyBiometricsUI_SingleInstance"
 ERROR_ALREADY_EXISTS = 183
 
-HELP_TEXT = """Peak Attendance — Help
+HELP_TEXT = """Peak Energy Biometrics — Help
 
 WHAT IT DOES
-  Reads punches from Hikvision Entry / Exit readers into SQL Server
-  (atteninfo.dbo.AccessEvents) for Keka.
-  Also manages employees (people + face photo) with SQL as master
-  and push/pull to both door readers.
+  Syncs Hikvision Entry / Exit readers with SQL Server for Peak Energy.
+  • Punches → punch table (existing ACS: master.dbo.atteninfo for Keka)
+  • Employees → dbo.Employees (SQL master) with pull/push + faces to both readers
+  • Devices / collector options → dbo.DeviceConfig / dbo.AppConfig
 
 FIRST RUN
-  1. Set SQL Server (e.g. localhost\\SQLEXPRESS), database atteninfo,
-     username/password.
-  2. Create / Repair database (SQL Server must already be installed).
-     Creates atteninfo + AccessEvents, DeviceConfig, Employees, etc.
+  1. SQL Server — on ACS PC use localhost; from another PC use 10.80.100.10,1433
+     Database=master, Punch table=atteninfo (existing Keka table — not modified).
+  2. Create / Repair database — adds helper tables only (Employees, DeviceConfig, …).
+     Does not recreate or wipe atteninfo.
   3. Set Entry and Exit IP, username, password (Enabled / HTTPS as needed).
   4. Save configuration → Test devices (both SUCCESS).
-  5. Run collector now (punches appear in AccessEvents).
+  5. Leave "Enable punch collector" OFF if another collector already writes punches.
+     Turn ON later when this app should write punches.
   6. Optional: Employees → Pull from devices (merge people into SQL).
-  7. Optional: Install / Start with Windows (tray + collect every minute).
-     If already installed, only Uninstall is enabled (and the reverse).
+  7. Optional: Install / Start with Windows (tray; collector task respects the switch).
 
 DEVICE PANEL (per reader)
   Open device       — opens browser + login helper (Copy username/password).
                       Browsers cannot autofill Hikvision login forms.
-  Test this device  — probe one reader (works even if Enabled is off)
+  Test this device  — probe one reader (works even if enabled is off)
   Reset watermark   — clear sync position; next run uses First lookback
   Enabled           — skip this reader without deleting settings
   HTTPS             — use https for Open / API (auto-sets Port 443;
@@ -65,61 +65,64 @@ DEVICE PANEL (per reader)
   Last success / last event / last error — from CollectorState (read-only)
 
 COLLECTOR SETTINGS
-  Sync interval     — Windows task period (minutes) when installed
-  First lookback    — hours to pull when no watermark exists
-  Timeout           — HTTP wait per device (seconds)
-  Overlap           — re-read seconds before last watermark
-  Max results       — Hikvision AcsEvent page size
+  Enable punch collector — OFF = do not write punches (safe with another collector)
+  Sync interval          — Windows task period (minutes) when installed
+  First lookback         — hours to pull when no watermark exists
+  Timeout                — HTTP wait per device (seconds)
+  Overlap                — re-read seconds before last watermark
+  Max results            — Hikvision AcsEvent page size
 
 EMPLOYEES (main button → Employees window)
-  SQL dbo.Employees is the master copy of people.
+  SQL dbo.Employees is the master copy of people (First name / Last name).
   Pull from devices — read Entry + Exit UserInfo, merge by Employee No,
                       store face JPEG when available
-  New / edit        — fill Employee No, name, validity, card, photo
+  New / edit        — Employee No, first/last name, validity, card, photo
   Save + Push       — save SQL, then create/update on BOTH readers
                       (UserInfo + face enroll when photo present)
   Delete            — remove from BOTH readers and SQL
   Entry/Exit status — dbo.EmployeeDeviceSync (OK / Missing / Error / Partial)
+  Columns           — click any list header to sort (▲ / ▼)
   Face photo limits — JPEG only (PNG/BMP auto-converted); max 200 KB;
                       min 80×80; recommended ≥ 640×480
-                      Oversize photos are auto-resized/compressed on Load;
-                      alerts if still over limit or below recommended size
+                      Oversize photos are auto-resized/compressed on Load
 
 INSTALL / UNINSTALL
   Install / Start with Windows
     • Tray at Windows logon
-    • Hidden collector every 1 minute (Peak-Attendance-Collector task)
+    • Hidden collector every 1 minute (Peak-Energy-Biometrics-Collector task)
+      (no-op while Enable punch collector is OFF)
     • Desktop + Start Menu shortcuts
   Uninstall / Stop with Windows
     • Removes tasks + shortcuts
-    • Keeps PeakAttendance.exe, appsettings.json, and database
+    • Keeps PeakEnergyBiometrics.exe, appsettings.json, and SQL data
   Only one of Install / Uninstall is enabled at a time.
 
-WHERE DATA LIVES
+WHERE DATA LIVES (typical ACS SQL = master database)
   SQL login              → appsettings.json next to the exe
   Devices                → dbo.DeviceConfig
-  Collector options      → dbo.AppConfig
+  Collector options      → dbo.AppConfig (includes CollectorEnabled)
   Punch sync health      → dbo.CollectorState
   Employees              → dbo.Employees
   Employee device status → dbo.EmployeeDeviceSync
-  Punches (Keka)         → dbo.AccessEvents
+  Punches (Keka)         → dbo.atteninfo (or AccessEvents on a fresh install)
 
 TRAY / WINDOW / BRANDING
   Close window → tray (does not quit)
   Quit         → tray menu → Quit
-  F1 or Help   → this text; Open full guide → Peak-Attendance.md
+  F1 or Help   → this text; Open full guide → bundled docs guide
   Icon         → Peak Energy logo (exe, window, tray)
 
 TROUBLESHOOTING
   Connectivity failed → VPN/LAN, correct IP/port
   Wrong password      → device admin credentials; wait if lockout
-  SQL login failed    → server name, password, ODBC 18, SQL running
+  SQL login failed    → Server (comma for port), password, ODBC 17/18, SQL running
+  Cannot open DB      → Create / Repair; for ACS use Database=master
   No tray icon        → notification overflow; try --window
   Employee push fail  → Test devices first; check Entry/Exit status columns
   Face not on device  → JPEG enrolled best-effort; retry Save + Push
-  Photo too large     → max 200 KB; app auto-compresses on Load — use a
-                        closer face crop if still rejected
+  Photo too large     → max 200 KB; app auto-compresses on Load
   Logs                → logs\\collector.log next to the exe
+"""
 """
 
 
@@ -190,7 +193,7 @@ class KekaApp(tk.Tk):
         mutex_handle: Any | None = None,
     ) -> None:
         super().__init__()
-        self.title("Peak Attendance")
+        self.title("Peak Energy Biometrics")
         self.minsize(900, 720)
         self.protocol("WM_DELETE_WINDOW", self.hide_to_tray)
         self.tray_icon = None
@@ -207,10 +210,11 @@ class KekaApp(tk.Tk):
             threading.Thread(target=self._singleton_listen, daemon=True).start()
         if start_in_tray:
             self.withdraw()
-            self.after(100, self._boot_to_tray)
+            self.after(50, self._boot_to_tray)
         else:
-            self.after(50, self._go_fullscreen)
-        self.after(200, self.reload_all)
+            self.after(30, self._go_fullscreen)
+        # Load SQL config in background so the window appears quickly
+        self.after(80, self.reload_all)
 
     def _singleton_listen(self) -> None:
         sock = self._singleton_sock
@@ -249,13 +253,12 @@ class KekaApp(tk.Tk):
             )
 
     def _build(self) -> None:
-        ui_theme.apply_theme(self)
         outer = tk.Frame(self, bg=ui_theme.BG)
         outer.pack(fill=tk.BOTH, expand=True)
 
         header, self._header_photo = ui_theme.build_header(
             outer,
-            "Peak Attendance",
+            "Peak Energy Biometrics",
             "Hikvision → SQL → Keka · Peak Energy",
         )
         header.pack(fill=tk.X)
@@ -275,26 +278,47 @@ class KekaApp(tk.Tk):
         sql_f = ttk.LabelFrame(form, text="SQL Server", padding=8)
         sql_f.grid(row=0, column=0, sticky="nsew", padx=(0, 4), pady=(0, 6))
         self.sql_server = tk.StringVar()
-        self.sql_database = tk.StringVar(value="atteninfo")
+        self.sql_database = tk.StringVar(value="master")
+        self.sql_punch_table = tk.StringVar(value="atteninfo")
         self.sql_user = tk.StringVar(value="sa")
         self.sql_pass = PasswordEntry(sql_f)
         self._row(sql_f, 0, "Server", ttk.Entry(sql_f, textvariable=self.sql_server))
         self._row(sql_f, 1, "Database", ttk.Entry(sql_f, textvariable=self.sql_database))
-        self._row(sql_f, 2, "Username", ttk.Entry(sql_f, textvariable=self.sql_user))
-        self._row(sql_f, 3, "Password", self.sql_pass)
+        self._row(sql_f, 2, "Punch table", ttk.Entry(sql_f, textvariable=self.sql_punch_table))
+        self._row(sql_f, 3, "Username", ttk.Entry(sql_f, textvariable=self.sql_user))
+        self._row(sql_f, 4, "Password", self.sql_pass)
+        ttk.Label(
+            sql_f,
+            text="Punch table atteninfo is left unchanged. On the ACS PC use Server=localhost "
+            "(from another PC use 10.80.100.10,1433).",
+            style="Muted.TLabel",
+            wraplength=360,
+        ).grid(row=5, column=0, columnspan=2, sticky=tk.W, pady=(4, 0))
 
         sync_f = ttk.LabelFrame(form, text="Collector", padding=8)
         sync_f.grid(row=0, column=1, sticky="nsew", padx=(4, 0), pady=(0, 6))
+        self.collector_enabled = tk.BooleanVar(value=False)
         self.sync_mins = tk.StringVar(value="1")
         self.lookback = tk.StringVar(value="24")
         self.timeout_secs = tk.StringVar(value="20")
         self.overlap_secs = tk.StringVar(value="120")
         self.max_results = tk.StringVar(value="30")
-        self._row(sync_f, 0, "Sync interval (min)", ttk.Entry(sync_f, textvariable=self.sync_mins, width=10))
-        self._row(sync_f, 1, "First lookback (hrs)", ttk.Entry(sync_f, textvariable=self.lookback, width=10))
-        self._row(sync_f, 2, "Timeout (sec)", ttk.Entry(sync_f, textvariable=self.timeout_secs, width=10))
-        self._row(sync_f, 3, "Overlap (sec)", ttk.Entry(sync_f, textvariable=self.overlap_secs, width=10))
-        self._row(sync_f, 4, "Max results / page", ttk.Entry(sync_f, textvariable=self.max_results, width=10))
+        ui_theme.colored_checkbutton(
+            sync_f,
+            "Enable punch collector (writes to Punch table)",
+            self.collector_enabled,
+        ).grid(row=0, column=0, columnspan=2, sticky=tk.W, pady=(0, 4))
+        ttk.Label(
+            sync_f,
+            text="Keep OFF while another collector is writing punches. Employees / devices still use SQL.",
+            style="Muted.TLabel",
+            wraplength=320,
+        ).grid(row=1, column=0, columnspan=2, sticky=tk.W, pady=(0, 6))
+        self._row(sync_f, 2, "Sync interval (min)", ttk.Entry(sync_f, textvariable=self.sync_mins, width=10))
+        self._row(sync_f, 3, "First lookback (hrs)", ttk.Entry(sync_f, textvariable=self.lookback, width=10))
+        self._row(sync_f, 4, "Timeout (sec)", ttk.Entry(sync_f, textvariable=self.timeout_secs, width=10))
+        self._row(sync_f, 5, "Overlap (sec)", ttk.Entry(sync_f, textvariable=self.overlap_secs, width=10))
+        self._row(sync_f, 6, "Max results / page", ttk.Entry(sync_f, textvariable=self.max_results, width=10))
 
         # Row 1: Entry | Exit side by side
         self.device_vars: dict[str, dict[str, Any]] = {}
@@ -356,40 +380,53 @@ class KekaApp(tk.Tk):
                 "last_error": last_error,
             }
 
-        # Fixed footer — always visible (no scroll needed)
+        # Fixed footer — two aligned button rows (same columns)
         footer = tk.Frame(root, bg=ui_theme.BG, padx=4, pady=6)
         footer.grid(row=1, column=0, sticky="ew")
         footer.columnconfigure(0, weight=1)
 
-        btn = tk.Frame(footer, bg=ui_theme.BG)
-        btn.grid(row=0, column=0, sticky="ew", pady=(4, 2))
-        ui_theme.colored_button(btn, "Save configuration", self.save_all, kind="primary").pack(side=tk.LEFT)
+        btns = tk.Frame(footer, bg=ui_theme.BG)
+        btns.grid(row=0, column=0, sticky="ew", pady=(4, 2))
+        for col in range(5):
+            btns.columnconfigure(col, weight=0, uniform="footer_btns")
+        btns.columnconfigure(5, weight=1)
+
+        pad = {"padx": (0, 6), "pady": 2, "sticky": "ew"}
+        ui_theme.colored_button(btns, "Save configuration", self.save_all, kind="primary").grid(
+            row=0, column=0, **pad
+        )
         ui_theme.colored_button(
-            btn, "Create / Repair database", self.create_database, kind="ghost"
-        ).pack(side=tk.LEFT, padx=6)
-        ui_theme.colored_button(btn, "Test devices", self.test_devices, kind="accent").pack(
-            side=tk.LEFT, padx=6
+            btns, "Create / Repair database", self.create_database, kind="ghost"
+        ).grid(row=0, column=1, **pad)
+        ui_theme.colored_button(btns, "Test devices", self.test_devices, kind="accent").grid(
+            row=0, column=2, **pad
         )
-        ui_theme.colored_button(btn, "Run collector now", self.run_now, kind="success").pack(
-            side=tk.LEFT, padx=6
+        ui_theme.colored_button(btns, "Run collector now", self.run_now, kind="success").grid(
+            row=0, column=3, **pad
         )
-        ui_theme.colored_button(btn, "Employees", self.open_employees, kind="accent").pack(
-            side=tk.LEFT, padx=6
+        ui_theme.colored_button(btns, "Reload", self.reload_all, kind="ghost").grid(
+            row=0, column=4, **pad
         )
-        ui_theme.colored_button(btn, "Reload", self.reload_all, kind="ghost").pack(side=tk.LEFT, padx=6)
+
         self.btn_install = ui_theme.colored_button(
-            btn, "Install / Start with Windows", self.install_startup, kind="primary"
+            btns, "Install / Start with Windows", self.install_startup, kind="primary"
         )
-        self.btn_install.pack(side=tk.LEFT, padx=6)
+        self.btn_install.grid(row=1, column=0, **pad)
         self.btn_uninstall = ui_theme.colored_button(
-            btn, "Uninstall / Stop with Windows", self.uninstall_startup, kind="danger"
+            btns, "Uninstall / Stop with Windows", self.uninstall_startup, kind="warn"
         )
-        self.btn_uninstall.pack(side=tk.LEFT, padx=6)
-        ui_theme.colored_button(btn, "Help", self.show_help, kind="ghost").pack(side=tk.LEFT, padx=6)
-        ui_theme.colored_button(btn, "Minimize to tray", self.hide_to_tray, kind="ghost").pack(
-            side=tk.RIGHT
+        self.btn_uninstall.grid(row=1, column=1, **pad)
+        ui_theme.colored_button(btns, "Help", self.show_help, kind="ghost").grid(
+            row=1, column=2, **pad
         )
-        self.after(300, self._refresh_install_buttons)
+        ui_theme.colored_button(btns, "Employees", self.open_employees, kind="accent").grid(
+            row=1, column=3, **pad
+        )
+        ui_theme.colored_button(btns, "Minimize to tray", self.hide_to_tray, kind="ghost").grid(
+            row=1, column=4, padx=(0, 0), pady=2, sticky="ew"
+        )
+        # Install button state checked in background after first paint
+        self.after(400, self._refresh_install_buttons)
 
         self.status = tk.StringVar(value="Ready.")
         self.status_lbl = tk.Label(
@@ -502,14 +539,14 @@ class KekaApp(tk.Tk):
     def show_help(self) -> None:
         """In-app help window; optional full Markdown guide."""
         win = tk.Toplevel(self)
-        win.title("Peak Attendance — Help")
+        win.title("Peak Energy Biometrics — Help")
         win.geometry("720x560")
         win.transient(self)
         win.grab_set()
         ui_theme.apply_theme(win)
 
         header, win._header_photo = ui_theme.build_header(  # type: ignore[attr-defined]
-            win, "Help", "Peak Attendance guide"
+            win, "Help", "Peak Energy Biometrics guide"
         )
         header.pack(fill=tk.X)
 
@@ -551,93 +588,184 @@ class KekaApp(tk.Tk):
         win.focus_force()
 
     def reload_all(self) -> None:
-        try:
-            if not APPSETTINGS.exists():
-                example = BUNDLE / "appsettings.example.json"
-                if not example.exists():
-                    example = ROOT / "appsettings.example.json"
-                APPSETTINGS.write_text(example.read_text(encoding="utf-8"), encoding="utf-8")
-            boot = col.load_json(APPSETTINGS)
-            sql = boot["sql"]
-            self.sql_server.set(sql.get("server", ""))
-            self.sql_database.set(sql.get("database", "atteninfo"))
-            self.sql_user.set(sql.get("username", "sa"))
-            self.sql_pass.set(sql.get("password", ""))
+        """Load settings from disk + SQL without blocking the UI thread."""
+        self.set_status("Loading configuration…")
 
-            cfg = col.load_runtime_config(APPSETTINGS)
-            self.sync_mins.set(str(cfg["poll"].get("sync_interval_minutes") or 1))
-            self.lookback.set(str(cfg["poll"].get("first_lookback_hours") or 24))
-            self.timeout_secs.set(str(cfg["poll"].get("timeout_seconds") or 20))
-            self.overlap_secs.set(str(cfg["poll"].get("overlap_seconds") or 120))
-            self.max_results.set(str(cfg["poll"].get("max_results") or 30))
-            # Load all devices including disabled via direct SQL
-            conn = col.connect_sql(sql)
+        def worker() -> None:
+            payload: dict[str, Any] | None = None
+            error: str | None = None
             try:
-                cur = conn.cursor()
-                cur.execute(
-                    """
-                    SELECT DeviceKey, DisplayName, IpAddress, Port, Username, Password,
-                           Direction, Https, Enabled
-                    FROM dbo.DeviceConfig
-                    """
-                )
-                found = {r.DeviceKey: r for r in cur.fetchall()}
-                cur.execute(
-                    """
-                    SELECT DeviceIP, LastEventTime, LastSerialNo, LastSuccessUtc, LastError
-                    FROM dbo.CollectorState
-                    """
-                )
-                states = {r.DeviceIP: r for r in cur.fetchall()}
-            finally:
-                conn.close()
-            for key, vars_ in self.device_vars.items():
-                row = found.get(key)
-                if not row:
-                    vars_["last_success"].set("—")
-                    vars_["last_event"].set("—")
-                    vars_["last_error"].set("—")
-                    continue
-                vars_["name"].set(row.DisplayName or "")
-                vars_["ip"].set(row.IpAddress or "")
-                vars_["port"].set(str(row.Port or 80))
-                vars_["user"].set(row.Username or "")
-                vars_["pass"].set(row.Password or "")
-                vars_["direction"].set(row.Direction or ("In" if key == "entry" else "Out"))
-                vars_["https"].set(bool(row.Https))
-                vars_["enabled"].set(bool(row.Enabled))
-                st = states.get(row.IpAddress)
-                if st:
-                    vars_["last_success"].set(
-                        f"{st.LastSuccessUtc} UTC" if st.LastSuccessUtc else "—"
+                if not APPSETTINGS.exists():
+                    example = BUNDLE / "appsettings.example.json"
+                    if not example.exists():
+                        example = ROOT / "appsettings.example.json"
+                    APPSETTINGS.write_text(example.read_text(encoding="utf-8"), encoding="utf-8")
+                boot = col.load_json(APPSETTINGS)
+                sql = boot["sql"]
+                sync_mins = "1"
+                lookback = "24"
+                timeout_secs = "20"
+                overlap_secs = "120"
+                max_results = "30"
+                collector_enabled = False
+                found: dict[str, Any] = {}
+                states: dict[str, Any] = {}
+                # Single SQL connection (was two: load_runtime_config + DeviceConfig)
+                conn = col.connect_sql(sql, timeout=5)
+                try:
+                    cur = conn.cursor()
+                    cur.execute("SELECT ConfigKey, ConfigValue FROM dbo.AppConfig")
+                    app_cfg = {r.ConfigKey: r.ConfigValue for r in cur.fetchall()}
+                    sync_mins = str(app_cfg.get("SyncIntervalMinutes") or 1)
+                    lookback = str(app_cfg.get("FirstLookbackHours") or 24)
+                    timeout_secs = str(app_cfg.get("TimeoutSeconds") or 20)
+                    overlap_secs = str(app_cfg.get("OverlapSeconds") or 120)
+                    max_results = str(app_cfg.get("MaxResults") or 30)
+                    collector_enabled = bool(boot.get("collector_enabled", False))
+                    if "CollectorEnabled" in app_cfg:
+                        collector_enabled = str(app_cfg.get("CollectorEnabled") or "0").strip().lower() in {
+                            "1",
+                            "true",
+                            "yes",
+                            "on",
+                        }
+                    cur.execute(
+                        """
+                        SELECT DeviceKey, DisplayName, IpAddress, Port, Username, Password,
+                               Direction, Https, Enabled
+                        FROM dbo.DeviceConfig
+                        """
                     )
-                    vars_["last_event"].set(str(st.LastEventTime) if st.LastEventTime else "—")
-                    vars_["last_error"].set((st.LastError or "").strip() or "—")
-                else:
-                    vars_["last_success"].set("—")
-                    vars_["last_event"].set("—")
-                    vars_["last_error"].set("—")
-            self.set_status("Configuration loaded.")
-            self.after(50, self._fit_to_screen)
-            self.after(100, self._refresh_install_buttons)
+                    found = {
+                        r.DeviceKey: {
+                            "DisplayName": r.DisplayName or "",
+                            "IpAddress": r.IpAddress or "",
+                            "Port": int(r.Port or 80),
+                            "Username": r.Username or "",
+                            "Password": r.Password or "",
+                            "Direction": r.Direction or "",
+                            "Https": bool(r.Https),
+                            "Enabled": bool(r.Enabled),
+                        }
+                        for r in cur.fetchall()
+                    }
+                    cur.execute(
+                        """
+                        SELECT DeviceIP, LastEventTime, LastSerialNo, LastSuccessUtc, LastError
+                        FROM dbo.CollectorState
+                        """
+                    )
+                    states = {
+                        r.DeviceIP: {
+                            "LastSuccessUtc": r.LastSuccessUtc,
+                            "LastEventTime": r.LastEventTime,
+                            "LastError": r.LastError,
+                        }
+                        for r in cur.fetchall()
+                    }
+                finally:
+                    conn.close()
+                payload = {
+                    "sql": sql,
+                    "sync_mins": sync_mins,
+                    "lookback": lookback,
+                    "timeout_secs": timeout_secs,
+                    "overlap_secs": overlap_secs,
+                    "max_results": max_results,
+                    "collector_enabled": collector_enabled,
+                    "found": found,
+                    "states": states,
+                }
+            except Exception as exc:
+                error = str(exc)
+                try:
+                    boot = col.load_json(APPSETTINGS)
+                    payload = {"sql": boot.get("sql") or {}, "found": {}, "states": {}}
+                except Exception:
+                    payload = None
+
+            self.after(0, lambda p=payload, e=error: self._apply_reload(p, e))
+
+        threading.Thread(target=worker, daemon=True).start()
+
+    def _apply_reload(self, payload: dict[str, Any] | None, error: str | None) -> None:
+        try:
+            if payload and payload.get("sql"):
+                sql = payload["sql"]
+                self.sql_server.set(sql.get("server", ""))
+                self.sql_database.set(sql.get("database", "master"))
+                self.sql_punch_table.set(sql.get("punch_table") or ("atteninfo" if str(sql.get("database") or "").lower() == "master" else "AccessEvents"))
+                self.sql_user.set(sql.get("username", "sa"))
+                self.sql_pass.set(sql.get("password", ""))
+            if payload and "sync_mins" in payload:
+                self.sync_mins.set(str(payload.get("sync_mins") or "1"))
+                self.lookback.set(str(payload.get("lookback") or "24"))
+                self.timeout_secs.set(str(payload.get("timeout_secs") or "20"))
+                self.overlap_secs.set(str(payload.get("overlap_secs") or "120"))
+                self.max_results.set(str(payload.get("max_results") or "30"))
+            if payload is not None and "collector_enabled" in payload:
+                self.collector_enabled.set(bool(payload.get("collector_enabled")))
+            if payload is not None:
+                found = payload.get("found") or {}
+                states = payload.get("states") or {}
+                for key, vars_ in self.device_vars.items():
+                    row = found.get(key)
+                    if not row:
+                        vars_["last_success"].set("—")
+                        vars_["last_event"].set("—")
+                        vars_["last_error"].set("—")
+                        continue
+                    vars_["name"].set(row["DisplayName"] or "")
+                    vars_["ip"].set(row["IpAddress"] or "")
+                    vars_["port"].set(str(row["Port"] or 80))
+                    vars_["user"].set(row["Username"] or "")
+                    vars_["pass"].set(row["Password"] or "")
+                    vars_["direction"].set(row["Direction"] or ("In" if key == "entry" else "Out"))
+                    vars_["https"].set(bool(row["Https"]))
+                    vars_["enabled"].set(bool(row["Enabled"]))
+                    st = states.get(row["IpAddress"])
+                    if st:
+                        vars_["last_success"].set(
+                            f"{st['LastSuccessUtc']} UTC" if st["LastSuccessUtc"] else "—"
+                        )
+                        vars_["last_event"].set(
+                            str(st["LastEventTime"]) if st["LastEventTime"] else "—"
+                        )
+                        vars_["last_error"].set((st["LastError"] or "").strip() or "—")
+                    else:
+                        vars_["last_success"].set("—")
+                        vars_["last_event"].set("—")
+                        vars_["last_error"].set("—")
+            if error:
+                self.set_status(f"Load failed: {error}")
+                messagebox.showerror("Load failed", error, parent=self)
+            else:
+                self.set_status("Configuration loaded.")
+            self.after(30, self._fit_to_screen)
+            self.after(50, self._refresh_install_buttons)
         except Exception as exc:
             self.set_status(f"Load failed: {exc}")
-            messagebox.showerror("Load failed", str(exc))
-            self.after(50, self._fit_to_screen)
-            self.after(100, self._refresh_install_buttons)
+            messagebox.showerror("Load failed", str(exc), parent=self)
 
     def save_all(self, quiet: bool = False) -> bool:
         try:
             boot = {
                 "sql": {
                     "server": self.sql_server.get().strip(),
-                    "database": self.sql_database.get().strip() or "atteninfo",
+                    "database": self.sql_database.get().strip() or "master",
+                    "punch_table": self.sql_punch_table.get().strip() or "atteninfo",
                     "username": self.sql_user.get().strip(),
                     "password": self.sql_pass.get(),
                     "driver": "ODBC Driver 18 for SQL Server",
-                }
+                },
+                "collector_enabled": bool(self.collector_enabled.get()),
             }
             col.save_json(APPSETTINGS, boot)
+            # Fresh SQL Server has no atteninfo DB yet — create/repair before writing devices
+            try:
+                notes = col.ensure_atteninfo_database(boot["sql"])
+            except Exception as ensure_exc:
+                raise RuntimeError(self._friendly_sql_error(ensure_exc)) from ensure_exc
             conn = col.connect_sql(boot["sql"])
             try:
                 cur = conn.cursor()
@@ -681,6 +809,7 @@ class KekaApp(tk.Tk):
                     ("TimeoutSeconds", self.timeout_secs.get().strip() or "20"),
                     ("OverlapSeconds", self.overlap_secs.get().strip() or "120"),
                     ("MaxResults", self.max_results.get().strip() or "30"),
+                    ("CollectorEnabled", "1" if self.collector_enabled.get() else "0"),
                 ):
                     cur.execute(
                         """
@@ -698,14 +827,49 @@ class KekaApp(tk.Tk):
                 conn.commit()
             finally:
                 conn.close()
-            self.set_status("Configuration saved.")
+            created = any("Created database" in n for n in (notes or []))
+            self.set_status(
+                "Configuration saved (database created)." if created else "Configuration saved."
+            )
             if not quiet:
-                messagebox.showinfo("Saved", "Configuration saved to appsettings.json and SQL.")
+                extra = ""
+                if created:
+                    extra = "\n\nDatabase atteninfo was created on the SQL Server."
+                messagebox.showinfo(
+                    "Saved",
+                    "Configuration saved to appsettings.json and SQL." + extra,
+                    parent=self,
+                )
             return True
         except Exception as exc:
-            self.set_status(f"Save failed: {exc}")
-            messagebox.showerror("Save failed", str(exc))
+            msg = self._friendly_sql_error(exc)
+            self.set_status(f"Save failed: {msg}")
+            messagebox.showerror("Save failed", msg, parent=self)
             return False
+
+    def _friendly_sql_error(self, exc: BaseException) -> str:
+        msg = str(exc)
+        low = msg.lower()
+        if "18456" in msg or "login failed" in low:
+            return (
+                "SQL login failed for this username/password.\n\n"
+                "Check Server (use comma for port, e.g. 10.80.100.10,1433),\n"
+                "Username, Password, and that SQL Server allows SQL logins (Mixed Mode).\n\n"
+                f"Details: {msg}"
+            )
+        if "4060" in msg or "cannot open database" in low:
+            return (
+                "Cannot open database atteninfo.\n\n"
+                "Use Create / Repair database (or Save again after this update — "
+                "Save will create the database if login to master works).\n\n"
+                f"Details: {msg}"
+            )
+        if "08001" in msg or "timeout" in low or "network" in low:
+            return (
+                "Cannot reach SQL Server (network/firewall/VPN or wrong IP/port).\n\n"
+                f"Details: {msg}"
+            )
+        return msg
 
     def _format_device_results(self, results: list[dict], action: str) -> tuple[bool, str]:
         lines: list[str] = []
@@ -743,33 +907,51 @@ class KekaApp(tk.Tk):
             "Create or repair database from the SQL settings above?\n\n"
             "Requires SQL Server already installed and a login that can create databases "
             "(e.g. sa).",
+            parent=self,
         ):
             return
-        if not self.save_all(quiet=True):
+
+        # Persist SQL settings to disk first (without needing atteninfo yet)
+        boot = {
+            "sql": {
+                "server": self.sql_server.get().strip(),
+                "database": self.sql_database.get().strip() or "master",
+                "punch_table": self.sql_punch_table.get().strip() or "atteninfo",
+                "username": self.sql_user.get().strip(),
+                "password": self.sql_pass.get(),
+                "driver": "ODBC Driver 18 for SQL Server",
+            },
+            "collector_enabled": bool(self.collector_enabled.get()),
+        }
+        try:
+            col.save_json(APPSETTINGS, boot)
+        except Exception as exc:
+            messagebox.showerror("Create / Repair database", str(exc), parent=self)
             return
 
         def worker() -> None:
             try:
                 self.after(0, lambda: self.set_status("Creating / repairing database…"))
-                boot = col.load_json(APPSETTINGS)
                 notes = col.ensure_atteninfo_database(boot["sql"])
+                # Write device/collector settings into the new DB
+                ok = self.save_all(quiet=True)
                 text = "Database ready.\n\n" + "\n".join(notes)
+                if not ok:
+                    text += "\n\nWarning: database exists but saving device settings failed."
                 self.after(0, lambda: self.append_log(text))
                 self.after(0, lambda: self.set_status("Database ready."))
-                self.after(0, lambda: messagebox.showinfo("Create / Repair database", text))
+                self.after(
+                    0,
+                    lambda: messagebox.showinfo("Create / Repair database", text, parent=self),
+                )
                 self.after(0, self.reload_all)
             except Exception as exc:
-                msg = str(exc)
-                low = msg.lower()
-                if "login failed" in low:
-                    msg = (
-                        "SQL login failed. Check Server, Username, and Password.\n"
-                        "The login must be allowed to create databases (e.g. sa)."
-                    )
-                elif "cannot open database" in low and "master" in low:
-                    msg = "Cannot connect to SQL Server. Is the service running?"
+                msg = self._friendly_sql_error(exc)
                 self.after(0, lambda: self.set_status(f"Database setup failed: {msg}"))
-                self.after(0, lambda: messagebox.showerror("Create / Repair database", msg))
+                self.after(
+                    0,
+                    lambda: messagebox.showerror("Create / Repair database", msg, parent=self),
+                )
 
         threading.Thread(target=worker, daemon=True).start()
 
@@ -784,13 +966,13 @@ class KekaApp(tk.Tk):
                 results = col.probe_devices(cfg)
                 ok, text = self._format_device_results(results, "Test")
                 self.after(0, lambda: self.append_log(text))
-                self.after(0, lambda: self.set_status(text.split("\n", 1)[0]))
+                self.after(0, lambda: self.status.set(text.split("\n", 1)[0]))
                 self.after(
                     0,
                     lambda: (
-                        messagebox.showinfo("Test devices", text)
+                        messagebox.showinfo("Test devices", text, parent=self)
                         if ok
-                        else messagebox.showerror("Test devices", text)
+                        else messagebox.showerror("Test devices", text, parent=self)
                     ),
                 )
             except Exception as exc:
@@ -1017,24 +1199,37 @@ class KekaApp(tk.Tk):
     def run_now(self) -> None:
         if not self.save_all(quiet=True):
             return
+        if not self.collector_enabled.get():
+            messagebox.showinfo(
+                "Collector disabled",
+                "Punch collector is OFF so we do not write to the punch table "
+                "(another collector can keep running).\n\n"
+                "Employees and device settings still use SQL.\n"
+                "Turn on “Enable punch collector” and Save when you are ready.",
+                parent=self,
+            )
+            self.set_status("Collector disabled — punches not written.")
+            return
 
         def worker() -> None:
             try:
-                self.after(0, lambda: self.set_status("Running collector…"))
+                self.after(0, lambda: self.status.set("Running collector…"))
                 cfg = col.load_runtime_config(APPSETTINGS)
                 results = col.collect_all(cfg, dry_run=False, ignore_watermark=False)
                 ok, text = self._format_device_results(results, "Collector")
-                self.after(0, lambda: self.append_log(text))
-                self.after(0, lambda: self.set_status(text.split("\n", 1)[0]))
-                self.after(0, self.reload_all)
-                self.after(
-                    0,
-                    lambda: (
-                        messagebox.showinfo("Run collector", text)
-                        if ok
-                        else messagebox.showerror("Run collector", text)
-                    ),
-                )
+
+                def finish() -> None:
+                    self.append_log(text)
+                    self.status.set(text.split("\n", 1)[0])
+                    # Show result first — do not block OK on SQL reload
+                    if ok:
+                        messagebox.showinfo("Run collector", text, parent=self)
+                    else:
+                        messagebox.showerror("Run collector", text, parent=self)
+                    # Refresh fields after the dialog closes
+                    self.after(10, self.reload_all)
+
+                self.after(0, finish)
             except Exception as exc:
                 # SQL / config failures
                 msg = str(exc)
@@ -1043,8 +1238,8 @@ class KekaApp(tk.Tk):
                     msg = "SQL login failed — check SQL server, username, and password."
                 elif "odbc" in low or "driver" in low:
                     msg = f"SQL connection failed — {exc}"
-                self.after(0, lambda: self.set_status(f"Collector failed: {msg}"))
-                self.after(0, lambda: messagebox.showerror("Run collector", msg))
+                self.after(0, lambda: self.status.set(f"Collector failed: {msg}"))
+                self.after(0, lambda m=msg: messagebox.showerror("Run collector", m, parent=self))
 
         threading.Thread(target=worker, daemon=True).start()
 
@@ -1062,7 +1257,7 @@ class KekaApp(tk.Tk):
     def _is_startup_installed(self) -> bool:
         """True if the Windows collector task is registered."""
         r = subprocess.run(
-            ["schtasks", "/Query", "/TN", "Peak-Attendance-Collector"],
+            ["schtasks", "/Query", "/TN", "Peak-Energy-Biometrics-Collector"],
             capture_output=True,
             text=True,
             encoding="utf-8",
@@ -1071,31 +1266,39 @@ class KekaApp(tk.Tk):
         return r.returncode == 0
 
     def _refresh_install_buttons(self) -> None:
-        """Show Install when not registered; Uninstall when registered."""
-        try:
-            installed = self._is_startup_installed()
-        except Exception:
-            installed = False
-        if installed:
-            self.btn_install.configure(state=tk.DISABLED)
-            self.btn_uninstall.configure(state=tk.NORMAL)
-        else:
-            self.btn_install.configure(state=tk.NORMAL)
-            self.btn_uninstall.configure(state=tk.DISABLED)
+        """Show Install when not registered; Uninstall when registered (non-blocking)."""
+
+        def worker() -> None:
+            try:
+                installed = self._is_startup_installed()
+            except Exception:
+                installed = False
+
+            def apply() -> None:
+                if installed:
+                    self.btn_install.configure(state=tk.DISABLED)
+                    self.btn_uninstall.configure(state=tk.NORMAL)
+                else:
+                    self.btn_install.configure(state=tk.NORMAL)
+                    self.btn_uninstall.configure(state=tk.DISABLED)
+
+            self.after(0, apply)
+
+        threading.Thread(target=worker, daemon=True).start()
 
     def install_startup(self) -> None:
         """Register Start-with-Windows, collector task, shortcuts."""
         if self._is_startup_installed():
             messagebox.showinfo(
                 "Already installed",
-                "Peak Attendance is already registered for Windows startup.\n"
+                "Peak Energy Biometrics is already registered for Windows startup.\n"
                 "Use Uninstall / Stop with Windows first if you want to change it.",
             )
             self._refresh_install_buttons()
             return
         if not messagebox.askyesno(
             "Install / Start with Windows",
-            "Register Peak Attendance to:\n"
+            "Register Peak Energy Biometrics to:\n"
             "• Start with Windows at logon (tray)\n"
             "• Collect punches every 1 minute (hidden)\n"
             "• Create Desktop + Start Menu shortcuts\n\n"
@@ -1136,7 +1339,7 @@ class KekaApp(tk.Tk):
                         0,
                         lambda: messagebox.showinfo(
                             "Install complete",
-                            "Peak Attendance is registered.\n\n"
+                            "Peak Energy Biometrics is registered.\n\n"
                             "• Starts with Windows at logon (tray)\n"
                             "• Collector runs every 1 minute (hidden)\n"
                             "• Desktop + Start Menu shortcuts created",
@@ -1157,19 +1360,19 @@ class KekaApp(tk.Tk):
         if not self._is_startup_installed():
             messagebox.showinfo(
                 "Not installed",
-                "Peak Attendance is not registered for Windows startup.\n"
+                "Peak Energy Biometrics is not registered for Windows startup.\n"
                 "Use Install / Start with Windows to register it.",
             )
             self._refresh_install_buttons()
             return
         if not messagebox.askyesno(
             "Uninstall / Stop with Windows",
-            "Remove Peak Attendance from Windows startup and stop automatic collection?\n\n"
+            "Remove Peak Energy Biometrics from Windows startup and stop automatic collection?\n\n"
             "This will:\n"
             "• Delete the every-minute collector task\n"
             "• Remove Startup / Start Menu / Desktop shortcuts\n\n"
             "This will NOT:\n"
-            "• Delete PeakAttendance.exe or appsettings.json\n"
+            "• Delete PeakEnergyBiometrics.exe or appsettings.json\n"
             "• Delete the atteninfo database or punches\n\n"
             "Continue?",
         ):
@@ -1201,7 +1404,14 @@ class KekaApp(tk.Tk):
     def _uninstall_startup(self) -> str:
         """Remove tasks and shortcuts created by Install / Start with Windows."""
         lines: list[str] = []
-        for task in ("Peak-Attendance-Collector", "Peak-Attendance-UI"):
+        for task in (
+            "Peak-Energy-Biometrics-Collector",
+            "Peak-Energy-Biometrics-UI",
+            "Peak-Biometrics-Collector",
+            "Peak-Biometrics-UI",
+            "Peak-Attendance-Collector",
+            "Peak-Attendance-UI",
+        ):
             r = subprocess.run(
                 ["schtasks", "/Delete", "/TN", task, "/F"],
                 capture_output=True,
@@ -1225,7 +1435,43 @@ class KekaApp(tk.Tk):
             / "Start Menu"
             / "Programs"
             / "Startup"
+            / "Peak Energy Biometrics.lnk",
+            Path.home()
+            / "AppData"
+            / "Roaming"
+            / "Microsoft"
+            / "Windows"
+            / "Start Menu"
+            / "Programs"
+            / "Startup"
+            / "Peak Biometrics.lnk",
+            Path.home()
+            / "AppData"
+            / "Roaming"
+            / "Microsoft"
+            / "Windows"
+            / "Start Menu"
+            / "Programs"
+            / "Startup"
             / "Peak Attendance.lnk",
+            Path.home()
+            / "AppData"
+            / "Roaming"
+            / "Microsoft"
+            / "Windows"
+            / "Start Menu"
+            / "Programs"
+            / "Peak Energy Biometrics"
+            / "Peak Energy Biometrics.lnk",
+            Path.home()
+            / "AppData"
+            / "Roaming"
+            / "Microsoft"
+            / "Windows"
+            / "Start Menu"
+            / "Programs"
+            / "Peak Biometrics"
+            / "Peak Biometrics.lnk",
             Path.home()
             / "AppData"
             / "Roaming"
@@ -1235,6 +1481,8 @@ class KekaApp(tk.Tk):
             / "Programs"
             / "Peak Attendance"
             / "Peak Attendance.lnk",
+            Path.home() / "Desktop" / "Peak Energy Biometrics.lnk",
+            Path.home() / "Desktop" / "Peak Biometrics.lnk",
             Path.home() / "Desktop" / "Peak Attendance.lnk",
         ]
         if getattr(sys, "frozen", False):
@@ -1248,40 +1496,46 @@ class KekaApp(tk.Tk):
             except OSError as exc:
                 lines.append(f"Could not remove {path}: {exc}")
 
-        menu_dir = (
-            Path.home()
-            / "AppData"
-            / "Roaming"
-            / "Microsoft"
-            / "Windows"
-            / "Start Menu"
-            / "Programs"
-            / "Peak Attendance"
-        )
-        try:
-            if menu_dir.exists() and not any(menu_dir.iterdir()):
-                menu_dir.rmdir()
-                lines.append(f"Removed folder: {menu_dir}")
-        except OSError:
-            pass
+        for menu_name in ("Peak Energy Biometrics", "Peak Biometrics", "Peak Attendance"):
+            menu_dir = (
+                Path.home()
+                / "AppData"
+                / "Roaming"
+                / "Microsoft"
+                / "Windows"
+                / "Start Menu"
+                / "Programs"
+                / menu_name
+            )
+            try:
+                if menu_dir.exists() and not any(menu_dir.iterdir()):
+                    menu_dir.rmdir()
+                    lines.append(f"Removed folder: {menu_dir}")
+            except OSError:
+                pass
 
         return "\n".join(lines) if lines else "Nothing to remove."
 
     def _install_frozen(self) -> str:
-        """Register shortcuts + tasks when running as PeakAttendance.exe."""
+        """Register shortcuts + tasks when running as PeakEnergyBiometrics.exe."""
         exe = Path(sys.executable).resolve()
         app_folder = exe.parent
         lines: list[str] = []
 
         def shortcut(path: Path, args: str = "") -> None:
             path.parent.mkdir(parents=True, exist_ok=True)
+            icon = str(exe)
+            ico_file = app_folder / "PeakEnergyBiometrics.ico"
+            if ico_file.exists():
+                icon = str(ico_file)
             ps = (
                 f'$w=New-Object -ComObject WScript.Shell; '
                 f'$s=$w.CreateShortcut(\'{path}\'); '
                 f'$s.TargetPath=\'{exe}\'; '
                 f'$s.Arguments=\'{args}\'; '
                 f'$s.WorkingDirectory=\'{app_folder}\'; '
-                f'$s.Description=\'Peak Attendance\'; '
+                f'$s.Description=\'Peak Energy Biometrics\'; '
+                f'$s.IconLocation=\'{icon}\'; '
                 f'$s.Save()'
             )
             subprocess.run(
@@ -1292,17 +1546,26 @@ class KekaApp(tk.Tk):
             )
 
         startup = Path.home() / "AppData" / "Roaming" / "Microsoft" / "Windows" / "Start Menu" / "Programs" / "Startup"
-        start_menu = Path.home() / "AppData" / "Roaming" / "Microsoft" / "Windows" / "Start Menu" / "Programs" / "Peak Attendance"
+        start_menu = Path.home() / "AppData" / "Roaming" / "Microsoft" / "Windows" / "Start Menu" / "Programs" / "Peak Energy Biometrics"
         desktop = Path.home() / "Desktop"
-        shortcut(startup / "Peak Attendance.lnk")
-        shortcut(start_menu / "Peak Attendance.lnk")
-        shortcut(desktop / "Peak Attendance.lnk")
+        # Drop legacy shortcut names from earlier branding
+        for legacy_name in ("Peak Attendance.lnk", "Peak Biometrics.lnk"):
+            legacy = desktop / legacy_name
+            try:
+                if legacy.exists():
+                    legacy.unlink()
+                    lines.append(f"Removed legacy shortcut: {legacy}")
+            except OSError:
+                pass
+        shortcut(startup / "Peak Energy Biometrics.lnk")
+        shortcut(start_menu / "Peak Energy Biometrics.lnk")
+        shortcut(desktop / "Peak Energy Biometrics.lnk")
         lines.append("Shortcuts: Startup, Start Menu, Desktop")
 
         # Hidden collector every minute
         tr = f'"{exe}" --collect'
         r = subprocess.run(
-            ["schtasks", "/Create", "/TN", "Peak-Attendance-Collector", "/SC", "MINUTE", "/MO", "1", "/F", "/TR", tr],
+            ["schtasks", "/Create", "/TN", "Peak-Energy-Biometrics-Collector", "/SC", "MINUTE", "/MO", "1", "/F", "/TR", tr],
             capture_output=True,
             text=True,
             encoding="utf-8",
@@ -1321,7 +1584,7 @@ class KekaApp(tk.Tk):
             )
             tr2 = f'wscript.exe //B //Nologo "{vbs}"'
             r2 = subprocess.run(
-                ["schtasks", "/Create", "/TN", "Peak-Attendance-Collector", "/SC", "MINUTE", "/MO", "1", "/F", "/TR", tr2],
+                ["schtasks", "/Create", "/TN", "Peak-Energy-Biometrics-Collector", "/SC", "MINUTE", "/MO", "1", "/F", "/TR", tr2],
                 capture_output=True,
                 text=True,
                 encoding="utf-8",
@@ -1368,12 +1631,12 @@ class KekaApp(tk.Tk):
             self.after(0, self.destroy)
 
         menu = pystray.Menu(
-            pystray.MenuItem("Open Peak Attendance", show, default=True),
+            pystray.MenuItem("Open Peak Energy Biometrics", show, default=True),
             pystray.MenuItem("Run collector now", run_now),
             pystray.MenuItem("Help", help_item),
             pystray.MenuItem("Quit", quit_app),
         )
-        self.tray_icon = pystray.Icon("peak_attendance", img, "Peak Attendance", menu)
+        self.tray_icon = pystray.Icon("peak_attendance", img, "Peak Energy Biometrics", menu)
         threading.Thread(target=self.tray_icon.run, daemon=True).start()
 
     def _show_from_tray(self) -> None:
@@ -1386,7 +1649,7 @@ class KekaApp(tk.Tk):
 def main() -> int:
     import argparse
 
-    parser = argparse.ArgumentParser(description="Peak Attendance")
+    parser = argparse.ArgumentParser(description="Peak Energy Biometrics")
     parser.add_argument(
         "--window",
         action="store_true",

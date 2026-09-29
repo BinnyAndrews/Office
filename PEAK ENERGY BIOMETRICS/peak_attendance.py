@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Peak Attendance entry point (UI or --collect for scheduled runs)."""
+"""Peak Energy Biometrics entry point (UI or --collect for scheduled runs)."""
 
 from __future__ import annotations
 

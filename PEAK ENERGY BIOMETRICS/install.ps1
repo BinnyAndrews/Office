@@ -1,4 +1,4 @@
-# Peak Attendance installer
+# Peak Energy Biometrics installer
 # - Ensures venv + dependencies
 # - Registers minute collector task
 # - Registers Start Menu + Desktop + Windows Startup shortcuts
@@ -8,8 +8,8 @@
 
 param(
     [string]$InstallDir = $PSScriptRoot,
-    [string]$CollectorTaskName = "Peak-Attendance-Collector",
-    [string]$StartupTaskName = "Peak-Attendance-UI",
+    [string]$CollectorTaskName = "Peak-Energy-Biometrics-Collector",
+    [string]$StartupTaskName = "Peak-Energy-Biometrics-UI",
     [switch]$NoStartApp
 )
 
@@ -87,7 +87,8 @@ function New-Shortcut {
         [Parameter(Mandatory)] [string]$TargetPath,
         [string]$Arguments = "",
         [string]$WorkingDirectory = $InstallDir,
-        [string]$Description = "Peak Attendance"
+        [string]$Description = "Peak Energy Biometrics",
+        [string]$IconLocation = ""
     )
     $dir = Split-Path $Path -Parent
     if (-not (Test-Path $dir)) {
@@ -100,39 +101,70 @@ function New-Shortcut {
     $s.WorkingDirectory = $WorkingDirectory
     $s.Description = $Description
     $s.WindowStyle = 7
+    if ($IconLocation) {
+        $s.IconLocation = $IconLocation
+    }
     $s.Save()
 }
 
 function Register-UiStartup {
+    $exe = Join-Path $InstallDir "dist\PeakEnergyBiometrics.exe"
+    if (-not (Test-Path $exe)) { $exe = Join-Path $InstallDir "PeakEnergyBiometrics.exe" }
     $vbs = Join-Path $InstallDir "start-ui.vbs"
-    if (-not (Test-Path $vbs)) {
-        throw "Missing start-ui.vbs"
-    }
-
     $startup = [Environment]::GetFolderPath("Startup")
-    New-Shortcut -Path (Join-Path $startup "Peak Attendance.lnk") -TargetPath "wscript.exe" -Arguments ("`"{0}`"" -f $vbs)
+    $icon = if (Test-Path $exe) { "$exe,0" } else { "" }
 
-    $tr = "wscript.exe `"$vbs`""
+    if (Test-Path $exe) {
+        New-Shortcut -Path (Join-Path $startup "Peak Energy Biometrics.lnk") -TargetPath $exe -WorkingDirectory (Split-Path $exe -Parent) -IconLocation $icon
+        $tr = "`"$exe`""
+    } elseif (Test-Path $vbs) {
+        New-Shortcut -Path (Join-Path $startup "Peak Energy Biometrics.lnk") -TargetPath "wscript.exe" -Arguments ("`"{0}`"" -f $vbs) -IconLocation $icon
+        $tr = "wscript.exe `"$vbs`""
+    } else {
+        throw "Missing PeakEnergyBiometrics.exe / start-ui.vbs"
+    }
     schtasks /Create /TN $StartupTaskName /SC ONLOGON /RL LIMITED /F /TR $tr | Out-Null
     Write-Host "Registered Windows startup: $StartupTaskName + Startup folder shortcut."
 }
 
 function Register-Shortcuts {
+    $exe = Join-Path $InstallDir "dist\PeakEnergyBiometrics.exe"
+    if (-not (Test-Path $exe)) { $exe = Join-Path $InstallDir "PeakEnergyBiometrics.exe" }
     $vbs = Join-Path $InstallDir "start-ui.vbs"
-    $startMenu = Join-Path ([Environment]::GetFolderPath("StartMenu")) "Programs\Peak Attendance"
-    New-Shortcut -Path (Join-Path $startMenu "Peak Attendance.lnk") -TargetPath "wscript.exe" -Arguments ("`"{0}`"" -f $vbs)
+    $startMenu = Join-Path ([Environment]::GetFolderPath("StartMenu")) "Programs\Peak Energy Biometrics"
     $desktop = [Environment]::GetFolderPath("Desktop")
-    New-Shortcut -Path (Join-Path $desktop "Peak Attendance.lnk") -TargetPath "wscript.exe" -Arguments ("`"{0}`"" -f $vbs)
+    $icon = if (Test-Path $exe) { "$exe,0" } else { "" }
+
+    # Remove legacy Peak Attendance shortcut
+    $legacy = Join-Path $desktop "Peak Attendance.lnk"
+    if (Test-Path $legacy) { Remove-Item -LiteralPath $legacy -Force -ErrorAction SilentlyContinue }
+
+    if (Test-Path $exe) {
+        $wd = Split-Path $exe -Parent
+        New-Shortcut -Path (Join-Path $startMenu "Peak Energy Biometrics.lnk") -TargetPath $exe -WorkingDirectory $wd -IconLocation $icon
+        New-Shortcut -Path (Join-Path $desktop "Peak Energy Biometrics.lnk") -TargetPath $exe -WorkingDirectory $wd -IconLocation $icon
+    } elseif (Test-Path $vbs) {
+        New-Shortcut -Path (Join-Path $startMenu "Peak Energy Biometrics.lnk") -TargetPath "wscript.exe" -Arguments ("`"{0}`"" -f $vbs) -IconLocation $icon
+        New-Shortcut -Path (Join-Path $desktop "Peak Energy Biometrics.lnk") -TargetPath "wscript.exe" -Arguments ("`"{0}`"" -f $vbs) -IconLocation $icon
+    } else {
+        throw "Missing PeakEnergyBiometrics.exe / start-ui.vbs"
+    }
     Write-Host "Created Start Menu and Desktop shortcuts."
 }
 
 function Start-App {
+    $exe = Join-Path $InstallDir "dist\PeakEnergyBiometrics.exe"
+    if (-not (Test-Path $exe)) { $exe = Join-Path $InstallDir "PeakEnergyBiometrics.exe" }
     $vbs = Join-Path $InstallDir "start-ui.vbs"
-    Start-Process -FilePath "wscript.exe" -ArgumentList ("`"{0}`"" -f $vbs)
-    Write-Host "Started Peak Attendance (tray)."
+    if (Test-Path $exe) {
+        Start-Process -FilePath $exe
+    } elseif (Test-Path $vbs) {
+        Start-Process -FilePath "wscript.exe" -ArgumentList ("`"{0}`"" -f $vbs)
+    }
+    Write-Host "Started Peak Energy Biometrics (tray)."
 }
 
-Write-Host "=== Peak Attendance install ==="
+Write-Host "=== Peak Energy Biometrics install ==="
 Write-Host "InstallDir: $InstallDir"
 Ensure-Venv
 Ensure-Appsettings

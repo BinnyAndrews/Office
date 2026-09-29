@@ -1,4 +1,4 @@
-"""Shared path helpers for source and frozen PeakAttendance.exe."""
+"""Shared path helpers for source and frozen PeakEnergyBiometrics.exe."""
 
 from __future__ import annotations
 
@@ -32,7 +32,7 @@ def logo_png_path() -> Path | None:
 def logo_ico_path() -> Path | None:
     """Windows .ico used for exe / window iconbitmap."""
     for base in (resource_dir(), app_dir()):
-        path = base / "PeakAttendance.ico"
+        path = base / "PeakEnergyBiometrics.ico"
         if path.exists():
             return path
     return None

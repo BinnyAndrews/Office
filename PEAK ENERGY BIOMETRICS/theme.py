@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Peak Energy visual theme for Peak Attendance.
+"""Peak Energy visual theme for Peak Energy Biometrics.
 
 Uses classic tk widgets for colored chrome (header / buttons / checkboxes)
 because Windows ttk themes often ignore colors, and clam draws checkboxes as ✕.
@@ -25,6 +25,8 @@ FG_MUTED = "#5A6F82"
 BORDER = "#C5D5E4"
 SUCCESS = "#1B7A4E"
 SUCCESS_HOVER = "#14633F"
+WARN = "#B86E00"
+WARN_HOVER = "#945800"
 DANGER = "#B42318"
 DANGER_HOVER = "#8F1A12"
 GHOST = "#D9E6F0"
@@ -230,6 +232,7 @@ def colored_button(
         "primary": (NAVY, "#FFFFFF", NAVY_DARK),
         "accent": (CYAN, NAVY_DARK, CYAN_HOVER),
         "success": (SUCCESS, "#FFFFFF", SUCCESS_HOVER),
+        "warn": (WARN, "#FFFFFF", WARN_HOVER),
         "danger": (DANGER, "#FFFFFF", DANGER_HOVER),
         "ghost": (GHOST, NAVY, GHOST_HOVER),
     }

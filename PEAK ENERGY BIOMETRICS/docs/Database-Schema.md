@@ -1,23 +1,33 @@
-# Peak Attendance — database schema (`atteninfo`)
+# Peak Energy Biometrics — database schema
 
-SQL Server database used by Peak Attendance for Keka sync.
+SQL Server objects used by Peak Energy Biometrics / Keka.
 
-| Item | Value |
-|---|---|
-| Database | `atteninfo` |
-| Typical login | `sa` (mixed mode) |
-| Schema script | `sql/02_atteninfo.sql` |
-| Punch table (Keka) | `dbo.AccessEvents` |
+| Item | Typical ACS value | Fresh install alternative |
+|---|---|---|
+| Database | `master` | `atteninfo` |
+| Punch table (Keka) | `dbo.atteninfo` | `dbo.AccessEvents` |
+| Typical login | `sa` (mixed mode) | `sa` |
+| Schema script | `sql/02_atteninfo.sql` (+ app Create / Repair) | same |
 
-Connect example (SSMS): server `localhost\SQLEXPRESS` or `10.80.100.10\SQLEXPRESS`, database `atteninfo`, Trust server certificate.
+Connect example (SSMS): `10.80.100.10,1433` or `localhost`, database `master`, Trust server certificate.
+
+**Important:** On the existing Peak ACS SQL, punches stay in **`master.dbo.atteninfo`** (do not drop). Create / Repair only adds helper tables (`Employees`, `DeviceConfig`, …).
 
 ---
 
-## 1. `dbo.AccessEvents` — attendance punches (Keka source)
+## 1. Punch table — `dbo.atteninfo` (ACS / Keka) or `dbo.AccessEvents`
+
+### ACS `dbo.atteninfo` columns (all `varchar(50)`, nullable)
+
+`ID`, `datetime`, `date`, `time`, `authenticationresult`, `authenticationtype`, `device`, `deviceno`, `readername`, `firstname`, `lastname`, `personname`, `persongroup`, `cardno`, `direction`
+
+Existing direction values: `1` = Entry, `2` = Exit.
+
+### Fresh-install `dbo.AccessEvents` (optional)
 
 Legacy-style **varchar** columns for Keka mapping. Helper columns support de-dupe and diagnostics.
 
-### Columns
+### Columns (`AccessEvents`)
 
 | Column | Type | Null | Description | Example |
 |---|---|---|---|---|
@@ -194,7 +204,9 @@ Pulled from Entry/Exit Hikvision readers and editable in the **Employees** UI. C
 | Column | Type | Description |
 |---|---|---|
 | `EmployeeNo` | `VARCHAR(32)` PK | Same ID used in `AccessEvents.ID` |
-| `Name` | `NVARCHAR(128)` | Display name |
+| `Name` | `NVARCHAR(128)` | Full display name pushed to Hikvision (`name`) |
+| `FirstName` | `NVARCHAR(64)` | First name (SQL/UI); combined into `Name` for devices |
+| `LastName` | `NVARCHAR(64)` | Last name (SQL/UI); combined into `Name` for devices |
 | `Gender` | `VARCHAR(16)` | Optional |
 | `UserType` | `VARCHAR(32)` | e.g. `normal` |
 | `CardNo` | `VARCHAR(64)` | Optional card |

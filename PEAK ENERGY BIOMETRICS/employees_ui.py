@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Employees management window for Peak Attendance."""
+"""Employees management window for Peak Energy Biometrics."""
 
 from __future__ import annotations
 
@@ -63,7 +63,7 @@ def _fmt_dt(value: Any) -> str:
 class EmployeesWindow(tk.Toplevel):
     def __init__(self, master: tk.Misc, appsettings: Path) -> None:
         super().__init__(master)
-        self.title("Peak Attendance — Employees")
+        self.title("Peak Energy Biometrics — Employees")
         self.geometry("980x640")
         self.appsettings = appsettings
         self.face_bytes: bytes | None = None
@@ -139,6 +139,16 @@ class EmployeesWindow(tk.Toplevel):
         list_f.columnconfigure(0, weight=1)
 
         cols = ("EmployeeNo", "Name", "HasFace", "Entry", "Exit", "Updated")
+        self._col_labels = {
+            "EmployeeNo": "EmployeeNo",
+            "Name": "Name",
+            "HasFace": "HasFace",
+            "Entry": "Entry",
+            "Exit": "Exit",
+            "Updated": "Updated (local)",
+        }
+        self._sort_col: str | None = "EmployeeNo"
+        self._sort_reverse = False
         self.tree = ttk.Treeview(list_f, columns=cols, show="headings", selectmode="browse")
         for c, w in (
             ("EmployeeNo", 90),
@@ -148,19 +158,25 @@ class EmployeesWindow(tk.Toplevel):
             ("Exit", 70),
             ("Updated", 140),
         ):
-            self.tree.heading(c, text="Updated (local)" if c == "Updated" else c)
+            self.tree.heading(
+                c,
+                text=self._col_labels[c],
+                command=lambda col=c: self.sort_by_column(col),
+            )
             self.tree.column(c, width=w, anchor=tk.W)
         scroll = ttk.Scrollbar(list_f, orient=tk.VERTICAL, command=self.tree.yview)
         self.tree.configure(yscrollcommand=scroll.set)
         self.tree.grid(row=0, column=0, sticky="nsew")
         scroll.grid(row=0, column=1, sticky="ns")
         self.tree.bind("<<TreeviewSelect>>", self.on_select)
+        self._refresh_sort_headings()
 
         # Detail
         detail = ttk.LabelFrame(root, text="Details", padding=8)
         detail.grid(row=1, column=1, sticky="nsew")
         self.var_no = tk.StringVar()
-        self.var_name = tk.StringVar()
+        self.var_first = tk.StringVar()
+        self.var_last = tk.StringVar()
         self.var_gender = tk.StringVar()
         self.var_type = tk.StringVar(value="normal")
         self.var_card = tk.StringVar()
@@ -173,20 +189,21 @@ class EmployeesWindow(tk.Toplevel):
 
         detail.columnconfigure(1, weight=1)
         row(0, "Employee No", ttk.Entry(detail, textvariable=self.var_no))
-        row(1, "Name", ttk.Entry(detail, textvariable=self.var_name))
+        row(1, "First name", ttk.Entry(detail, textvariable=self.var_first))
+        row(2, "Last name", ttk.Entry(detail, textvariable=self.var_last))
         row(
-            2,
+            3,
             "Gender",
             ttk.Combobox(detail, textvariable=self.var_gender, values=["", "male", "female"], width=16),
         )
         row(
-            3,
+            4,
             "User type",
             ttk.Combobox(detail, textvariable=self.var_type, values=["normal", "visitor"], width=16),
         )
-        row(4, "Card No", ttk.Entry(detail, textvariable=self.var_card))
+        row(5, "Card No", ttk.Entry(detail, textvariable=self.var_card))
         ui_theme.colored_checkbutton(detail, "Access enabled", self.var_enabled).grid(
-            row=5, column=0, columnspan=2, sticky=tk.W, pady=2
+            row=6, column=0, columnspan=2, sticky=tk.W, pady=2
         )
         self.date_from = DateEntry(
             detail,
@@ -216,12 +233,12 @@ class EmployeesWindow(tk.Toplevel):
             selectbackground=ui_theme.CYAN,
             selectforeground=ui_theme.NAVY_DARK,
         )
-        row(6, "Valid from", self.date_from)
-        row(7, "Valid to", self.date_to)
-        row(8, "Notes", ttk.Entry(detail, textvariable=self.var_notes))
+        row(7, "Valid from", self.date_from)
+        row(8, "Valid to", self.date_to)
+        row(9, "Notes", ttk.Entry(detail, textvariable=self.var_notes))
 
         photo_f = ttk.Frame(detail)
-        photo_f.grid(row=9, column=0, columnspan=2, sticky="ew", pady=(8, 0))
+        photo_f.grid(row=10, column=0, columnspan=2, sticky="ew", pady=(8, 0))
         self.photo_lbl = ttk.Label(photo_f, text="No photo")
         self.photo_lbl.pack(side=tk.TOP)
         bf = ttk.Frame(photo_f)
@@ -244,6 +261,40 @@ class EmployeesWindow(tk.Toplevel):
 
     def set_status(self, text: str) -> None:
         self.status.set(text)
+
+    def _refresh_sort_headings(self) -> None:
+        for col, label in self._col_labels.items():
+            mark = ""
+            if col == self._sort_col:
+                mark = " ▼" if self._sort_reverse else " ▲"
+            self.tree.heading(
+                col,
+                text=f"{label}{mark}",
+                command=lambda c=col: self.sort_by_column(c),
+            )
+
+    def _sort_key(self, col: str, value: str) -> tuple[Any, ...]:
+        text = (value or "").strip()
+        if col == "EmployeeNo":
+            try:
+                return (0, int(text))
+            except ValueError:
+                return (1, text.casefold())
+        if col == "HasFace":
+            return (0 if text.lower() == "yes" else 1, text.casefold())
+        return (0, text.casefold())
+
+    def sort_by_column(self, col: str) -> None:
+        if self._sort_col == col:
+            self._sort_reverse = not self._sort_reverse
+        else:
+            self._sort_col = col
+            self._sort_reverse = False
+        rows = [(self.tree.set(iid, col), iid) for iid in self.tree.get_children("")]
+        rows.sort(key=lambda item: self._sort_key(col, item[0]), reverse=self._sort_reverse)
+        for index, (_val, iid) in enumerate(rows):
+            self.tree.move(iid, "", index)
+        self._refresh_sort_headings()
 
     def reload_list(self) -> None:
         try:
@@ -274,6 +325,19 @@ class EmployeesWindow(tk.Toplevel):
                         _fmt_dt(r.get("UpdatedAt")),
                     ),
                 )
+            if self._sort_col:
+                # Re-apply current sort without flipping direction
+                reverse = self._sort_reverse
+                sort_col = self._sort_col
+                items = [
+                    (self.tree.set(iid, sort_col), iid) for iid in self.tree.get_children("")
+                ]
+                items.sort(
+                    key=lambda item: self._sort_key(sort_col, item[0]), reverse=reverse
+                )
+                for index, (_val, iid) in enumerate(items):
+                    self.tree.move(iid, "", index)
+                self._refresh_sort_headings()
             self.set_status(f"Loaded {len(rows)} employee(s).")
         except Exception as exc:
             self.set_status(f"Load failed: {exc}")
@@ -289,7 +353,12 @@ class EmployeesWindow(tk.Toplevel):
             if not row:
                 return
             self.var_no.set(row["EmployeeNo"])
-            self.var_name.set(row["Name"] or "")
+            first = (row.get("FirstName") or "").strip()
+            last = (row.get("LastName") or "").strip()
+            if not first and not last:
+                first, last = emp.split_person_name(row.get("Name") or "")
+            self.var_first.set(first)
+            self.var_last.set(last)
             self.var_gender.set(row.get("Gender") or "")
             self.var_type.set(row.get("UserType") or "normal")
             self.var_card.set(row.get("CardNo") or "")
@@ -312,7 +381,8 @@ class EmployeesWindow(tk.Toplevel):
     def new_employee(self) -> None:
         self.tree.selection_remove(self.tree.selection())
         self.var_no.set("")
-        self.var_name.set("")
+        self.var_first.set("")
+        self.var_last.set("")
         self.var_gender.set("")
         self.var_type.set("normal")
         self.var_card.set("")
@@ -398,11 +468,13 @@ class EmployeesWindow(tk.Toplevel):
 
     def _form_emp(self) -> dict[str, Any]:
         no = self.var_no.get().strip()
-        name = self.var_name.get().strip()
+        first = self.var_first.get().strip()
+        last = self.var_last.get().strip()
+        name = emp.combine_person_name(first, last)
         if not no:
             raise ValueError("Employee No is required.")
         if not name:
-            raise ValueError("Name is required.")
+            raise ValueError("First name or Last name is required.")
         d_from = self.date_from.get_date()
         d_to = self.date_to.get_date()
         if d_to < d_from:
@@ -416,6 +488,8 @@ class EmployeesWindow(tk.Toplevel):
         return {
             "EmployeeNo": no,
             "Name": name,
+            "FirstName": first or None,
+            "LastName": last or None,
             "Gender": self.var_gender.get().strip() or None,
             "UserType": user_type,
             "CardNo": self.var_card.get().strip() or None,

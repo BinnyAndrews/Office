@@ -177,6 +177,36 @@ class HikTerminal:
         info = data.get("DeviceInfo", data)
         return f"{info.get('deviceName', '?')} ({info.get('model', '?')})"
 
+    def device_serial(self) -> str | None:
+        """Hikvision device serial (maps to atteninfo.deviceno). Cached per terminal."""
+        cached = getattr(self, "_device_serial", None)
+        if cached is not None:
+            return cached or None
+        serial = ""
+        try:
+            resp = self.request("GET", "/ISAPI/System/deviceInfo?format=json")
+            try:
+                data = resp.json()
+                info = data.get("DeviceInfo", data) if isinstance(data, dict) else {}
+                serial = str(
+                    info.get("serialNumber")
+                    or info.get("deviceID")
+                    or info.get("macAddress")
+                    or ""
+                ).strip()
+            except ValueError:
+                root = ET.fromstring(resp.text)
+                serial = (
+                    xml_text(root, "serialNumber")
+                    or xml_text(root, "deviceID")
+                    or ""
+                ).strip()
+        except Exception as exc:
+            LOG.warning("%s: could not read device serial: %s", self.dev.get("ip"), exc)
+            serial = ""
+        self._device_serial = serial[:50]
+        return self._device_serial or None
+
     def search_events(
         self,
         start: datetime,
@@ -264,7 +294,12 @@ def auth_result_label(minor: int | None) -> str:
     return "Succeeded"
 
 
-def normalize_event(raw: dict[str, Any], dev: dict[str, Any]) -> dict[str, Any] | None:
+def normalize_event(
+    raw: dict[str, Any],
+    dev: dict[str, Any],
+    *,
+    legacy_atteninfo: bool = False,
+) -> dict[str, Any] | None:
     emp = str(raw.get("employeeNoString") or raw.get("employeeNo") or "").strip()
     if not emp:
         return None
@@ -277,21 +312,60 @@ def normalize_event(raw: dict[str, Any], dev: dict[str, Any]) -> dict[str, Any] 
     serial = as_int(raw.get("serialNo") or raw.get("serialNO"))
     person = (str(raw.get("name") or "").strip() or None)
     first, last = split_name(person) if person else (None, None)
-    direction = str(dev.get("direction") or ("In" if int(dev.get("status", 0)) == 0 else "Out"))
+    direction_ui = str(dev.get("direction") or ("In" if int(dev.get("status", 0)) == 0 else "Out"))
     device_label = str(dev.get("display_name") or dev.get("name") or dev["ip"])[:50]
-    dt_s = punch.strftime("%Y-%m-%d %H:%M:%S")
+    if legacy_atteninfo:
+        # Match existing master.dbo.atteninfo conventions (Keka)
+        direction = "1" if direction_ui.lower() in {"in", "entry", "0", "1"} else "2"
+        if direction_ui.strip() in {"1", "2"}:
+            direction = direction_ui.strip()
+        dt_s = punch.strftime("%Y-%m-%dT%H:%M:%S")
+        date_s = punch.strftime("%d-%m-%Y")
+        device_label = device_label.upper()
+        auth_result = "1"  # legacy stores numeric success
+        # Prefer face-style type string used by the existing collector when mode is face
+        verify = str(raw.get("currentVerifyMode") or raw.get("type") or "").strip()
+        if not verify or "face" in verify.lower():
+            auth_type = "ACSEventFaceVerifyPass"
+        else:
+            auth_type = verify[:50]
+        card_no = str(raw.get("cardNo") or "").strip()
+        reader = str(
+            raw.get("cardReaderName")
+            or raw.get("readerName")
+            or raw.get("doorName")
+            or "Cardreader 01"
+        ).strip() or "Cardreader 01"
+        device_no = str(
+            dev.get("device_serial")
+            or raw.get("serialNumber")
+            or raw.get("deviceSerialNo")
+            or ""
+        ).strip()
+    else:
+        direction = direction_ui[:50]
+        dt_s = punch.strftime("%Y-%m-%d %H:%M:%S")
+        date_s = punch.strftime("%Y-%m-%d")
+        auth_result = auth_result_label(minor)[:50]
+        auth_type = (str(raw.get("currentVerifyMode") or "")[:50] or None)
+        card_no = str(raw.get("cardNo") or "").strip()
+        reader = None
+        device_no = None
     return {
         "ID": emp[:50],
         "datetime": dt_s,
-        "date": punch.strftime("%Y-%m-%d"),
+        "date": date_s,
         "time": punch.strftime("%H:%M:%S"),
-        "authenticationresult": auth_result_label(minor)[:50],
-        "authenticationtype": (str(raw.get("currentVerifyMode") or "")[:50] or None),
+        "authenticationresult": auth_result,
+        "authenticationtype": auth_type,
         "device": device_label,
+        "deviceno": (device_no[:50] if device_no else None),
+        "readername": (reader[:50] if reader else None),
         "firstname": first,
         "lastname": last,
         "personname": (person[:50] if person else None),
         "persongroup": None,
+        "cardno": (card_no[:50] if card_no else None),
         "direction": direction[:50],
         "DeviceIP": dev["ip"],
         "SerialNo": serial,
@@ -304,6 +378,7 @@ def connect_sql(
     database: str | None = None,
     *,
     autocommit: bool = False,
+    timeout: int = 10,
 ) -> pyodbc.Connection:
     drivers = [sql.get("driver") or "ODBC Driver 18 for SQL Server", "ODBC Driver 17 for SQL Server"]
     installed = {d for d in pyodbc.drivers()}
@@ -321,7 +396,7 @@ def connect_sql(
             "Encrypt=yes;TrustServerCertificate=yes;"
         )
         try:
-            return pyodbc.connect(conn_str, timeout=10, autocommit=autocommit)
+            return pyodbc.connect(conn_str, timeout=max(1, int(timeout)), autocommit=autocommit)
         except pyodbc.Error as exc:
             last_err = exc
     raise RuntimeError(
@@ -329,26 +404,51 @@ def connect_sql(
     )
 
 
+def punch_table_name(sql: dict[str, Any]) -> str:
+    """Punch/events table used by the collector (AccessEvents or legacy atteninfo)."""
+    name = str(sql.get("punch_table") or "").strip()
+    if not name:
+        # Existing Peak ACS installs keep punches in master.dbo.atteninfo
+        if str(sql.get("database") or "").strip().lower() == "master":
+            name = "atteninfo"
+        else:
+            name = "AccessEvents"
+    if not all(c.isalnum() or c == "_" for c in name):
+        raise ValueError(f"Invalid punch table name: {name}")
+    return name
+
+
+def uses_legacy_atteninfo(sql: dict[str, Any]) -> bool:
+    return punch_table_name(sql).lower() == "atteninfo"
+
+
 def ensure_atteninfo_database(sql: dict[str, Any]) -> list[str]:
-    """Create atteninfo + tables/indexes/seeds if missing. Returns status messages."""
+    """Create target database (unless system DB) + app tables. Returns status messages."""
     db_name = (sql.get("database") or "atteninfo").strip() or "atteninfo"
     # Only allow simple identifiers
     if not all(c.isalnum() or c == "_" for c in db_name):
         raise ValueError(f"Invalid database name: {db_name}")
 
     notes: list[str] = []
-    master = connect_sql(sql, database="master", autocommit=True)
-    try:
-        cur = master.cursor()
-        cur.execute("SELECT DB_ID(?)", db_name)
-        row = cur.fetchone()
-        if row is None or row[0] is None:
-            cur.execute(f"CREATE DATABASE [{db_name}]")
-            notes.append(f"Created database [{db_name}].")
-        else:
-            notes.append(f"Database [{db_name}] already exists.")
-    finally:
-        master.close()
+    system_dbs = {"master", "model", "msdb", "tempdb"}
+    if db_name.lower() not in system_dbs:
+        master = connect_sql(sql, database="master", autocommit=True)
+        try:
+            cur = master.cursor()
+            cur.execute("SELECT DB_ID(?)", db_name)
+            row = cur.fetchone()
+            if row is None or row[0] is None:
+                cur.execute(f"CREATE DATABASE [{db_name}]")
+                notes.append(f"Created database [{db_name}].")
+            else:
+                notes.append(f"Database [{db_name}] already exists.")
+        finally:
+            master.close()
+    else:
+        notes.append(f"Using system database [{db_name}] (no CREATE DATABASE).")
+
+    punch = punch_table_name(sql)
+    notes.append(f"Punch table: dbo.{punch}")
 
     conn = connect_sql(sql, database=db_name, autocommit=True)
     try:
@@ -356,10 +456,13 @@ def ensure_atteninfo_database(sql: dict[str, Any]) -> list[str]:
         cur.execute("SET QUOTED_IDENTIFIER ON")
         cur.execute("SET ANSI_NULLS ON")
 
-        statements = [
-            (
-                "AccessEvents",
-                """
+        statements: list[tuple[str, str]] = []
+        # Only create AccessEvents when that is the configured punch table
+        if punch.lower() == "accessevents":
+            statements.append(
+                (
+                    "AccessEvents",
+                    """
                 IF OBJECT_ID(N'dbo.AccessEvents', N'U') IS NULL
                 BEGIN
                     CREATE TABLE dbo.AccessEvents (
@@ -384,10 +487,12 @@ def ensure_atteninfo_database(sql: dict[str, Any]) -> list[str]:
                     );
                 END
                 """,
-            ),
-            (
-                "UX_AccessEvents_DeviceSerial",
-                """
+                )
+            )
+            statements.append(
+                (
+                    "UX_AccessEvents_DeviceSerial",
+                    """
                 IF NOT EXISTS (
                     SELECT 1 FROM sys.indexes
                     WHERE name = N'UX_AccessEvents_DeviceSerial'
@@ -399,10 +504,12 @@ def ensure_atteninfo_database(sql: dict[str, Any]) -> list[str]:
                         WHERE SerialNo IS NOT NULL;
                 END
                 """,
-            ),
-            (
-                "UX_AccessEvents_Punch",
-                """
+                )
+            )
+            statements.append(
+                (
+                    "UX_AccessEvents_Punch",
+                    """
                 IF NOT EXISTS (
                     SELECT 1 FROM sys.indexes
                     WHERE name = N'UX_AccessEvents_Punch'
@@ -413,7 +520,20 @@ def ensure_atteninfo_database(sql: dict[str, Any]) -> list[str]:
                         ON dbo.AccessEvents (ID, [datetime], direction, device);
                 END
                 """,
-            ),
+                )
+            )
+        else:
+            # Legacy master.dbo.atteninfo — leave existing table/data untouched
+            cur.execute("SELECT OBJECT_ID(N'dbo.atteninfo', N'U')")
+            if cur.fetchone()[0] is None:
+                raise RuntimeError(
+                    "Configured punch table dbo.atteninfo was not found in this database.\n"
+                    "Create it first, or set Database=atteninfo and Punch table=AccessEvents."
+                )
+            notes.append("OK: atteninfo (existing — not modified)")
+
+        statements.extend(
+            [
             (
                 "CollectorState",
                 """
@@ -496,6 +616,8 @@ def ensure_atteninfo_database(sql: dict[str, Any]) -> list[str]:
                     INSERT INTO dbo.AppConfig (ConfigKey, ConfigValue) VALUES (N'FirstLookbackHours', N'24');
                 IF NOT EXISTS (SELECT 1 FROM dbo.AppConfig WHERE ConfigKey = N'TimeoutSeconds')
                     INSERT INTO dbo.AppConfig (ConfigKey, ConfigValue) VALUES (N'TimeoutSeconds', N'20');
+                IF NOT EXISTS (SELECT 1 FROM dbo.AppConfig WHERE ConfigKey = N'CollectorEnabled')
+                    INSERT INTO dbo.AppConfig (ConfigKey, ConfigValue) VALUES (N'CollectorEnabled', N'0');
                 """,
             ),
             (
@@ -507,6 +629,8 @@ def ensure_atteninfo_database(sql: dict[str, Any]) -> list[str]:
                         EmployeeNo      VARCHAR(32)    NOT NULL
                             CONSTRAINT PK_Employees PRIMARY KEY,
                         Name            NVARCHAR(128)  NOT NULL,
+                        FirstName       NVARCHAR(64)   NULL,
+                        LastName        NVARCHAR(64)   NULL,
                         Gender          VARCHAR(16)    NULL,
                         UserType        VARCHAR(32)    NULL,
                         CardNo          VARCHAR(64)    NULL,
@@ -547,7 +671,8 @@ def ensure_atteninfo_database(sql: dict[str, Any]) -> list[str]:
                 END
                 """,
             ),
-        ]
+            ]
+        )
 
         for label, sql_text in statements:
             cur.execute(sql_text)
@@ -615,7 +740,27 @@ def load_runtime_config(appsettings_path: Path = APPSETTINGS) -> dict[str, Any]:
         "timeout_seconds": int(app_cfg.get("TimeoutSeconds") or 20),
         "sync_interval_minutes": int(app_cfg.get("SyncIntervalMinutes") or 1),
     }
-    return {"sql": sql, "devices": devices, "poll": poll, "app_cfg": app_cfg}
+    enabled = False
+    if "CollectorEnabled" in app_cfg:
+        enabled = str(app_cfg.get("CollectorEnabled") or "0").strip().lower() in {
+            "1",
+            "true",
+            "yes",
+            "on",
+        }
+    elif "collector_enabled" in boot:
+        enabled = bool(boot.get("collector_enabled"))
+    return {
+        "sql": sql,
+        "devices": devices,
+        "poll": poll,
+        "app_cfg": app_cfg,
+        "collector_enabled": enabled,
+    }
+
+
+def is_collector_enabled(cfg: dict[str, Any]) -> bool:
+    return bool(cfg.get("collector_enabled"))
 
 
 def load_watermark(cur: pyodbc.Cursor, device_ip: str) -> datetime | None:
@@ -671,35 +816,89 @@ def save_watermark(
     )
 
 
-def insert_rows(cur: pyodbc.Cursor, rows: list[dict[str, Any]]) -> int:
+def insert_rows(
+    cur: pyodbc.Cursor,
+    rows: list[dict[str, Any]],
+    *,
+    punch_table: str = "AccessEvents",
+) -> int:
     inserted = 0
-    sql = """
-        INSERT INTO dbo.AccessEvents (
+    table = punch_table_name({"punch_table": punch_table})
+    legacy = table.lower() == "atteninfo"
+    if legacy:
+        sql = f"""
+        INSERT INTO dbo.[{table}] (
+            ID, [datetime], [date], [time],
+            authenticationresult, authenticationtype, device,
+            deviceno, readername,
+            firstname, lastname, personname, persongroup, cardno, direction
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+        """
+        # Soft de-dupe (legacy table has no unique index)
+        exists_sql = f"""
+        SELECT TOP 1 1 FROM dbo.[{table}]
+        WHERE ID = ? AND [datetime] = ? AND direction = ? AND device = ?
+        """
+    else:
+        sql = f"""
+        INSERT INTO dbo.[{table}] (
             ID, [datetime], [date], [time],
             authenticationresult, authenticationtype, device,
             firstname, lastname, personname, persongroup, direction,
             DeviceIP, SerialNo
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
-    """
+        """
+        exists_sql = None
+
     for row in rows:
         try:
-            cur.execute(
-                sql,
-                row["ID"],
-                row["datetime"],
-                row["date"],
-                row["time"],
-                row["authenticationresult"],
-                row["authenticationtype"],
-                row["device"],
-                row["firstname"],
-                row["lastname"],
-                row["personname"],
-                row["persongroup"],
-                row["direction"],
-                row["DeviceIP"],
-                row["SerialNo"],
-            )
+            if exists_sql is not None:
+                cur.execute(
+                    exists_sql,
+                    row["ID"],
+                    row["datetime"],
+                    row["direction"],
+                    row["device"],
+                )
+                if cur.fetchone():
+                    continue
+            if legacy:
+                cur.execute(
+                    sql,
+                    row["ID"],
+                    row["datetime"],
+                    row["date"],
+                    row["time"],
+                    row["authenticationresult"],
+                    row["authenticationtype"],
+                    row["device"],
+                    row.get("deviceno"),
+                    row.get("readername"),
+                    row["firstname"],
+                    row["lastname"],
+                    row["personname"],
+                    row["persongroup"],
+                    row.get("cardno"),
+                    row["direction"],
+                )
+            else:
+                cur.execute(
+                    sql,
+                    row["ID"],
+                    row["datetime"],
+                    row["date"],
+                    row["time"],
+                    row["authenticationresult"],
+                    row["authenticationtype"],
+                    row["device"],
+                    row["firstname"],
+                    row["lastname"],
+                    row["personname"],
+                    row["persongroup"],
+                    row["direction"],
+                    row["DeviceIP"],
+                    row["SerialNo"],
+                )
             inserted += 1
         except pyodbc.IntegrityError:
             continue
@@ -765,7 +964,21 @@ def collect_device(
     )
     try:
         raw_events = hik.search_events(start, end, max_results)
-        rows = [r for r in (normalize_event(e, dev) for e in raw_events) if r]
+        legacy = uses_legacy_atteninfo(cfg.get("sql") or {})
+        punch = punch_table_name(cfg.get("sql") or {})
+        if legacy:
+            # Populate atteninfo.deviceno from the terminal serial (e.g. FF6135365)
+            serial_txt = hik.device_serial()
+            if serial_txt:
+                dev = dict(dev)
+                dev["device_serial"] = serial_txt
+        rows = [
+            r
+            for r in (
+                normalize_event(e, dev, legacy_atteninfo=legacy) for e in raw_events
+            )
+            if r
+        ]
         result["events"] = len(raw_events)
         result["punches"] = len(rows)
         LOG.info("%s: %s device events, %s punches after filter", ip, len(raw_events), len(rows))
@@ -784,7 +997,7 @@ def collect_device(
             result["detail"] = f"Dry-run OK — {len(rows)} punch(es) (not written)."
             return result
         assert cur is not None and conn is not None
-        added = insert_rows(cur, rows)
+        added = insert_rows(cur, rows, punch_table=punch)
         result["inserted"] = added
         last_event = max((r["LogTime"] for r in rows), default=None)
         last_serial = None
@@ -989,6 +1202,13 @@ def main() -> int:
         return 2
     if args.probe:
         return 1 if probe_all(cfg) else 0
+    if not is_collector_enabled(cfg) and not args.dry_run:
+        LOG.info(
+            "Collector disabled (CollectorEnabled=0) — skipping punch write. "
+            "Enable in Peak Energy Biometrics UI when ready."
+        )
+        _console_print("Collector disabled — no punches written.")
+        return 0
     ignore_watermark = False
     if args.since_hours:
         cfg.setdefault("poll", {})

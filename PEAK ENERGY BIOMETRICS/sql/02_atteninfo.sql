@@ -146,6 +146,8 @@ BEGIN
         EmployeeNo      VARCHAR(32)    NOT NULL
             CONSTRAINT PK_Employees PRIMARY KEY,
         Name            NVARCHAR(128)  NOT NULL,
+        FirstName       NVARCHAR(64)   NULL,
+        LastName        NVARCHAR(64)   NULL,
         Gender          VARCHAR(16)    NULL,
         UserType        VARCHAR(32)    NULL,
         CardNo          VARCHAR(64)    NULL,
@@ -164,6 +166,13 @@ BEGIN
             CONSTRAINT DF_Employees_UpdatedAt DEFAULT (SYSUTCDATETIME())
     );
 END;
+GO
+
+IF COL_LENGTH(N'dbo.Employees', N'FirstName') IS NULL
+    ALTER TABLE dbo.Employees ADD FirstName NVARCHAR(64) NULL;
+GO
+IF COL_LENGTH(N'dbo.Employees', N'LastName') IS NULL
+    ALTER TABLE dbo.Employees ADD LastName NVARCHAR(64) NULL;
 GO
 
 IF OBJECT_ID(N'dbo.EmployeeDeviceSync', N'U') IS NULL

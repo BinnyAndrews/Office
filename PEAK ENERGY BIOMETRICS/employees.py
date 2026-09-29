@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Employee master (SQL) + Hikvision UserInfo / face sync for Peak Attendance."""
+"""Employee master (SQL) + Hikvision UserInfo / face sync for Peak Energy Biometrics."""
 
 from __future__ import annotations
 
@@ -163,7 +163,7 @@ def _devices(cfg: dict[str, Any]) -> list[dict[str, Any]]:
 
 
 def ensure_employee_tables(cur: pyodbc.Cursor) -> list[str]:
-    """Create Employees + EmployeeDeviceSync if missing. Returns status notes."""
+    """Create Employees + EmployeeDeviceSync if missing; add FirstName/LastName if needed."""
     notes: list[str] = []
     statements = [
         (
@@ -175,6 +175,8 @@ def ensure_employee_tables(cur: pyodbc.Cursor) -> list[str]:
                     EmployeeNo      VARCHAR(32)    NOT NULL
                         CONSTRAINT PK_Employees PRIMARY KEY,
                     Name            NVARCHAR(128)  NOT NULL,
+                    FirstName       NVARCHAR(64)   NULL,
+                    LastName        NVARCHAR(64)   NULL,
                     Gender          VARCHAR(16)    NULL,
                     UserType        VARCHAR(32)    NULL,
                     CardNo          VARCHAR(64)    NULL,
@@ -219,7 +221,80 @@ def ensure_employee_tables(cur: pyodbc.Cursor) -> list[str]:
     for label, sql_text in statements:
         cur.execute(sql_text)
         notes.append(f"OK: {label}")
+
+    # Existing DBs: add columns without touching AccessEvents
+    cur.execute(
+        """
+        IF OBJECT_ID(N'dbo.Employees', N'U') IS NOT NULL
+           AND COL_LENGTH(N'dbo.Employees', N'FirstName') IS NULL
+            ALTER TABLE dbo.Employees ADD FirstName NVARCHAR(64) NULL;
+        """
+    )
+    cur.execute(
+        """
+        IF OBJECT_ID(N'dbo.Employees', N'U') IS NOT NULL
+           AND COL_LENGTH(N'dbo.Employees', N'LastName') IS NULL
+            ALTER TABLE dbo.Employees ADD LastName NVARCHAR(64) NULL;
+        """
+    )
+    # Backfill from existing Name where first/last still empty
+    cur.execute(
+        """
+        UPDATE dbo.Employees
+        SET
+            FirstName = CASE
+                WHEN CHARINDEX(N' ', LTRIM(RTRIM(Name))) > 0
+                    THEN LEFT(LTRIM(RTRIM(Name)), CHARINDEX(N' ', LTRIM(RTRIM(Name))) - 1)
+                ELSE LTRIM(RTRIM(Name))
+            END,
+            LastName = CASE
+                WHEN CHARINDEX(N' ', LTRIM(RTRIM(Name))) > 0
+                    THEN LTRIM(SUBSTRING(
+                        LTRIM(RTRIM(Name)),
+                        CHARINDEX(N' ', LTRIM(RTRIM(Name))) + 1,
+                        128
+                    ))
+                ELSE NULL
+            END
+        WHERE (FirstName IS NULL OR FirstName = N'')
+          AND (LastName IS NULL OR LastName = N'')
+          AND Name IS NOT NULL
+          AND LTRIM(RTRIM(Name)) <> N'';
+        """
+    )
+    notes.append("OK: Employees.FirstName/LastName")
     return notes
+
+
+def split_person_name(full: str | None) -> tuple[str, str]:
+    """Split a display name into (first, last). Last may be empty."""
+    text = (full or "").strip()
+    if not text:
+        return "", ""
+    parts = text.split(None, 1)
+    if len(parts) == 1:
+        return parts[0], ""
+    return parts[0], parts[1]
+
+
+def combine_person_name(first: str | None, last: str | None, fallback: str = "") -> str:
+    """Build Hikvision/display Name from first + last."""
+    combined = f"{(first or '').strip()} {(last or '').strip()}".strip()
+    return combined or (fallback or "").strip()
+
+
+def ensure_name_fields(emp: dict[str, Any]) -> dict[str, Any]:
+    """Ensure FirstName, LastName, and Name are consistent on an employee dict."""
+    first = str(emp.get("FirstName") or "").strip()
+    last = str(emp.get("LastName") or "").strip()
+    name = str(emp.get("Name") or "").strip()
+    if not first and not last and name:
+        first, last = split_person_name(name)
+    name = combine_person_name(first, last, name)
+    emp["FirstName"] = first or None
+    emp["LastName"] = last or None
+    emp["Name"] = name
+    return emp
 
 
 # --- Hikvision UserInfo / face -------------------------------------------------
@@ -316,9 +391,13 @@ def _normalize_user(raw: dict[str, Any], device_key: str) -> dict[str, Any]:
             card = cards.get("cardNo")
         elif isinstance(cards, list) and cards:
             card = (cards[0] or {}).get("cardNo")
+    full_name = str(raw.get("name") or emp or "").strip() or emp
+    first, last = split_person_name(full_name)
     return {
         "EmployeeNo": emp,
-        "Name": str(raw.get("name") or emp or "").strip() or emp,
+        "Name": full_name,
+        "FirstName": first or None,
+        "LastName": last or None,
         "Gender": (str(raw.get("gender") or "").strip() or None),
         "UserType": (str(raw.get("userType") or "normal").strip() or "normal"),
         "CardNo": (str(card).strip() if card else None),
@@ -465,7 +544,7 @@ def _userinfo_payload(emp: dict[str, Any]) -> dict[str, Any]:
     # Disable: keep blacklist if already set; otherwise Valid.enable=false is enough
     info: dict[str, Any] = {
         "employeeNo": emp["EmployeeNo"],
-        "name": emp["Name"],
+        "name": ensure_name_fields(dict(emp))["Name"],
         "userType": user_type,
         "Valid": {
             "enable": enabled,
@@ -710,7 +789,7 @@ def list_employees(sql: dict[str, Any]) -> list[dict[str, Any]]:
         cur = conn.cursor()
         cur.execute(
             """
-            SELECT e.EmployeeNo, e.Name, e.Gender, e.UserType, e.CardNo,
+            SELECT e.EmployeeNo, e.Name, e.FirstName, e.LastName, e.Gender, e.UserType, e.CardNo,
                    e.ValidEnabled, e.ValidFrom, e.ValidTo, e.HasFace, e.Notes,
                    e.SourceDevices, e.UpdatedAt,
                    CASE WHEN e.FaceImage IS NULL THEN 0 ELSE 1 END AS HasImageBytes
@@ -741,7 +820,7 @@ def get_employee(sql: dict[str, Any], employee_no: str) -> dict[str, Any] | None
         cur = conn.cursor()
         cur.execute(
             """
-            SELECT EmployeeNo, Name, Gender, UserType, CardNo, ValidEnabled,
+            SELECT EmployeeNo, Name, FirstName, LastName, Gender, UserType, CardNo, ValidEnabled,
                    ValidFrom, ValidTo, FaceImage, HasFace, Notes, SourceDevices, UpdatedAt
             FROM dbo.Employees WHERE EmployeeNo = ?
             """,
@@ -758,11 +837,14 @@ def get_employee(sql: dict[str, Any], employee_no: str) -> dict[str, Any] | None
 
 def save_employee_sql(sql: dict[str, Any], emp: dict[str, Any], face: bytes | None = None) -> None:
     """Upsert employee. face=None leaves image unchanged; face=b'' clears it."""
+    emp = ensure_name_fields(dict(emp))
     conn = col.connect_sql(sql)
     try:
         cur = conn.cursor()
         no = emp["EmployeeNo"]
         name = emp["Name"]
+        first = emp.get("FirstName")
+        last = emp.get("LastName")
         gender = emp.get("Gender")
         user_type = emp.get("UserType") or "normal"
         card = emp.get("CardNo")
@@ -779,17 +861,19 @@ def save_employee_sql(sql: dict[str, Any], emp: dict[str, Any], face: bytes | No
                 MERGE dbo.Employees AS t
                 USING (SELECT ? AS EmployeeNo) AS s ON t.EmployeeNo = s.EmployeeNo
                 WHEN MATCHED THEN UPDATE SET
-                    Name=?, Gender=?, UserType=?, CardNo=?, ValidEnabled=?,
+                    Name=?, FirstName=?, LastName=?, Gender=?, UserType=?, CardNo=?, ValidEnabled=?,
                     ValidFrom=?, ValidTo=?, Notes=?,
                     SourceDevices=COALESCE(?, t.SourceDevices),
                     UpdatedAt=SYSUTCDATETIME()
                 WHEN NOT MATCHED THEN INSERT
-                    (EmployeeNo, Name, Gender, UserType, CardNo, ValidEnabled,
+                    (EmployeeNo, Name, FirstName, LastName, Gender, UserType, CardNo, ValidEnabled,
                      ValidFrom, ValidTo, FaceImage, HasFace, Notes, SourceDevices)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, NULL, 0, ?, ?);
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL, 0, ?, ?);
                 """,
                 no,
                 name,
+                first,
+                last,
                 gender,
                 user_type,
                 card,
@@ -800,6 +884,8 @@ def save_employee_sql(sql: dict[str, Any], emp: dict[str, Any], face: bytes | No
                 sources,
                 no,
                 name,
+                first,
+                last,
                 gender,
                 user_type,
                 card,
@@ -817,17 +903,19 @@ def save_employee_sql(sql: dict[str, Any], emp: dict[str, Any], face: bytes | No
                 MERGE dbo.Employees AS t
                 USING (SELECT ? AS EmployeeNo) AS s ON t.EmployeeNo = s.EmployeeNo
                 WHEN MATCHED THEN UPDATE SET
-                    Name=?, Gender=?, UserType=?, CardNo=?, ValidEnabled=?,
+                    Name=?, FirstName=?, LastName=?, Gender=?, UserType=?, CardNo=?, ValidEnabled=?,
                     ValidFrom=?, ValidTo=?, FaceImage=?, HasFace=?, Notes=?,
                     SourceDevices=COALESCE(?, t.SourceDevices),
                     UpdatedAt=SYSUTCDATETIME()
                 WHEN NOT MATCHED THEN INSERT
-                    (EmployeeNo, Name, Gender, UserType, CardNo, ValidEnabled,
+                    (EmployeeNo, Name, FirstName, LastName, Gender, UserType, CardNo, ValidEnabled,
                      ValidFrom, ValidTo, FaceImage, HasFace, Notes, SourceDevices)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
                 """,
                 no,
                 name,
+                first,
+                last,
                 gender,
                 user_type,
                 card,
@@ -840,6 +928,8 @@ def save_employee_sql(sql: dict[str, Any], emp: dict[str, Any], face: bytes | No
                 sources,
                 no,
                 name,
+                first,
+                last,
                 gender,
                 user_type,
                 card,
@@ -969,7 +1059,7 @@ def pull_from_devices(cfg: dict[str, Any]) -> dict[str, Any]:
                 else:
                     existing["_devices"].add(key)
                     # Prefer non-empty fields from either side
-                    for fld in ("Name", "Gender", "UserType", "CardNo", "ValidFrom", "ValidTo"):
+                    for fld in ("Name", "FirstName", "LastName", "Gender", "UserType", "CardNo", "ValidFrom", "ValidTo"):
                         if not existing.get(fld) and norm.get(fld):
                             existing[fld] = norm[fld]
                     # Disabled on any device wins (do not OR-merge to True)
