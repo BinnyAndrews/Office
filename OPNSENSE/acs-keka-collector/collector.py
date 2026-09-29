@@ -84,9 +84,24 @@ def fmt_hik_time(dt: datetime) -> str:
     return dt.replace(microsecond=0).strftime("%Y-%m-%dT%H:%M:%S%z").replace("+0530", "+05:30")
 
 
+def resolve_device_port(dev: dict[str, Any]) -> int:
+    """Effective HTTP(S) port. HTTPS + port 80 (left at HTTP default) → 443."""
+    https = bool(dev.get("https"))
+    try:
+        port = int(dev.get("port") or (443 if https else 80))
+    except (TypeError, ValueError):
+        port = 443 if https else 80
+    if https and port == 80:
+        return 443
+    if (not https) and port == 443:
+        return 80
+    return port
+
+
 def device_base(dev: dict[str, Any]) -> str:
     scheme = "https" if dev.get("https") else "http"
-    return f"{scheme}://{dev['ip']}:{int(dev.get('port') or 80)}"
+    port = resolve_device_port(dev)
+    return f"{scheme}://{dev['ip']}:{port}"
 
 
 def local_tag(tag: str) -> str:
@@ -483,6 +498,55 @@ def ensure_atteninfo_database(sql: dict[str, Any]) -> list[str]:
                     INSERT INTO dbo.AppConfig (ConfigKey, ConfigValue) VALUES (N'TimeoutSeconds', N'20');
                 """,
             ),
+            (
+                "Employees",
+                """
+                IF OBJECT_ID(N'dbo.Employees', N'U') IS NULL
+                BEGIN
+                    CREATE TABLE dbo.Employees (
+                        EmployeeNo      VARCHAR(32)    NOT NULL
+                            CONSTRAINT PK_Employees PRIMARY KEY,
+                        Name            NVARCHAR(128)  NOT NULL,
+                        Gender          VARCHAR(16)    NULL,
+                        UserType        VARCHAR(32)    NULL,
+                        CardNo          VARCHAR(64)    NULL,
+                        ValidEnabled    BIT            NOT NULL
+                            CONSTRAINT DF_Employees_ValidEnabled DEFAULT (1),
+                        ValidFrom       DATETIME2(0)   NULL,
+                        ValidTo         DATETIME2(0)   NULL,
+                        FaceImage       VARBINARY(MAX) NULL,
+                        HasFace         BIT            NOT NULL
+                            CONSTRAINT DF_Employees_HasFace DEFAULT (0),
+                        Notes           NVARCHAR(256)  NULL,
+                        SourceDevices   NVARCHAR(64)   NULL,
+                        CreatedAt       DATETIME2(0)   NOT NULL
+                            CONSTRAINT DF_Employees_CreatedAt DEFAULT (SYSUTCDATETIME()),
+                        UpdatedAt       DATETIME2(0)   NOT NULL
+                            CONSTRAINT DF_Employees_UpdatedAt DEFAULT (SYSUTCDATETIME())
+                    );
+                END
+                """,
+            ),
+            (
+                "EmployeeDeviceSync",
+                """
+                IF OBJECT_ID(N'dbo.EmployeeDeviceSync', N'U') IS NULL
+                BEGIN
+                    CREATE TABLE dbo.EmployeeDeviceSync (
+                        EmployeeNo   VARCHAR(32)   NOT NULL,
+                        DeviceKey    VARCHAR(32)   NOT NULL,
+                        LastSyncUtc  DATETIME2(0)  NULL,
+                        Status       VARCHAR(32)   NOT NULL
+                            CONSTRAINT DF_EmployeeDeviceSync_Status DEFAULT (N'Pending'),
+                        Error        NVARCHAR(400) NULL,
+                        CONSTRAINT PK_EmployeeDeviceSync PRIMARY KEY (EmployeeNo, DeviceKey),
+                        CONSTRAINT FK_EmployeeDeviceSync_Employees
+                            FOREIGN KEY (EmployeeNo) REFERENCES dbo.Employees(EmployeeNo)
+                            ON DELETE CASCADE
+                    );
+                END
+                """,
+            ),
         ]
 
         for label, sql_text in statements:
@@ -787,7 +851,10 @@ def classify_device_error(exc: BaseException) -> tuple[str, str]:
             return "connectivity", "Connectivity failed — connection refused (wrong IP/port or device offline)."
         if "timed out" in text or "timeout" in text:
             return "connectivity", "Connectivity failed — network timeout (VPN/LAN or wrong IP)."
-        return "connectivity", f"Connectivity failed — {exc}"
+        # Avoid dumping raw urllib3 pool text to users
+        if "max retries" in text or "httpconnectionpool" in text:
+            return "connectivity", "Connectivity failed — device unreachable (check IP, port, VPN/LAN)."
+        return "connectivity", "Connectivity failed — could not connect to the device."
     if isinstance(exc, requests.exceptions.HTTPError):
         resp = getattr(exc, "response", None)
         code = getattr(resp, "status_code", None)
@@ -795,6 +862,9 @@ def classify_device_error(exc: BaseException) -> tuple[str, str]:
             return "password", "Wrong username/password, or device temporarily locked after failed logins."
         if code == 403:
             return "password", "Access forbidden (HTTP 403) — check user permissions on the device."
+        hik_detail = _hik_http_detail(resp)
+        if hik_detail:
+            return "http", f"HTTP {code}: {hik_detail}"
         return "http", f"HTTP error {code}: {exc}"
     msg = str(exc)
     low = msg.lower()
@@ -805,6 +875,38 @@ def classify_device_error(exc: BaseException) -> tuple[str, str]:
     if "refused" in low or "unreachable" in low:
         return "connectivity", "Connectivity failed — device unreachable."
     return "other", msg
+
+
+def _hik_http_detail(resp: Any) -> str:
+    """Pull statusString / subStatusCode from Hikvision JSON error body."""
+    if resp is None:
+        return ""
+    try:
+        data = resp.json()
+    except Exception:
+        text = (getattr(resp, "text", None) or "")[:200].strip()
+        return text
+    if not isinstance(data, dict):
+        return ""
+    status = (
+        data.get("statusString")
+        or data.get("statusMsg")
+        or data.get("errorMsg")
+        or data.get("message")
+        or ""
+    )
+    sub = data.get("subStatusCode") or data.get("errorCode") or data.get("statusCode") or ""
+    hints = {
+        "lowScoreFacePic": "face photo quality too low — use a clearer frontal JPEG ≥ 640×480",
+        "noFacePic": "no face detected in photo — use a clear frontal face crop",
+        "faceExist": "face already exists — retry (app now deletes old face first)",
+        "deviceBusy": "device busy — wait and retry",
+        "invalidOperation": "invalid face operation on device",
+    }
+    sub_s = str(sub)
+    hint = hints.get(sub_s, "")
+    parts = [p for p in (str(status).strip(), sub_s, hint) if p]
+    return " — ".join(parts) if parts else ""
 
 
 def probe_devices(cfg: dict[str, Any]) -> list[dict[str, Any]]:

@@ -10,6 +10,8 @@ datas = [
     ("sql/02_atteninfo.sql", "sql"),
     ("docs/Peak-Attendance.md", "docs"),
     ("docs/Database-Schema.md", "docs"),
+    ("PeakEnergyLogo.png", "."),
+    ("PeakAttendance.ico", "."),
 ]
 
 hiddenimports = [
@@ -18,13 +20,25 @@ hiddenimports = [
     "PIL",
     "PIL.Image",
     "PIL.ImageDraw",
+    "PIL.ImageTk",
+    "tkcalendar",
+    "babel",
+    "babel.numbers",
     "collector",
+    "employees",
+    "employees_ui",
     "ui_app",
     "paths",
 ]
 
 # Ensure pystray / pillow extras are bundled
 tmp_ret = collect_all("pystray")
+datas += tmp_ret[0]
+hiddenimports += tmp_ret[1]
+tmp_ret = collect_all("tkcalendar")
+datas += tmp_ret[0]
+hiddenimports += tmp_ret[1]
+tmp_ret = collect_all("babel")
 datas += tmp_ret[0]
 hiddenimports += tmp_ret[1]
 
@@ -66,4 +80,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
+    icon="PeakAttendance.ico",
 )

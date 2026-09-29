@@ -184,3 +184,34 @@ Other string sizes used by the app:
 | `ConfigKey` | AppConfig | `VARCHAR(64)` |
 | `ConfigValue` | AppConfig | `NVARCHAR(512)` |
 | `LastError` | CollectorState | `NVARCHAR(400)` |
+
+---
+
+## 6. `dbo.Employees` — person master (SQL source of truth)
+
+Pulled from Entry/Exit Hikvision readers and editable in the **Employees** UI. Create/Edit/Delete is pushed to **both** devices.
+
+| Column | Type | Description |
+|---|---|---|
+| `EmployeeNo` | `VARCHAR(32)` PK | Same ID used in `AccessEvents.ID` |
+| `Name` | `NVARCHAR(128)` | Display name |
+| `Gender` | `VARCHAR(16)` | Optional |
+| `UserType` | `VARCHAR(32)` | e.g. `normal` |
+| `CardNo` | `VARCHAR(64)` | Optional card |
+| `ValidEnabled` | `BIT` | Access enabled |
+| `ValidFrom` / `ValidTo` | `DATETIME2(0)` | Validity window |
+| `FaceImage` | `VARBINARY(MAX)` | JPEG face photo (max 200 KB; see face photo limits in Peak-Attendance.md) |
+| `HasFace` | `BIT` | Photo / enroll present |
+| `Notes` | `NVARCHAR(256)` | Optional |
+| `SourceDevices` | `NVARCHAR(64)` | e.g. `entry,exit` from last pull |
+| `CreatedAt` / `UpdatedAt` | `DATETIME2(0)` | UTC |
+
+## 7. `dbo.EmployeeDeviceSync` — per-device sync status
+
+| Column | Type | Description |
+|---|---|---|
+| `EmployeeNo` + `DeviceKey` | PK | Links to Employees / DeviceConfig |
+| `LastSyncUtc` | `DATETIME2(0)` | Last push/pull touch |
+| `Status` | `VARCHAR(32)` | `OK`, `Missing`, `Error`, `Partial`, `Pending` |
+| `Error` | `NVARCHAR(400)` | Last error text |
+

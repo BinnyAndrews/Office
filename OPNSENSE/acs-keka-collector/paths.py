@@ -18,3 +18,21 @@ def resource_dir() -> Path:
     if getattr(sys, "frozen", False):
         return Path(getattr(sys, "_MEIPASS"))
     return Path(__file__).resolve().parent
+
+
+def logo_png_path() -> Path | None:
+    """Peak Energy logo PNG for window/tray icons."""
+    for base in (resource_dir(), app_dir()):
+        path = base / "PeakEnergyLogo.png"
+        if path.exists():
+            return path
+    return None
+
+
+def logo_ico_path() -> Path | None:
+    """Windows .ico used for exe / window iconbitmap."""
+    for base in (resource_dir(), app_dir()):
+        path = base / "PeakAttendance.ico"
+        if path.exists():
+            return path
+    return None

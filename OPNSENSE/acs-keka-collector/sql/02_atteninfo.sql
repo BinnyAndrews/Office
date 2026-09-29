@@ -139,5 +139,49 @@ IF NOT EXISTS (SELECT 1 FROM dbo.AppConfig WHERE ConfigKey = N'TimeoutSeconds')
     INSERT INTO dbo.AppConfig (ConfigKey, ConfigValue) VALUES (N'TimeoutSeconds', N'20');
 GO
 
+/* Employee master (SQL source of truth) + per-device sync status */
+IF OBJECT_ID(N'dbo.Employees', N'U') IS NULL
+BEGIN
+    CREATE TABLE dbo.Employees (
+        EmployeeNo      VARCHAR(32)    NOT NULL
+            CONSTRAINT PK_Employees PRIMARY KEY,
+        Name            NVARCHAR(128)  NOT NULL,
+        Gender          VARCHAR(16)    NULL,
+        UserType        VARCHAR(32)    NULL,
+        CardNo          VARCHAR(64)    NULL,
+        ValidEnabled    BIT            NOT NULL
+            CONSTRAINT DF_Employees_ValidEnabled DEFAULT (1),
+        ValidFrom       DATETIME2(0)   NULL,
+        ValidTo         DATETIME2(0)   NULL,
+        FaceImage       VARBINARY(MAX) NULL,
+        HasFace         BIT            NOT NULL
+            CONSTRAINT DF_Employees_HasFace DEFAULT (0),
+        Notes           NVARCHAR(256)  NULL,
+        SourceDevices   NVARCHAR(64)   NULL,
+        CreatedAt       DATETIME2(0)   NOT NULL
+            CONSTRAINT DF_Employees_CreatedAt DEFAULT (SYSUTCDATETIME()),
+        UpdatedAt       DATETIME2(0)   NOT NULL
+            CONSTRAINT DF_Employees_UpdatedAt DEFAULT (SYSUTCDATETIME())
+    );
+END;
+GO
+
+IF OBJECT_ID(N'dbo.EmployeeDeviceSync', N'U') IS NULL
+BEGIN
+    CREATE TABLE dbo.EmployeeDeviceSync (
+        EmployeeNo   VARCHAR(32)   NOT NULL,
+        DeviceKey    VARCHAR(32)   NOT NULL,
+        LastSyncUtc  DATETIME2(0)  NULL,
+        Status       VARCHAR(32)   NOT NULL
+            CONSTRAINT DF_EmployeeDeviceSync_Status DEFAULT (N'Pending'),
+        Error        NVARCHAR(400) NULL,
+        CONSTRAINT PK_EmployeeDeviceSync PRIMARY KEY (EmployeeNo, DeviceKey),
+        CONSTRAINT FK_EmployeeDeviceSync_Employees
+            FOREIGN KEY (EmployeeNo) REFERENCES dbo.Employees(EmployeeNo)
+            ON DELETE CASCADE
+    );
+END;
+GO
+
 PRINT 'atteninfo ready.';
 GO

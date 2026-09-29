@@ -15,9 +15,8 @@ import tkinter as tk
 from pathlib import Path
 from tkinter import messagebox, ttk
 from typing import Any
-from urllib.parse import quote
 
-from paths import app_dir, resource_dir
+from paths import app_dir, logo_ico_path, logo_png_path, resource_dir
 
 ROOT = app_dir()
 BUNDLE = resource_dir()
@@ -27,6 +26,7 @@ if str(BUNDLE) not in sys.path:
     sys.path.insert(0, str(BUNDLE))
 
 import collector as col  # noqa: E402
+import theme as ui_theme  # noqa: E402
 
 APPSETTINGS = ROOT / "appsettings.json"
 SINGLETON_HOST = "127.0.0.1"
@@ -37,48 +37,88 @@ ERROR_ALREADY_EXISTS = 183
 HELP_TEXT = """Peak Attendance — Help
 
 WHAT IT DOES
-  Reads punches from Hikvision Entry / Exit readers and writes them to
-  SQL Server database atteninfo (table AccessEvents) for Keka.
+  Reads punches from Hikvision Entry / Exit readers into SQL Server
+  (atteninfo.dbo.AccessEvents) for Keka.
+  Also manages employees (people + face photo) with SQL as master
+  and push/pull to both door readers.
 
 FIRST RUN
-  1. Set SQL Server (e.g. localhost\\SQLEXPRESS), database atteninfo, user/password.
-  2. Click Create / Repair database (SQL Server must already be installed).
-  3. Set Entry and Exit device IP, username, password.
+  1. Set SQL Server (e.g. localhost\\SQLEXPRESS), database atteninfo,
+     username/password.
+  2. Create / Repair database (SQL Server must already be installed).
+     Creates atteninfo + AccessEvents, DeviceConfig, Employees, etc.
+  3. Set Entry and Exit IP, username, password (Enabled / HTTPS as needed).
   4. Save configuration → Test devices (both SUCCESS).
-  5. Run collector now.
-  6. Optional: Install / Start with Windows (tray + collect every minute).
-     When installed, only Uninstall is enabled; when not, only Install.
+  5. Run collector now (punches appear in AccessEvents).
+  6. Optional: Employees → Pull from devices (merge people into SQL).
+  7. Optional: Install / Start with Windows (tray + collect every minute).
+     If already installed, only Uninstall is enabled (and the reverse).
 
-DEVICE BUTTONS
-  Open device       — opens the reader web page (uses on-screen login)
-  Test this device  — checks connectivity / password for one reader
-  Reset watermark   — next collect re-reads from First lookback hours
-  Enabled           — uncheck to skip this reader without deleting settings
-  HTTPS             — use https:// when opening / talking to the device
+DEVICE PANEL (per reader)
+  Open device       — opens browser + login helper (Copy username/password).
+                      Browsers cannot autofill Hikvision login forms.
+  Test this device  — probe one reader (works even if Enabled is off)
+  Reset watermark   — clear sync position; next run uses First lookback
+  Enabled           — skip this reader without deleting settings
+  HTTPS             — use https for Open / API (auto-sets Port 443;
+                      leave unchecked for normal HTTP on port 80)
+  Last success / last event / last error — from CollectorState (read-only)
 
 COLLECTOR SETTINGS
-  Sync interval     — how often the Windows task runs (minutes)
-  First lookback    — hours to pull when there is no watermark yet
+  Sync interval     — Windows task period (minutes) when installed
+  First lookback    — hours to pull when no watermark exists
   Timeout           — HTTP wait per device (seconds)
-  Overlap           — re-read this many seconds before last watermark
-  Max results       — page size for the Hikvision event API
+  Overlap           — re-read seconds before last watermark
+  Max results       — Hikvision AcsEvent page size
 
-WHERE SETTINGS LIVE
-  SQL server login  → appsettings.json next to the exe
-  Devices           → SQL dbo.DeviceConfig
-  Collector options → SQL dbo.AppConfig
-  Sync health       → SQL dbo.CollectorState (Last success / error)
+EMPLOYEES (main button → Employees window)
+  SQL dbo.Employees is the master copy of people.
+  Pull from devices — read Entry + Exit UserInfo, merge by Employee No,
+                      store face JPEG when available
+  New / edit        — fill Employee No, name, validity, card, photo
+  Save + Push       — save SQL, then create/update on BOTH readers
+                      (UserInfo + face enroll when photo present)
+  Delete            — remove from BOTH readers and SQL
+  Entry/Exit status — dbo.EmployeeDeviceSync (OK / Missing / Error / Partial)
+  Face photo limits — JPEG only (PNG/BMP auto-converted); max 200 KB;
+                      min 80×80; recommended ≥ 640×480
+                      Oversize photos are auto-resized/compressed on Load;
+                      alerts if still over limit or below recommended size
 
-TRAY / WINDOW
-  Close window → back to tray (does not quit)
+INSTALL / UNINSTALL
+  Install / Start with Windows
+    • Tray at Windows logon
+    • Hidden collector every 1 minute (Peak-Attendance-Collector task)
+    • Desktop + Start Menu shortcuts
+  Uninstall / Stop with Windows
+    • Removes tasks + shortcuts
+    • Keeps PeakAttendance.exe, appsettings.json, and database
+  Only one of Install / Uninstall is enabled at a time.
+
+WHERE DATA LIVES
+  SQL login              → appsettings.json next to the exe
+  Devices                → dbo.DeviceConfig
+  Collector options      → dbo.AppConfig
+  Punch sync health      → dbo.CollectorState
+  Employees              → dbo.Employees
+  Employee device status → dbo.EmployeeDeviceSync
+  Punches (Keka)         → dbo.AccessEvents
+
+TRAY / WINDOW / BRANDING
+  Close window → tray (does not quit)
   Quit         → tray menu → Quit
-  Press F1 anytime for this help
+  F1 or Help   → this text; Open full guide → Peak-Attendance.md
+  Icon         → Peak Energy logo (exe, window, tray)
 
 TROUBLESHOOTING
-  Connectivity failed → VPN/LAN to device IP, correct IP/port
-  Wrong password      → device admin user/password; wait if lockout
-  SQL login failed    → server name, sa password, ODBC 18, SQL running
-  No tray icon        → check notification overflow; run with --window
+  Connectivity failed → VPN/LAN, correct IP/port
+  Wrong password      → device admin credentials; wait if lockout
+  SQL login failed    → server name, password, ODBC 18, SQL running
+  No tray icon        → notification overflow; try --window
+  Employee push fail  → Test devices first; check Entry/Exit status columns
+  Face not on device  → JPEG enrolled best-effort; retry Save + Push
+  Photo too large     → max 200 KB; app auto-compresses on Load — use a
+                        closer face crop if still rejected
   Logs                → logs\\collector.log next to the exe
 """
 
@@ -154,9 +194,13 @@ class KekaApp(tk.Tk):
         self.minsize(900, 720)
         self.protocol("WM_DELETE_WINDOW", self.hide_to_tray)
         self.tray_icon = None
+        self._logo_photo = None
+        self._header_photo = None
         self.start_in_tray = start_in_tray
         self._singleton_sock = singleton_sock
         self._mutex_handle = mutex_handle
+        ui_theme.apply_theme(self)
+        self._apply_app_icon()
         self._build()
         self.bind("<F1>", lambda _e: self.show_help())
         if singleton_sock is not None:
@@ -205,7 +249,18 @@ class KekaApp(tk.Tk):
             )
 
     def _build(self) -> None:
-        root = ttk.Frame(self, padding=8)
+        ui_theme.apply_theme(self)
+        outer = tk.Frame(self, bg=ui_theme.BG)
+        outer.pack(fill=tk.BOTH, expand=True)
+
+        header, self._header_photo = ui_theme.build_header(
+            outer,
+            "Peak Attendance",
+            "Hikvision → SQL → Keka · Peak Energy",
+        )
+        header.pack(fill=tk.X)
+
+        root = ttk.Frame(outer, padding=10)
         root.pack(fill=tk.BOTH, expand=True)
         root.rowconfigure(0, weight=1)
         root.columnconfigure(0, weight=1)
@@ -217,7 +272,7 @@ class KekaApp(tk.Tk):
         form.columnconfigure(1, weight=1)
 
         # Row 0: SQL | Collector side by side
-        sql_f = ttk.LabelFrame(form, text="SQL Server", padding=6)
+        sql_f = ttk.LabelFrame(form, text="SQL Server", padding=8)
         sql_f.grid(row=0, column=0, sticky="nsew", padx=(0, 4), pady=(0, 6))
         self.sql_server = tk.StringVar()
         self.sql_database = tk.StringVar(value="atteninfo")
@@ -228,7 +283,7 @@ class KekaApp(tk.Tk):
         self._row(sql_f, 2, "Username", ttk.Entry(sql_f, textvariable=self.sql_user))
         self._row(sql_f, 3, "Password", self.sql_pass)
 
-        sync_f = ttk.LabelFrame(form, text="Collector", padding=6)
+        sync_f = ttk.LabelFrame(form, text="Collector", padding=8)
         sync_f.grid(row=0, column=1, sticky="nsew", padx=(4, 0), pady=(0, 6))
         self.sync_mins = tk.StringVar(value="1")
         self.lookback = tk.StringVar(value="24")
@@ -244,7 +299,7 @@ class KekaApp(tk.Tk):
         # Row 1: Entry | Exit side by side
         self.device_vars: dict[str, dict[str, Any]] = {}
         for col_i, (key, title) in enumerate((("entry", "Entry device"), ("exit", "Exit device"))):
-            df = ttk.LabelFrame(form, text=title, padding=6)
+            df = ttk.LabelFrame(form, text=title, padding=8)
             df.grid(row=1, column=col_i, sticky="nsew", padx=(0 if col_i == 0 else 4, 0 if col_i == 1 else 4), pady=(0, 6))
             ip = tk.StringVar()
             port = tk.StringVar(value="80")
@@ -270,22 +325,23 @@ class KekaApp(tk.Tk):
             )
             flags = ttk.Frame(df)
             flags.grid(row=6, column=0, columnspan=2, sticky=tk.W, pady=(4, 0))
-            ttk.Checkbutton(flags, text="Enabled", variable=enabled).pack(side=tk.LEFT)
-            ttk.Checkbutton(flags, text="HTTPS", variable=https).pack(side=tk.LEFT, padx=(12, 0))
+            ui_theme.colored_checkbutton(flags, "Enabled", enabled).pack(side=tk.LEFT)
+            ui_theme.colored_checkbutton(flags, "HTTPS", https).pack(side=tk.LEFT, padx=(12, 0))
+            https.trace_add("write", lambda *_a, k=key: self._on_https_toggle(k))
             self._row(df, 7, "Last success", ttk.Label(df, textvariable=last_success))
             self._row(df, 8, "Last event", ttk.Label(df, textvariable=last_event))
             self._row(df, 9, "Last error", ttk.Label(df, textvariable=last_error, wraplength=320))
             actions = ttk.Frame(df)
             actions.grid(row=10, column=0, columnspan=2, sticky=tk.W, pady=(6, 0))
-            ttk.Button(actions, text="Open device", command=lambda k=key: self.open_device(k)).pack(
-                side=tk.LEFT
-            )
-            ttk.Button(actions, text="Test this device", command=lambda k=key: self.test_one_device(k)).pack(
-                side=tk.LEFT, padx=(6, 0)
-            )
-            ttk.Button(actions, text="Reset watermark", command=lambda k=key: self.reset_watermark(k)).pack(
-                side=tk.LEFT, padx=(6, 0)
-            )
+            ui_theme.colored_button(
+                actions, "Open device", lambda k=key: self.open_device(k), kind="ghost"
+            ).pack(side=tk.LEFT)
+            ui_theme.colored_button(
+                actions, "Test this device", lambda k=key: self.test_one_device(k), kind="accent"
+            ).pack(side=tk.LEFT, padx=(6, 0))
+            ui_theme.colored_button(
+                actions, "Reset watermark", lambda k=key: self.reset_watermark(k), kind="ghost"
+            ).pack(side=tk.LEFT, padx=(6, 0))
             self.device_vars[key] = {
                 "name": name,
                 "ip": ip,
@@ -301,40 +357,110 @@ class KekaApp(tk.Tk):
             }
 
         # Fixed footer — always visible (no scroll needed)
-        footer = ttk.Frame(root)
+        footer = tk.Frame(root, bg=ui_theme.BG, padx=4, pady=6)
         footer.grid(row=1, column=0, sticky="ew")
         footer.columnconfigure(0, weight=1)
 
-        btn = ttk.Frame(footer)
+        btn = tk.Frame(footer, bg=ui_theme.BG)
         btn.grid(row=0, column=0, sticky="ew", pady=(4, 2))
-        ttk.Button(btn, text="Save configuration", command=self.save_all).pack(side=tk.LEFT)
-        ttk.Button(btn, text="Create / Repair database", command=self.create_database).pack(side=tk.LEFT, padx=6)
-        ttk.Button(btn, text="Test devices", command=self.test_devices).pack(side=tk.LEFT, padx=6)
-        ttk.Button(btn, text="Run collector now", command=self.run_now).pack(side=tk.LEFT, padx=6)
-        ttk.Button(btn, text="Reload", command=self.reload_all).pack(side=tk.LEFT, padx=6)
-        self.btn_install = ttk.Button(
-            btn, text="Install / Start with Windows", command=self.install_startup
+        ui_theme.colored_button(btn, "Save configuration", self.save_all, kind="primary").pack(side=tk.LEFT)
+        ui_theme.colored_button(
+            btn, "Create / Repair database", self.create_database, kind="ghost"
+        ).pack(side=tk.LEFT, padx=6)
+        ui_theme.colored_button(btn, "Test devices", self.test_devices, kind="accent").pack(
+            side=tk.LEFT, padx=6
+        )
+        ui_theme.colored_button(btn, "Run collector now", self.run_now, kind="success").pack(
+            side=tk.LEFT, padx=6
+        )
+        ui_theme.colored_button(btn, "Employees", self.open_employees, kind="accent").pack(
+            side=tk.LEFT, padx=6
+        )
+        ui_theme.colored_button(btn, "Reload", self.reload_all, kind="ghost").pack(side=tk.LEFT, padx=6)
+        self.btn_install = ui_theme.colored_button(
+            btn, "Install / Start with Windows", self.install_startup, kind="primary"
         )
         self.btn_install.pack(side=tk.LEFT, padx=6)
-        self.btn_uninstall = ttk.Button(
-            btn, text="Uninstall / Stop with Windows", command=self.uninstall_startup
+        self.btn_uninstall = ui_theme.colored_button(
+            btn, "Uninstall / Stop with Windows", self.uninstall_startup, kind="danger"
         )
         self.btn_uninstall.pack(side=tk.LEFT, padx=6)
-        ttk.Button(btn, text="Help", command=self.show_help).pack(side=tk.LEFT, padx=6)
-        ttk.Button(btn, text="Minimize to tray", command=self.hide_to_tray).pack(side=tk.RIGHT)
+        ui_theme.colored_button(btn, "Help", self.show_help, kind="ghost").pack(side=tk.LEFT, padx=6)
+        ui_theme.colored_button(btn, "Minimize to tray", self.hide_to_tray, kind="ghost").pack(
+            side=tk.RIGHT
+        )
         self.after(300, self._refresh_install_buttons)
 
         self.status = tk.StringVar(value="Ready.")
-        self.status_lbl = ttk.Label(footer, textvariable=self.status, wraplength=900)
+        self.status_lbl = tk.Label(
+            footer,
+            textvariable=self.status,
+            bg=ui_theme.BG,
+            fg=ui_theme.NAVY,
+            font=ui_theme.FONT_UI_BOLD,
+            anchor=tk.W,
+            justify=tk.LEFT,
+            wraplength=900,
+        )
         self.status_lbl.grid(row=1, column=0, sticky="ew", pady=2)
 
         self.log = tk.Text(footer, height=6, wrap=tk.WORD)
+        ui_theme.style_log_text(self.log)
         self.log.grid(row=2, column=0, sticky="ew", pady=(2, 0))
 
         # Stubs used by older helpers
         self._canvas = None
         self._vscroll = None
         self._content = form
+
+    def _apply_app_icon(self) -> None:
+        """Set window icon from Peak Energy logo (PNG + ICO)."""
+        ico = logo_ico_path()
+        if ico is not None:
+            try:
+                self.iconbitmap(default=str(ico))
+            except tk.TclError:
+                try:
+                    self.iconbitmap(str(ico))
+                except tk.TclError:
+                    pass
+        png = logo_png_path()
+        if png is None:
+            return
+        try:
+            from PIL import Image, ImageTk
+
+            img = Image.open(png).convert("RGBA")
+            # Keep a mid-size photo for title bar / taskbar on some Windows themes
+            img.thumbnail((64, 64))
+            self._logo_photo = ImageTk.PhotoImage(img)
+            self.iconphoto(True, self._logo_photo)
+        except Exception:
+            pass
+
+    def _load_tray_image(self) -> Any:
+        """Load Peak Energy logo for system tray (fallback to simple mark)."""
+        from PIL import Image, ImageDraw
+
+        png = logo_png_path()
+        if png is not None:
+            try:
+                img = Image.open(png).convert("RGBA")
+                # Square canvas so tray icon stays crisp
+                size = 64
+                canvas = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+                img.thumbnail((size, size))
+                x = (size - img.width) // 2
+                y = (size - img.height) // 2
+                canvas.paste(img, (x, y), img)
+                return canvas
+            except Exception:
+                pass
+        img = Image.new("RGB", (64, 64), color=(20, 90, 160))
+        draw = ImageDraw.Draw(img)
+        draw.rectangle((12, 12, 52, 52), fill=(240, 240, 240))
+        draw.text((22, 20), "P", fill=(20, 90, 160))
+        return img
 
     def _on_mousewheel(self, event: tk.Event) -> None:
         return
@@ -380,13 +506,21 @@ class KekaApp(tk.Tk):
         win.geometry("720x560")
         win.transient(self)
         win.grab_set()
+        ui_theme.apply_theme(win)
 
-        frame = ttk.Frame(win, padding=8)
+        header, win._header_photo = ui_theme.build_header(  # type: ignore[attr-defined]
+            win, "Help", "Peak Attendance guide"
+        )
+        header.pack(fill=tk.X)
+
+        frame = ttk.Frame(win, padding=10)
         frame.pack(fill=tk.BOTH, expand=True)
         frame.rowconfigure(0, weight=1)
         frame.columnconfigure(0, weight=1)
 
-        text = tk.Text(frame, wrap=tk.WORD, font=("Consolas", 10))
+        text = tk.Text(frame, wrap=tk.WORD)
+        ui_theme.style_log_text(text)
+        text.configure(font=("Segoe UI", 10), background=ui_theme.BG_PANEL, foreground=ui_theme.FG)
         scroll = ttk.Scrollbar(frame, command=text.yview)
         text.configure(yscrollcommand=scroll.set)
         text.grid(row=0, column=0, sticky="nsew")
@@ -411,8 +545,8 @@ class KekaApp(tk.Tk):
             except Exception as exc:
                 messagebox.showerror("Help", f"Could not open guide:\n{exc}", parent=win)
 
-        ttk.Button(bar, text="Open full guide", command=open_guide).pack(side=tk.LEFT)
-        ttk.Button(bar, text="Close", command=win.destroy).pack(side=tk.RIGHT)
+        ui_theme.colored_button(bar, "Open full guide", open_guide, kind="accent").pack(side=tk.LEFT)
+        ui_theme.colored_button(bar, "Close", win.destroy, kind="ghost").pack(side=tk.RIGHT)
         win.bind("<Escape>", lambda _e: win.destroy())
         win.focus_force()
 
@@ -665,8 +799,24 @@ class KekaApp(tk.Tk):
 
         threading.Thread(target=worker, daemon=True).start()
 
+    def _on_https_toggle(self, key: str) -> None:
+        """When HTTPS is toggled, switch Port 80↔443 if still on the other default."""
+        vars_ = self.device_vars.get(key)
+        if not vars_:
+            return
+        try:
+            cur = int(vars_["port"].get() or 80)
+        except ValueError:
+            cur = 80
+        if vars_["https"].get():
+            if cur == 80:
+                vars_["port"].set("443")
+        else:
+            if cur == 443:
+                vars_["port"].set("80")
+
     def open_device(self, key: str) -> None:
-        """Open this device's web UI using the username/password from the screen."""
+        """Open device web UI and show login helper (browsers do not autofill Hikvision forms)."""
         vars_ = self.device_vars.get(key)
         if not vars_:
             return
@@ -679,24 +829,106 @@ class KekaApp(tk.Tk):
             messagebox.showerror("Open device", "Enter a username first.")
             return
         password = vars_["pass"].get()
-        port = int(vars_["port"].get() or 80)
-        scheme = "https" if vars_["https"].get() else "http"
-        default_port = 443 if scheme == "https" else 80
-        host = ip if port == default_port else f"{ip}:{port}"
-        # Embed credentials so the browser can log in (must URL-encode special chars).
-        auth = f"{quote(user, safe='')}:{quote(password, safe='')}"
-        url = f"{scheme}://{auth}@{host}/"
-        safe_url = f"{scheme}://{user}@{host}/"
+        use_https = bool(vars_["https"].get())
         try:
-            # Clipboard backup: modern browsers often strip user:pass from the URL.
-            self.clipboard_clear()
-            self.clipboard_append(password)
-            webbrowser.open(url)
-            self.set_status(
-                f"Opened {safe_url} using on-screen login; password also copied to clipboard."
-            )
+            port = int(vars_["port"].get() or (443 if use_https else 80))
+        except ValueError:
+            port = 443 if use_https else 80
+        if use_https and port == 80:
+            port = 443
+            vars_["port"].set("443")
+        if (not use_https) and port == 443:
+            port = 80
+            vars_["port"].set("80")
+        scheme = "https" if use_https else "http"
+        default_port = 443 if use_https else 80
+        host = ip if port == default_port else f"{ip}:{port}"
+        # Plain URL — Edge/Chrome strip user:pass@ and Hikvision uses a login form anyway.
+        page_url = f"{scheme}://{host}/"
+        try:
+            webbrowser.open(page_url)
         except Exception as exc:
             messagebox.showerror("Open device", f"Could not open browser:\n{exc}")
+            return
+        self._show_device_login_helper(vars_["name"].get().strip() or key, page_url, user, password)
+        self.set_status(f"Opened {page_url} — use the login helper to copy username/password.")
+
+    def _show_device_login_helper(self, label: str, page_url: str, user: str, password: str) -> None:
+        """Popup with copyable credentials (browsers will not autofill the device form)."""
+        win = tk.Toplevel(self)
+        win.title(f"Login — {label}")
+        win.geometry("420x260")
+        win.transient(self)
+        win.grab_set()
+
+        frame = ttk.Frame(win, padding=12)
+        frame.pack(fill=tk.BOTH, expand=True)
+        frame.columnconfigure(1, weight=1)
+
+        ttk.Label(
+            frame,
+            text="Browser opened the device page.\n"
+            "Chrome/Edge do not autofill Hikvision login forms —\n"
+            "copy and paste from here:",
+            justify=tk.LEFT,
+        ).grid(row=0, column=0, columnspan=3, sticky=tk.W, pady=(0, 10))
+
+        ttk.Label(frame, text="Page").grid(row=1, column=0, sticky=tk.W, pady=2)
+        ttk.Label(frame, text=page_url).grid(row=1, column=1, columnspan=2, sticky=tk.W, pady=2)
+
+        user_var = tk.StringVar(value=user)
+        pass_var = tk.StringVar(value=password)
+        show_pw = tk.BooleanVar(value=False)
+
+        ttk.Label(frame, text="Username").grid(row=2, column=0, sticky=tk.W, pady=2)
+        ttk.Entry(frame, textvariable=user_var, width=28).grid(row=2, column=1, sticky=tk.EW, pady=2)
+        ttk.Button(
+            frame,
+            text="Copy",
+            width=8,
+            command=lambda: self._copy_text(user_var.get(), "Username copied."),
+        ).grid(row=2, column=2, padx=(6, 0), pady=2)
+
+        ttk.Label(frame, text="Password").grid(row=3, column=0, sticky=tk.W, pady=2)
+        pass_entry = ttk.Entry(frame, textvariable=pass_var, width=28, show="*")
+        pass_entry.grid(row=3, column=1, sticky=tk.EW, pady=2)
+
+        def toggle_pw() -> None:
+            show_pw.set(not show_pw.get())
+            pass_entry.configure(show="" if show_pw.get() else "*")
+
+        pw_btns = ttk.Frame(frame)
+        pw_btns.grid(row=3, column=2, padx=(6, 0), pady=2)
+        ttk.Button(
+            pw_btns,
+            text="Copy",
+            width=8,
+            command=lambda: self._copy_text(pass_var.get(), "Password copied."),
+        ).pack(side=tk.TOP)
+        ttk.Button(pw_btns, text="Show", width=8, command=toggle_pw).pack(side=tk.TOP, pady=(4, 0))
+
+        note = ttk.Label(frame, text="Password is also on the clipboard now.")
+        note.grid(row=4, column=0, columnspan=3, sticky=tk.W, pady=(12, 0))
+
+        ttk.Button(frame, text="Close", command=win.destroy).grid(
+            row=5, column=0, columnspan=3, sticky=tk.E, pady=(16, 0)
+        )
+
+        try:
+            self.clipboard_clear()
+            self.clipboard_append(password)
+        except tk.TclError:
+            pass
+        win.bind("<Escape>", lambda _e: win.destroy())
+        win.focus_force()
+
+    def _copy_text(self, text: str, status: str) -> None:
+        try:
+            self.clipboard_clear()
+            self.clipboard_append(text)
+            self.set_status(status)
+        except tk.TclError as exc:
+            messagebox.showerror("Copy", f"Could not copy to clipboard:\n{exc}")
 
     def reset_watermark(self, key: str) -> None:
         """Clear CollectorState for this device so the next run uses First lookback."""
@@ -816,6 +1048,17 @@ class KekaApp(tk.Tk):
 
         threading.Thread(target=worker, daemon=True).start()
 
+    def open_employees(self) -> None:
+        """Open employee management (SQL master + Entry/Exit sync)."""
+        try:
+            if not self.save_all(quiet=True):
+                return
+            from employees_ui import EmployeesWindow
+
+            EmployeesWindow(self, APPSETTINGS)
+        except Exception as exc:
+            messagebox.showerror("Employees", str(exc))
+
     def _is_startup_installed(self) -> bool:
         """True if the Windows collector task is registered."""
         r = subprocess.run(
@@ -834,11 +1077,11 @@ class KekaApp(tk.Tk):
         except Exception:
             installed = False
         if installed:
-            self.btn_install.state(["disabled"])
-            self.btn_uninstall.state(["!disabled"])
+            self.btn_install.configure(state=tk.DISABLED)
+            self.btn_uninstall.configure(state=tk.NORMAL)
         else:
-            self.btn_install.state(["!disabled"])
-            self.btn_uninstall.state(["disabled"])
+            self.btn_install.configure(state=tk.NORMAL)
+            self.btn_uninstall.configure(state=tk.DISABLED)
 
     def install_startup(self) -> None:
         """Register Start-with-Windows, collector task, shortcuts."""
@@ -1105,12 +1348,8 @@ class KekaApp(tk.Tk):
         if self.tray_icon is not None:
             return
         import pystray
-        from PIL import Image, ImageDraw
 
-        img = Image.new("RGB", (64, 64), color=(20, 90, 160))
-        draw = ImageDraw.Draw(img)
-        draw.rectangle((12, 12, 52, 52), fill=(240, 240, 240))
-        draw.text((22, 20), "P", fill=(20, 90, 160))
+        img = self._load_tray_image()
 
         def show(icon: Any = None, item: Any = None) -> None:
             self.after(0, self._show_from_tray)
