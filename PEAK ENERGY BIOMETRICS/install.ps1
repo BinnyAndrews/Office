@@ -164,38 +164,8 @@ function Start-App {
     Write-Host "Started Peak Energy Biometrics (tray)."
 }
 
-function Ensure-MsOdbc {
-    $drivers = @()
-    try {
-        $drivers = Get-OdbcDriver | Select-Object -ExpandProperty Name
-    } catch {
-        $drivers = @()
-    }
-    $have = $drivers | Where-Object { $_ -match '^ODBC Driver (17|18) for SQL Server$' }
-    if ($have) {
-        Write-Host "ODBC already installed — skipped MSI ($($have -join ', '))."
-        return
-    }
-    $msi = Join-Path $InstallDir "installers\msodbcsql18_x64.msi"
-    if (-not (Test-Path $msi)) {
-        throw "ODBC Driver 17/18 missing and installer not found: $msi"
-    }
-    Write-Host "Installing Microsoft ODBC Driver 18 for SQL Server..."
-    $args = @("/i", $msi, "/qn", "/norestart", "IACCEPTMSODBCSQLLICENSETERMS=YES", "ADDLOCAL=ALL")
-    $p = Start-Process -FilePath "msiexec.exe" -ArgumentList $args -Wait -PassThru
-    if ($p.ExitCode -notin 0, 3010, 1638) {
-        Write-Host "Quiet install exit $($p.ExitCode); retrying elevated..."
-        $p = Start-Process -FilePath "msiexec.exe" -ArgumentList $args -Verb RunAs -Wait -PassThru
-    }
-    if ($p.ExitCode -notin 0, 3010, 1638) {
-        throw "ODBC install failed (msiexec exit $($p.ExitCode))."
-    }
-    Write-Host "ODBC Driver install finished (exit $($p.ExitCode))."
-}
-
 Write-Host "=== Peak Energy Biometrics install ==="
 Write-Host "InstallDir: $InstallDir"
-Ensure-MsOdbc
 Ensure-Venv
 Ensure-Appsettings
 Register-CollectorTask

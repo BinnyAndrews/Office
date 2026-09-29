@@ -12,7 +12,6 @@ datas = [
     ("docs/Database-Schema.md", "docs"),
     ("PeakEnergyLogo.png", "."),
     ("PeakEnergyBiometrics.ico", "."),
-    ("installers/msodbcsql18_x64.msi", "installers"),
 ]
 
 hiddenimports = [
@@ -28,9 +27,6 @@ hiddenimports = [
     "collector",
     "employees",
     "employees_ui",
-    "punches",
-    "punches_ui",
-    "odbc_install",
     "ui_app",
     "paths",
 ]
