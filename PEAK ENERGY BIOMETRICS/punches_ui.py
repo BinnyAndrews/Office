@@ -1,0 +1,274 @@
+#!/usr/bin/env python3
+"""Punches browser — view SQL punches by selectable day (2-year range)."""
+
+from __future__ import annotations
+
+import threading
+import tkinter as tk
+from datetime import date
+from pathlib import Path
+from tkinter import messagebox, ttk
+from typing import Any
+
+import collector as col
+import punches as punch_mod
+import theme as ui_theme
+from paths import logo_ico_path, logo_png_path
+from tkcalendar import DateEntry
+
+try:
+    from PIL import Image, ImageTk
+except ImportError:  # pragma: no cover
+    Image = None  # type: ignore
+    ImageTk = None  # type: ignore
+
+
+class PunchesWindow(tk.Toplevel):
+    def __init__(self, master: tk.Misc, appsettings: Path) -> None:
+        super().__init__(master)
+        self.title("Peak Energy Biometrics — Punches")
+        self.geometry("980x620")
+        self.appsettings = appsettings
+        self._logo_photo = None
+        self._rows: list[dict[str, Any]] = []
+        self._sort_col = "time"
+        self._sort_asc = True
+        self.mindate, self.maxdate = punch_mod.day_window()
+        self._apply_window_icon()
+        self._build()
+        self.after(80, self.reload)
+
+    def _apply_window_icon(self) -> None:
+        ico = logo_ico_path()
+        if ico is not None:
+            try:
+                self.iconbitmap(default=str(ico))
+            except tk.TclError:
+                try:
+                    self.iconbitmap(str(ico))
+                except tk.TclError:
+                    pass
+        png = logo_png_path()
+        if png is None or Image is None or ImageTk is None:
+            return
+        try:
+            img = Image.open(png).convert("RGBA")
+            img.thumbnail((64, 64))
+            self._logo_photo = ImageTk.PhotoImage(img)
+            self.iconphoto(True, self._logo_photo)
+        except Exception:
+            pass
+
+    def _sql(self) -> dict[str, Any]:
+        return col.load_json(self.appsettings)["sql"]
+
+    def _build(self) -> None:
+        ui_theme.apply_theme(self)
+        outer = tk.Frame(self, bg=ui_theme.BG)
+        outer.pack(fill=tk.BOTH, expand=True)
+
+        header, self._header_photo = ui_theme.build_header(
+            outer,
+            "Punches",
+            "SQL punch table · pick any day in the last 2 years",
+        )
+        header.pack(fill=tk.X)
+
+        root = ttk.Frame(outer, padding=10)
+        root.pack(fill=tk.BOTH, expand=True)
+        root.columnconfigure(0, weight=1)
+        root.rowconfigure(1, weight=1)
+
+        bar = ttk.Frame(root)
+        bar.grid(row=0, column=0, sticky="ew", pady=(0, 8))
+        bar.columnconfigure(8, weight=1)
+
+        ttk.Label(bar, text="Day").grid(row=0, column=0, sticky=tk.W, padx=(0, 6))
+        today = date.today()
+        self.day_picker = DateEntry(
+            bar,
+            width=12,
+            date_pattern="yyyy-mm-dd",
+            year=today.year,
+            month=today.month,
+            day=today.day,
+            mindate=self.mindate,
+            maxdate=self.maxdate,
+            background=ui_theme.NAVY,
+            foreground="white",
+            headersbackground=ui_theme.NAVY,
+            headersforeground="white",
+            selectbackground=ui_theme.CYAN,
+            selectforeground=ui_theme.NAVY_DARK,
+        )
+        self.day_picker.grid(row=0, column=1, sticky=tk.W)
+
+        ui_theme.colored_button(bar, "◀ Prev", self._prev_day, kind="ghost").grid(
+            row=0, column=2, padx=(8, 0)
+        )
+        ui_theme.colored_button(bar, "Next ▶", self._next_day, kind="ghost").grid(
+            row=0, column=3, padx=(4, 0)
+        )
+        ui_theme.colored_button(bar, "Today", self._goto_today, kind="ghost").grid(
+            row=0, column=4, padx=(4, 0)
+        )
+        ui_theme.colored_button(bar, "Load punches", self.reload, kind="primary").grid(
+            row=0, column=5, padx=(12, 0)
+        )
+
+        ttk.Label(bar, text="Employee No").grid(row=0, column=6, sticky=tk.W, padx=(16, 6))
+        self.filter_id = tk.StringVar()
+        ttk.Entry(bar, textvariable=self.filter_id, width=12).grid(row=0, column=7, sticky=tk.W)
+        self.filter_id.trace_add("write", lambda *_a: self._apply_filter())
+
+        self.status = tk.StringVar(value="Select a day and Load punches.")
+        ttk.Label(bar, textvariable=self.status, style="Muted.TLabel").grid(
+            row=1, column=0, columnspan=9, sticky=tk.W, pady=(6, 0)
+        )
+
+        cols = ("date", "time", "id", "name", "direction", "device", "auth")
+        self.tree = ttk.Treeview(root, columns=cols, show="headings", selectmode="browse")
+        headings = {
+            "date": ("Date", 100),
+            "time": ("Time", 90),
+            "id": ("Employee No", 110),
+            "name": ("Name", 180),
+            "direction": ("Direction", 90),
+            "device": ("Device", 140),
+            "auth": ("Auth type", 160),
+        }
+        for key, (title, width) in headings.items():
+            self.tree.heading(key, text=title, command=lambda c=key: self._sort_by(c))
+            self.tree.column(key, width=width, minwidth=60, stretch=(key in {"name", "device", "auth"}))
+
+        yscroll = ttk.Scrollbar(root, orient=tk.VERTICAL, command=self.tree.yview)
+        self.tree.configure(yscrollcommand=yscroll.set)
+        self.tree.grid(row=1, column=0, sticky="nsew")
+        yscroll.grid(row=1, column=1, sticky="ns")
+
+        tip = (
+            f"Days available: {self.mindate.isoformat()} → {self.maxdate.isoformat()}  ·  "
+            "Uses Server / Database / Punch table from the main window."
+        )
+        ttk.Label(root, text=tip, style="Muted.TLabel").grid(
+            row=2, column=0, columnspan=2, sticky=tk.W, pady=(6, 0)
+        )
+
+        self.day_picker.bind("<<DateEntrySelected>>", lambda _e: self.reload())
+
+    def _selected_day(self) -> date:
+        raw = self.day_picker.get_date()
+        if isinstance(raw, date):
+            day = raw
+        else:
+            day = date.today()
+        if day < self.mindate:
+            return self.mindate
+        if day > self.maxdate:
+            return self.maxdate
+        return day
+
+    def _set_day(self, day: date) -> None:
+        day = punch_mod.shift_day(day, 0, mindate=self.mindate, maxdate=self.maxdate)
+        self.day_picker.set_date(day)
+
+    def _prev_day(self) -> None:
+        self._set_day(punch_mod.shift_day(self._selected_day(), -1, mindate=self.mindate, maxdate=self.maxdate))
+        self.reload()
+
+    def _next_day(self) -> None:
+        self._set_day(punch_mod.shift_day(self._selected_day(), 1, mindate=self.mindate, maxdate=self.maxdate))
+        self.reload()
+
+    def _goto_today(self) -> None:
+        self._set_day(date.today())
+        self.reload()
+
+    def reload(self) -> None:
+        day = self._selected_day()
+        self.status.set(f"Loading punches for {day.isoformat()}…")
+        self.tree.delete(*self.tree.get_children())
+
+        def worker() -> None:
+            try:
+                sql = self._sql()
+                rows = punch_mod.fetch_punches_for_day(sql, day)
+                server = str(sql.get("server") or "")
+                db = str(sql.get("database") or "")
+                table = col.punch_table_name(sql)
+                self.after(0, lambda: self._show_rows(rows, day, server, db, table))
+            except Exception as exc:
+                self.after(0, lambda: self._load_failed(exc))
+
+        threading.Thread(target=worker, daemon=True).start()
+
+    def _load_failed(self, exc: Exception) -> None:
+        self.status.set("Load failed.")
+        messagebox.showerror("Punches", str(exc), parent=self)
+
+    def _show_rows(
+        self,
+        rows: list[dict[str, Any]],
+        day: date,
+        server: str,
+        db: str,
+        table: str,
+    ) -> None:
+        self._rows = rows
+        self._apply_filter()
+        shown = len(self.tree.get_children())
+        self.status.set(
+            f"{day.isoformat()}  ·  {shown} shown / {len(rows)} total  ·  "
+            f"{server} / {db}.dbo.{table}"
+        )
+
+    def _filtered_rows(self) -> list[dict[str, Any]]:
+        needle = self.filter_id.get().strip().lower()
+        if not needle:
+            return list(self._rows)
+        out: list[dict[str, Any]] = []
+        for row in self._rows:
+            if needle in str(row.get("ID") or "").lower():
+                out.append(row)
+        return out
+
+    def _apply_filter(self) -> None:
+        rows = self._filtered_rows()
+        rows = self._sorted(rows)
+        self.tree.delete(*self.tree.get_children())
+        for row in rows:
+            self.tree.insert(
+                "",
+                tk.END,
+                values=(
+                    punch_mod.format_punch_date(row),
+                    punch_mod.format_punch_time(row),
+                    str(row.get("ID") or ""),
+                    str(row.get("display_name") or "—"),
+                    str(row.get("direction_label") or "—"),
+                    str(row.get("device") or "—"),
+                    str(row.get("authenticationtype") or "—"),
+                ),
+            )
+
+    def _sort_by(self, col: str) -> None:
+        if self._sort_col == col:
+            self._sort_asc = not self._sort_asc
+        else:
+            self._sort_col = col
+            self._sort_asc = True
+        self._apply_filter()
+
+    def _sorted(self, rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+        key = self._sort_col
+        mapping = {
+            "date": lambda r: punch_mod.format_punch_date(r),
+            "time": lambda r: punch_mod.format_punch_time(r),
+            "id": lambda r: str(r.get("ID") or "").lower(),
+            "name": lambda r: str(r.get("display_name") or "").lower(),
+            "direction": lambda r: str(r.get("direction_label") or "").lower(),
+            "device": lambda r: str(r.get("device") or "").lower(),
+            "auth": lambda r: str(r.get("authenticationtype") or "").lower(),
+        }
+        fn = mapping.get(key, mapping["time"])
+        return sorted(rows, key=fn, reverse=not self._sort_asc)

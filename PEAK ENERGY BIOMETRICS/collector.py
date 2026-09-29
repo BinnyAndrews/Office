@@ -279,6 +279,26 @@ def as_int(value: Any) -> int | None:
         return None
 
 
+def clean_card_no(value: Any) -> str | None:
+    """Keep real badge numbers; drop Hikvision face-event sentinels (e.g. 184467440736095!)."""
+    text = str(value or "").strip()
+    if not text or text in {"0", "00", "-", "—", "N/A", "n/a", "null", "None"}:
+        return None
+    # Face verify often sends near-uint64-max / junk ending with "!"
+    if "!" in text or text.startswith("18446744073"):
+        return None
+    digits = "".join(ch for ch in text if ch.isdigit())
+    if not digits:
+        return None
+    if len(digits) >= 15:
+        try:
+            if int(digits) >= 10**15:
+                return None
+        except ValueError:
+            return None
+    return text[:50]
+
+
 def split_name(full: str) -> tuple[str | None, str | None]:
     parts = full.strip().split(None, 1)
     if not parts:
@@ -329,7 +349,7 @@ def normalize_event(
             auth_type = "ACSEventFaceVerifyPass"
         else:
             auth_type = verify[:50]
-        card_no = str(raw.get("cardNo") or "").strip()
+        card_no = clean_card_no(raw.get("cardNo"))
         reader = str(
             raw.get("cardReaderName")
             or raw.get("readerName")
@@ -348,7 +368,7 @@ def normalize_event(
         date_s = punch.strftime("%Y-%m-%d")
         auth_result = auth_result_label(minor)[:50]
         auth_type = (str(raw.get("currentVerifyMode") or "")[:50] or None)
-        card_no = str(raw.get("cardNo") or "").strip()
+        card_no = clean_card_no(raw.get("cardNo"))
         reader = None
         device_no = None
     return {
@@ -365,7 +385,7 @@ def normalize_event(
         "lastname": last,
         "personname": (person[:50] if person else None),
         "persongroup": None,
-        "cardno": (card_no[:50] if card_no else None),
+        "cardno": card_no,
         "direction": direction[:50],
         "DeviceIP": dev["ip"],
         "SerialNo": serial,

@@ -86,8 +86,15 @@ EMPLOYEES (main button → Employees window)
                       min 80×80; recommended ≥ 640×480
                       Oversize photos are auto-resized/compressed on Load
 
+PUNCHES (main button → Punches window)
+  Reads punches from SQL punch table (ACS: master.dbo.atteninfo on 10.80.100.10).
+  Pick any day in the last 2 years (calendar / Prev / Next / Today).
+  Optional filter by Employee No; click column headers to sort.
+
 INSTALL / UNINSTALL
   Install / Start with Windows
+    • Installs Microsoft ODBC Driver 18 for SQL Server if missing
+      (embedded in the exe; skips if Driver 17/18 is already installed)
     • Tray at Windows logon
     • Hidden collector every 1 minute (Peak-Energy-Biometrics-Collector task)
       (no-op while Enable punch collector is OFF)
@@ -122,7 +129,6 @@ TROUBLESHOOTING
   Face not on device  → JPEG enrolled best-effort; retry Save + Push
   Photo too large     → max 200 KB; app auto-compresses on Load
   Logs                → logs\\collector.log next to the exe
-"""
 """
 
 
@@ -168,10 +174,13 @@ class PasswordEntry(ttk.Frame):
         super().__init__(master)
         self.var = tk.StringVar(**kwargs)
         self.show = False
-        self.entry = ttk.Entry(self, textvariable=self.var, show="*", width=28)
-        self.entry.pack(side=tk.LEFT, fill=tk.X, expand=True)
+        # Grid (not pack): entry shrinks; Show stays fully visible inside the panel.
+        self.columnconfigure(0, weight=1)
+        self.columnconfigure(1, weight=0)
+        self.entry = ttk.Entry(self, textvariable=self.var, show="*")
+        self.entry.grid(row=0, column=0, sticky="ew")
         self.btn = ttk.Button(self, text="Show", width=6, command=self.toggle)
-        self.btn.pack(side=tk.LEFT, padx=(4, 0))
+        self.btn.grid(row=0, column=1, sticky="e", padx=(6, 2))
 
     def toggle(self) -> None:
         self.show = not self.show
@@ -194,7 +203,7 @@ class KekaApp(tk.Tk):
     ) -> None:
         super().__init__()
         self.title("Peak Energy Biometrics")
-        self.minsize(900, 720)
+        self.minsize(900, 600)
         self.protocol("WM_DELETE_WINDOW", self.hide_to_tray)
         self.tray_icon = None
         self._logo_photo = None
@@ -268,11 +277,36 @@ class KekaApp(tk.Tk):
         root.rowconfigure(0, weight=1)
         root.columnconfigure(0, weight=1)
 
-        # Main form area (fills remaining space above footer)
-        form = ttk.Frame(root)
-        form.grid(row=0, column=0, sticky="nsew")
+        # Scrollable form — short screens (e.g. 1280x800) can reach Enabled / HTTPS / Last*
+        form_wrap = ttk.Frame(root)
+        form_wrap.grid(row=0, column=0, sticky="nsew")
+        form_wrap.rowconfigure(0, weight=1)
+        form_wrap.columnconfigure(0, weight=1)
+
+        canvas = tk.Canvas(form_wrap, bg=ui_theme.BG, highlightthickness=0, bd=0)
+        vscroll = ttk.Scrollbar(form_wrap, orient=tk.VERTICAL, command=canvas.yview)
+        canvas.configure(yscrollcommand=vscroll.set)
+        canvas.grid(row=0, column=0, sticky="nsew")
+        vscroll.grid(row=0, column=1, sticky="ns")
+
+        form = ttk.Frame(canvas)
+        form_window = canvas.create_window((0, 0), window=form, anchor="nw")
         form.columnconfigure(0, weight=1)
         form.columnconfigure(1, weight=1)
+
+        def _sync_scroll_region(_event: tk.Event | None = None) -> None:
+            canvas.configure(scrollregion=canvas.bbox("all"))
+
+        def _sync_form_width(event: tk.Event) -> None:
+            canvas.itemconfigure(form_window, width=max(event.width, 1))
+
+        form.bind("<Configure>", _sync_scroll_region)
+        canvas.bind("<Configure>", _sync_form_width)
+
+        self._canvas = canvas
+        self._vscroll = vscroll
+        self._content = form
+        self._bind_form_mousewheel(form_wrap)
 
         # Row 0: SQL | Collector side by side
         sql_f = ttk.LabelFrame(form, text="SQL Server", padding=8)
@@ -387,9 +421,9 @@ class KekaApp(tk.Tk):
 
         btns = tk.Frame(footer, bg=ui_theme.BG)
         btns.grid(row=0, column=0, sticky="ew", pady=(4, 2))
-        for col in range(5):
+        for col in range(6):
             btns.columnconfigure(col, weight=0, uniform="footer_btns")
-        btns.columnconfigure(5, weight=1)
+        btns.columnconfigure(6, weight=1)
 
         pad = {"padx": (0, 6), "pady": 2, "sticky": "ew"}
         ui_theme.colored_button(btns, "Save configuration", self.save_all, kind="primary").grid(
@@ -413,17 +447,20 @@ class KekaApp(tk.Tk):
         )
         self.btn_install.grid(row=1, column=0, **pad)
         self.btn_uninstall = ui_theme.colored_button(
-            btns, "Uninstall / Stop with Windows", self.uninstall_startup, kind="warn"
+            btns, "Uninstall / Stop with Windows", self.uninstall_startup, kind="ghost"
         )
         self.btn_uninstall.grid(row=1, column=1, **pad)
         ui_theme.colored_button(btns, "Help", self.show_help, kind="ghost").grid(
             row=1, column=2, **pad
         )
-        ui_theme.colored_button(btns, "Employees", self.open_employees, kind="accent").grid(
+        ui_theme.colored_button(btns, "Punches", self.open_punches, kind="accent").grid(
             row=1, column=3, **pad
         )
+        ui_theme.colored_button(btns, "Employees", self.open_employees, kind="accent").grid(
+            row=1, column=4, **pad
+        )
         ui_theme.colored_button(btns, "Minimize to tray", self.hide_to_tray, kind="ghost").grid(
-            row=1, column=4, padx=(0, 0), pady=2, sticky="ew"
+            row=1, column=5, padx=(0, 0), pady=2, sticky="ew"
         )
         # Install button state checked in background after first paint
         self.after(400, self._refresh_install_buttons)
@@ -441,15 +478,13 @@ class KekaApp(tk.Tk):
         )
         self.status_lbl.grid(row=1, column=0, sticky="ew", pady=2)
 
-        self.log = tk.Text(footer, height=6, wrap=tk.WORD)
+        # Shorter log on short screens so more of the form stays visible
+        log_h = 4 if self.winfo_screenheight() <= 800 else 6
+        self.log = tk.Text(footer, height=log_h, wrap=tk.WORD)
         ui_theme.style_log_text(self.log)
         self.log.grid(row=2, column=0, sticky="ew", pady=(2, 0))
 
-        # Stubs used by older helpers
-        self._canvas = None
-        self._vscroll = None
-        self._content = form
-
+        self.after(100, self._sync_form_scroll)
     def _apply_app_icon(self) -> None:
         """Set window icon from Peak Energy logo (PNG + ICO)."""
         ico = logo_ico_path()
@@ -499,6 +534,34 @@ class KekaApp(tk.Tk):
         draw.text((22, 20), "P", fill=(20, 90, 160))
         return img
 
+    def _bind_form_mousewheel(self, region: tk.Misc) -> None:
+        """Scroll the form with the mouse wheel while the pointer is over it."""
+
+        def _wheel(event: tk.Event) -> str | None:
+            canvas = self._canvas
+            if canvas is None:
+                return None
+            delta = int(getattr(event, "delta", 0) or 0)
+            if delta:
+                canvas.yview_scroll(int(-1 * (delta / 120)), "units")
+            return "break"
+
+        def _bind(_event: tk.Event | None = None) -> None:
+            region.bind_all("<MouseWheel>", _wheel)
+
+        def _unbind(_event: tk.Event | None = None) -> None:
+            region.unbind_all("<MouseWheel>")
+
+        region.bind("<Enter>", _bind)
+        region.bind("<Leave>", _unbind)
+
+    def _sync_form_scroll(self) -> None:
+        canvas = self._canvas
+        if canvas is None:
+            return
+        canvas.update_idletasks()
+        canvas.configure(scrollregion=canvas.bbox("all"))
+
     def _on_mousewheel(self, event: tk.Event) -> None:
         return
 
@@ -513,13 +576,13 @@ class KekaApp(tk.Tk):
         self.update_idletasks()
         win_w = max(self.winfo_width(), 900)
         self.status_lbl.configure(wraplength=max(600, win_w - 40))
-
+        self._sync_form_scroll()
     def _fit_to_screen(self) -> None:
         self._go_fullscreen()
 
     def _row(self, parent: tk.Misc, row: int, label: str, widget: tk.Misc) -> None:
         ttk.Label(parent, text=label, width=18).grid(row=row, column=0, sticky=tk.W, pady=1, padx=(0, 6))
-        widget.grid(row=row, column=1, sticky=tk.EW, pady=1)
+        widget.grid(row=row, column=1, sticky=tk.EW, pady=1, padx=(0, 4))
         parent.columnconfigure(1, weight=1)
 
     def append_log(self, text: str) -> None:
@@ -982,7 +1045,7 @@ class KekaApp(tk.Tk):
         threading.Thread(target=worker, daemon=True).start()
 
     def _on_https_toggle(self, key: str) -> None:
-        """When HTTPS is toggled, switch Port 80↔443 if still on the other default."""
+        """When HTTPS is toggled, switch Port 80<->443 if still on the other default."""
         vars_ = self.device_vars.get(key)
         if not vars_:
             return
@@ -1254,6 +1317,17 @@ class KekaApp(tk.Tk):
         except Exception as exc:
             messagebox.showerror("Employees", str(exc))
 
+    def open_punches(self) -> None:
+        """Browse punches from SQL by selectable day (last 2 years)."""
+        try:
+            if not self.save_all(quiet=True):
+                return
+            from punches_ui import PunchesWindow
+
+            PunchesWindow(self, APPSETTINGS)
+        except Exception as exc:
+            messagebox.showerror("Punches", str(exc))
+
     def _is_startup_installed(self) -> bool:
         """True if the Windows collector task is registered."""
         r = subprocess.run(
@@ -1287,7 +1361,7 @@ class KekaApp(tk.Tk):
         threading.Thread(target=worker, daemon=True).start()
 
     def install_startup(self) -> None:
-        """Register Start-with-Windows, collector task, shortcuts."""
+        """Ensure ODBC driver, then register Start-with-Windows, collector task, shortcuts."""
         if self._is_startup_installed():
             messagebox.showinfo(
                 "Already installed",
@@ -1299,6 +1373,7 @@ class KekaApp(tk.Tk):
         if not messagebox.askyesno(
             "Install / Start with Windows",
             "Register Peak Energy Biometrics to:\n"
+            "• Install Microsoft ODBC Driver for SQL Server if missing\n"
             "• Start with Windows at logon (tray)\n"
             "• Collect punches every 1 minute (hidden)\n"
             "• Create Desktop + Start Menu shortcuts\n\n"
@@ -1308,6 +1383,12 @@ class KekaApp(tk.Tk):
 
         def worker() -> None:
             try:
+                self.after(0, lambda: self.set_status("Installing — checking ODBC driver…"))
+                from odbc_install import ensure_msodbcsql_driver
+
+                odbc_msg = ensure_msodbcsql_driver()
+                self.after(0, lambda m=odbc_msg: self.append_log(m))
+
                 self.after(0, lambda: self.set_status("Installing / registering startup…"))
                 if getattr(sys, "frozen", False):
                     msg = self._install_frozen()
@@ -1337,9 +1418,10 @@ class KekaApp(tk.Tk):
                     self.after(0, lambda: self.set_status("Installed — starts with Windows; collector every 1 min."))
                     self.after(
                         0,
-                        lambda: messagebox.showinfo(
+                        lambda m=odbc_msg: messagebox.showinfo(
                             "Install complete",
                             "Peak Energy Biometrics is registered.\n\n"
+                            f"{m}\n\n"
                             "• Starts with Windows at logon (tray)\n"
                             "• Collector runs every 1 minute (hidden)\n"
                             "• Desktop + Start Menu shortcuts created",
@@ -1576,9 +1658,13 @@ class KekaApp(tk.Tk):
             # Fallback: VBS wrapper with window style 0
             vbs = app_folder / "run-collector.vbs"
             vbs.write_text(
-                f'Set sh = CreateObject("WScript.Shell")\n'
-                f'sh.CurrentDirectory = "{app_folder}"\n'
-                f'sh.Run """{exe}"" --collect", 0, False\n',
+                'Set sh = CreateObject("WScript.Shell")\n'
+                + f'sh.CurrentDirectory = "{app_folder}"\n'
+                + 'sh.Run '
+                + ('"' * 3)
+                + str(exe)
+                + ('"' * 2)
+                + ' --collect", 0, False\n',
                 encoding="ascii",
                 errors="replace",
             )

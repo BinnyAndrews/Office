@@ -535,7 +535,7 @@ def modify_user_on_device(hik: col.HikTerminal, emp: dict[str, Any]) -> None:
 
 
 def _userinfo_payload(emp: dict[str, Any]) -> dict[str, Any]:
-    """Build UserInfo for create/modify — map Access enabled ↔ Valid.enable / userType."""
+    """Build UserInfo for create/modify — map Access enabled <-> Valid.enable / userType."""
     enabled = bool(emp.get("ValidEnabled", True))
     user_type = str(emp.get("UserType") or "normal").strip() or "normal"
     # Re-enable: clear blacklist type so the person works again
