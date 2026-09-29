@@ -135,91 +135,39 @@
 2026-09-29 11:51:21,212 INFO Result: SUCCESS — all 2 device(s) OK.
 2026-09-29 14:47:18,292 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
 2026-09-29 14:47:18,294 INFO Collector disabled — no punches written.
-2026-09-29 14:48:16,239 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
-2026-09-29 14:48:16,240 INFO Collector disabled — no punches written.
-2026-09-29 14:49:14,952 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
-2026-09-29 14:49:14,953 INFO Collector disabled — no punches written.
-2026-09-29 14:50:18,272 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
-2026-09-29 14:50:18,273 INFO Collector disabled — no punches written.
-2026-09-29 14:51:18,072 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
-2026-09-29 14:51:18,073 INFO Collector disabled — no punches written.
-2026-09-29 14:52:17,491 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
-2026-09-29 14:52:17,495 INFO Collector disabled — no punches written.
-2026-09-29 14:55:38,359 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
-2026-09-29 14:55:38,361 INFO Collector disabled — no punches written.
-2026-09-29 14:56:15,568 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
-2026-09-29 14:56:15,569 INFO Collector disabled — no punches written.
-2026-09-29 14:57:15,711 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
-2026-09-29 14:57:15,712 INFO Collector disabled — no punches written.
-2026-09-29 14:58:16,609 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
-2026-09-29 14:58:16,610 INFO Collector disabled — no punches written.
-2026-09-29 14:59:20,867 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
-2026-09-29 14:59:20,868 INFO Collector disabled — no punches written.
-2026-09-29 15:00:17,723 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
-2026-09-29 15:00:17,724 INFO Collector disabled — no punches written.
-2026-09-29 15:01:16,921 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
-2026-09-29 15:01:16,924 INFO Collector disabled — no punches written.
-2026-09-29 15:02:17,215 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
-2026-09-29 15:02:17,215 INFO Collector disabled — no punches written.
-2026-09-29 15:03:17,178 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
-2026-09-29 15:03:17,182 INFO Collector disabled — no punches written.
-2026-09-29 15:04:26,219 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
-2026-09-29 15:04:26,219 INFO Collector disabled — no punches written.
-2026-09-29 15:05:14,997 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
-2026-09-29 15:05:14,998 INFO Collector disabled — no punches written.
-2026-09-29 15:06:22,391 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
-2026-09-29 15:06:22,392 INFO Collector disabled — no punches written.
-2026-09-29 15:07:19,084 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
-2026-09-29 15:07:19,084 INFO Collector disabled — no punches written.
-2026-09-29 15:16:49,156 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
-2026-09-29 15:16:49,156 INFO Collector disabled — no punches written.
-2026-09-29 15:17:15,915 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
-2026-09-29 15:17:15,916 INFO Collector disabled — no punches written.
-2026-09-29 15:18:14,747 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
-2026-09-29 15:18:14,747 INFO Collector disabled — no punches written.
-2026-09-29 15:19:17,341 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
-2026-09-29 15:19:17,342 INFO Collector disabled — no punches written.
-2026-09-29 15:20:32,224 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
-2026-09-29 15:20:32,225 INFO Collector disabled — no punches written.
-2026-09-29 15:21:25,527 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
-2026-09-29 15:21:25,527 INFO Collector disabled — no punches written.
-2026-09-29 15:22:31,928 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
-2026-09-29 15:22:31,929 INFO Collector disabled — no punches written.
-2026-09-29 15:23:17,989 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
-2026-09-29 15:23:17,990 INFO Collector disabled — no punches written.
-2026-09-29 15:24:15,986 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
-2026-09-29 15:24:15,987 INFO Collector disabled — no punches written.
-2026-09-29 15:25:20,097 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
-2026-09-29 15:25:20,098 INFO Collector disabled — no punches written.
-2026-09-29 15:26:16,970 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
-2026-09-29 15:26:16,971 INFO Collector disabled — no punches written.
-2026-09-29 15:28:20,470 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
-2026-09-29 15:28:20,471 INFO Collector disabled — no punches written.
-2026-09-29 15:29:15,372 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
-2026-09-29 15:29:15,372 INFO Collector disabled — no punches written.
-2026-09-29 15:30:21,370 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
-2026-09-29 15:30:21,371 INFO Collector disabled — no punches written.
-2026-09-29 15:31:16,430 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
-2026-09-29 15:31:16,431 INFO Collector disabled — no punches written.
-2026-09-29 15:33:20,929 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
-2026-09-29 15:33:20,930 INFO Collector disabled — no punches written.
-2026-09-29 15:34:15,063 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
-2026-09-29 15:34:15,063 INFO Collector disabled — no punches written.
-2026-09-29 15:35:17,378 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
-2026-09-29 15:35:17,379 INFO Collector disabled — no punches written.
-2026-09-29 15:36:17,951 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
-2026-09-29 15:36:17,951 INFO Collector disabled — no punches written.
-2026-09-29 15:37:15,652 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
-2026-09-29 15:37:15,653 INFO Collector disabled — no punches written.
-2026-09-29 15:38:14,222 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
-2026-09-29 15:38:14,225 INFO Collector disabled — no punches written.
-2026-09-29 15:39:16,619 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
-2026-09-29 15:39:16,620 INFO Collector disabled — no punches written.
-2026-09-29 15:40:14,456 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
-2026-09-29 15:40:14,456 INFO Collector disabled — no punches written.
-2026-09-29 15:41:17,720 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
-2026-09-29 15:41:17,721 INFO Collector disabled — no punches written.
-2026-09-29 15:42:14,941 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
-2026-09-29 15:42:14,943 INFO Collector disabled — no punches written.
-2026-09-29 15:43:38,238 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
-2026-09-29 15:43:38,238 INFO Collector disabled — no punches written.
+2026-09-29 20:57:14,237 ERROR SQL connect failed. Installed ODBC drivers: ['ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 18 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 18 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 18 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to 10.80.100.10,1433. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-09-29 20:58:14,005 ERROR SQL connect failed. Installed ODBC drivers: ['ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 18 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 18 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 18 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to 10.80.100.10,1433. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-09-29 20:59:14,061 ERROR SQL connect failed. Installed ODBC drivers: ['ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 18 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 18 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 18 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to 10.80.100.10,1433. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-09-29 21:00:03,891 ERROR ('42S02', "[42S02] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Invalid object name 'dbo.DeviceConfig'. (208) (SQLExecDirectW)")
+2026-09-29 21:01:03,926 ERROR ('42S02', "[42S02] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Invalid object name 'dbo.DeviceConfig'. (208) (SQLExecDirectW)")
+2026-09-29 21:02:03,952 ERROR ('42S02', "[42S02] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Invalid object name 'dbo.DeviceConfig'. (208) (SQLExecDirectW)")
+2026-09-29 21:03:03,992 ERROR ('42S02', "[42S02] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Invalid object name 'dbo.DeviceConfig'. (208) (SQLExecDirectW)")
+2026-09-29 21:04:03,991 ERROR ('42S02', "[42S02] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Invalid object name 'dbo.DeviceConfig'. (208) (SQLExecDirectW)")
+2026-09-29 21:05:04,016 ERROR ('42S02', "[42S02] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Invalid object name 'dbo.DeviceConfig'. (208) (SQLExecDirectW)")
+2026-09-29 21:06:03,884 ERROR ('42S02', "[42S02] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Invalid object name 'dbo.DeviceConfig'. (208) (SQLExecDirectW)")
+2026-09-29 21:07:03,924 ERROR ('42S02', "[42S02] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Invalid object name 'dbo.DeviceConfig'. (208) (SQLExecDirectW)")
+2026-09-29 21:08:03,921 ERROR ('42S02', "[42S02] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Invalid object name 'dbo.DeviceConfig'. (208) (SQLExecDirectW)")
+2026-09-29 21:09:03,941 ERROR ('42S02', "[42S02] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Invalid object name 'dbo.DeviceConfig'. (208) (SQLExecDirectW)")
+2026-09-29 21:10:03,974 ERROR ('42S02', "[42S02] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Invalid object name 'dbo.DeviceConfig'. (208) (SQLExecDirectW)")
+2026-09-29 21:11:04,019 ERROR ('42S02', "[42S02] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Invalid object name 'dbo.DeviceConfig'. (208) (SQLExecDirectW)")
+2026-09-29 21:12:04,032 ERROR ('42S02', "[42S02] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Invalid object name 'dbo.DeviceConfig'. (208) (SQLExecDirectW)")
+2026-09-29 21:13:03,059 ERROR ('42S02', "[42S02] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Invalid object name 'dbo.DeviceConfig'. (208) (SQLExecDirectW)")
+2026-09-29 21:14:03,163 ERROR ('42S02', "[42S02] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Invalid object name 'dbo.DeviceConfig'. (208) (SQLExecDirectW)")
+2026-09-29 21:15:03,005 ERROR ('42S02', "[42S02] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Invalid object name 'dbo.DeviceConfig'. (208) (SQLExecDirectW)")
+2026-09-29 21:16:03,082 ERROR ('42S02', "[42S02] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Invalid object name 'dbo.DeviceConfig'. (208) (SQLExecDirectW)")
+2026-09-29 21:17:03,104 ERROR ('42S02', "[42S02] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Invalid object name 'dbo.DeviceConfig'. (208) (SQLExecDirectW)")
+2026-09-29 21:18:03,087 ERROR ('42S02', "[42S02] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Invalid object name 'dbo.DeviceConfig'. (208) (SQLExecDirectW)")
+2026-09-29 21:19:03,129 ERROR ('42S02', "[42S02] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Invalid object name 'dbo.DeviceConfig'. (208) (SQLExecDirectW)")
+2026-09-29 21:20:03,150 ERROR ('42S02', "[42S02] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Invalid object name 'dbo.DeviceConfig'. (208) (SQLExecDirectW)")
+2026-09-29 21:21:03,129 ERROR ('42S02', "[42S02] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Invalid object name 'dbo.DeviceConfig'. (208) (SQLExecDirectW)")
+2026-09-29 21:22:03,141 ERROR ('42S02', "[42S02] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Invalid object name 'dbo.DeviceConfig'. (208) (SQLExecDirectW)")
+2026-09-29 21:23:03,166 ERROR ('42S02', "[42S02] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Invalid object name 'dbo.DeviceConfig'. (208) (SQLExecDirectW)")
+2026-09-29 21:24:03,164 ERROR ('42S02', "[42S02] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Invalid object name 'dbo.DeviceConfig'. (208) (SQLExecDirectW)")
+2026-09-29 21:25:03,149 ERROR ('42S02', "[42S02] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Invalid object name 'dbo.DeviceConfig'. (208) (SQLExecDirectW)")
+2026-09-29 21:26:03,140 ERROR ('42S02', "[42S02] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Invalid object name 'dbo.DeviceConfig'. (208) (SQLExecDirectW)")
+2026-09-29 21:27:03,092 ERROR ('42S02', "[42S02] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Invalid object name 'dbo.DeviceConfig'. (208) (SQLExecDirectW)")
+2026-09-29 21:28:03,151 ERROR ('42S02', "[42S02] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Invalid object name 'dbo.DeviceConfig'. (208) (SQLExecDirectW)")
+2026-09-29 21:29:03,175 ERROR ('42S02', "[42S02] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Invalid object name 'dbo.DeviceConfig'. (208) (SQLExecDirectW)")
+2026-09-29 21:30:03,144 ERROR ('42S02', "[42S02] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Invalid object name 'dbo.DeviceConfig'. (208) (SQLExecDirectW)")
+2026-09-29 21:31:03,162 ERROR ('42S02', "[42S02] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Invalid object name 'dbo.DeviceConfig'. (208) (SQLExecDirectW)")
+2026-09-29 21:32:03,277 ERROR ('42S02', "[42S02] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Invalid object name 'dbo.DeviceConfig'. (208) (SQLExecDirectW)")
