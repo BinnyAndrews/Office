@@ -3088,3 +3088,12 @@
 2026-09-30 18:44:18,109 INFO SUCCESS  entry (10.80.100.11): OK — 3 event(s), 1 punch(es), inserted 0 new row(s).
 2026-09-30 18:44:18,110 INFO SUCCESS  exit (10.80.100.12): OK — 3 event(s), 1 punch(es), inserted 0 new row(s).
 2026-09-30 18:44:18,110 INFO Result: SUCCESS — all 2 device(s) OK.
+2026-09-30 18:45:13,970 INFO entry (10.80.100.11) searching 2026-09-30T18:18:25+05:30 → 2026-09-30T18:50:13+05:30
+2026-09-30 18:45:14,121 INFO 10.80.100.11: 3 device events, 1 punches after filter
+2026-09-30 18:45:14,146 INFO 10.80.100.11: inserted 0 new row(s)
+2026-09-30 18:45:14,147 INFO exit (10.80.100.12) searching 2026-09-30T18:22:31+05:30 → 2026-09-30T18:50:14+05:30
+2026-09-30 18:45:14,312 INFO 10.80.100.12: 3 device events, 1 punches after filter
+2026-09-30 18:45:14,327 INFO 10.80.100.12: inserted 0 new row(s)
+2026-09-30 18:45:14,329 INFO SUCCESS  entry (10.80.100.11): OK — 3 event(s), 1 punch(es), inserted 0 new row(s).
+2026-09-30 18:45:14,329 INFO SUCCESS  exit (10.80.100.12): OK — 3 event(s), 1 punch(es), inserted 0 new row(s).
+2026-09-30 18:45:14,330 INFO Result: SUCCESS — all 2 device(s) OK.
