@@ -585,3 +585,67 @@
 2026-09-30 04:49:13,354 ERROR SQL connect failed. Installed ODBC drivers: ['ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 18 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 18 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 18 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to 10.80.100.10,1433. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
 2026-09-30 04:50:13,361 ERROR SQL connect failed. Installed ODBC drivers: ['ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 18 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 18 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 18 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to 10.80.100.10,1433. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
 2026-09-30 04:51:13,414 ERROR SQL connect failed. Installed ODBC drivers: ['ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 18 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 18 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 18 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to 10.80.100.10,1433. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-09-30 06:13:48,784 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-09-30 06:13:48,785 INFO Collector disabled — no punches written.
+2026-09-30 06:14:20,205 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-09-30 06:14:20,206 INFO Collector disabled — no punches written.
+2026-09-30 06:15:15,967 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-09-30 06:15:15,967 INFO Collector disabled — no punches written.
+2026-09-30 06:16:24,907 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-09-30 06:16:24,911 INFO Collector disabled — no punches written.
+2026-09-30 06:17:17,660 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-09-30 06:17:17,661 INFO Collector disabled — no punches written.
+2026-09-30 06:18:15,738 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-09-30 06:18:15,739 INFO Collector disabled — no punches written.
+2026-09-30 06:28:13,438 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-09-30 06:28:13,439 INFO Collector disabled — no punches written.
+2026-09-30 06:29:15,141 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-09-30 06:29:15,142 INFO Collector disabled — no punches written.
+2026-09-30 06:30:19,501 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-09-30 06:30:19,502 INFO Collector disabled — no punches written.
+2026-09-30 06:31:15,542 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-09-30 06:31:15,546 INFO Collector disabled — no punches written.
+2026-09-30 06:32:13,395 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-09-30 06:32:13,395 INFO Collector disabled — no punches written.
+2026-09-30 06:33:32,341 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-09-30 06:33:32,344 INFO Collector disabled — no punches written.
+2026-09-30 06:34:14,780 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-09-30 06:34:14,781 INFO Collector disabled — no punches written.
+2026-09-30 06:35:58,272 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-09-30 06:35:58,274 INFO Collector disabled — no punches written.
+2026-09-30 06:36:23,700 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-09-30 06:36:23,700 INFO Collector disabled — no punches written.
+2026-09-30 06:37:15,397 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-09-30 06:37:15,398 INFO Collector disabled — no punches written.
+2026-09-30 06:38:18,979 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-09-30 06:38:18,980 INFO Collector disabled — no punches written.
+2026-09-30 06:39:17,585 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-09-30 06:39:17,588 INFO Collector disabled — no punches written.
+2026-09-30 06:40:15,619 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-09-30 06:40:15,619 INFO Collector disabled — no punches written.
+2026-09-30 06:41:19,319 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-09-30 06:41:19,319 INFO Collector disabled — no punches written.
+2026-09-30 06:42:14,618 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-09-30 06:42:14,621 INFO Collector disabled — no punches written.
+2026-09-30 06:43:14,819 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-09-30 06:43:14,819 INFO Collector disabled — no punches written.
+2026-09-30 06:44:29,212 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-09-30 06:44:29,213 INFO Collector disabled — no punches written.
+2026-09-30 06:45:17,710 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-09-30 06:45:17,711 INFO Collector disabled — no punches written.
+2026-09-30 06:46:16,273 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-09-30 06:46:16,274 INFO Collector disabled — no punches written.
+2026-09-30 06:47:15,615 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-09-30 06:47:15,616 INFO Collector disabled — no punches written.
+2026-09-30 06:48:14,443 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-09-30 06:48:14,444 INFO Collector disabled — no punches written.
+2026-09-30 06:49:18,173 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-09-30 06:49:18,174 INFO Collector disabled — no punches written.
+2026-09-30 06:50:30,567 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-09-30 06:50:30,579 INFO Collector disabled — no punches written.
+2026-09-30 06:51:16,369 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-09-30 06:51:16,370 INFO Collector disabled — no punches written.
+2026-09-30 06:52:15,208 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-09-30 06:52:15,209 INFO Collector disabled — no punches written.
+2026-09-30 06:53:13,669 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-09-30 06:53:13,670 INFO Collector disabled — no punches written.
