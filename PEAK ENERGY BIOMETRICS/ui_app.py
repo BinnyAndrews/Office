@@ -94,6 +94,14 @@ EMPLOYEES (main button → Employees window)
                       min 80×80; recommended ≥ 640×480
                       Oversize photos are auto-resized/compressed on Load
 
+DASHBOARD (main button → Dashboard window)
+  Month tab — per employee: days present, worked hours, break, incomplete days
+  Day tab   — same totals for one calendar day
+  Worked = each Entry until next Exit (same day)
+  Break  = each Exit until next Entry (same day)
+  Missing exit is flagged and not counted as worked time
+  Names from dbo.Employees when present; otherwise from the punch
+
 INSTALL / UNINSTALL
   Install / Start with Windows
     • Tray at Windows logon
@@ -436,9 +444,9 @@ class KekaApp(tk.Tk):
 
         btns = tk.Frame(footer, bg=ui_theme.BG)
         btns.grid(row=0, column=0, sticky="ew", pady=(4, 2))
-        for col in range(6):
+        for col in range(7):
             btns.columnconfigure(col, weight=0, uniform="footer_btns")
-        btns.columnconfigure(6, weight=1)
+        btns.columnconfigure(7, weight=1)
 
         pad = {"padx": (0, 6), "pady": 2, "sticky": "ew"}
         ui_theme.colored_button(btns, "Save configuration", self.save_all, kind="primary").grid(
@@ -474,8 +482,11 @@ class KekaApp(tk.Tk):
         ui_theme.colored_button(btns, "Employees", self.open_employees, kind="accent").grid(
             row=1, column=4, **pad
         )
+        ui_theme.colored_button(btns, "Dashboard", self.open_dashboard, kind="accent").grid(
+            row=1, column=5, **pad
+        )
         ui_theme.colored_button(btns, "Minimize to tray", self.hide_to_tray, kind="ghost").grid(
-            row=1, column=5, padx=(0, 0), pady=2, sticky="ew"
+            row=1, column=6, padx=(0, 0), pady=2, sticky="ew"
         )
         # Install button state checked in background after first paint
         self.after(400, self._refresh_install_buttons)
@@ -1412,6 +1423,15 @@ class KekaApp(tk.Tk):
             PunchesWindow(self, APPSETTINGS)
         except Exception as exc:
             messagebox.showerror("Punches", str(exc))
+
+    def open_dashboard(self) -> None:
+        """Monthly and daily worked hours / break time from Entry/Exit punches."""
+        try:
+            from dashboard_ui import DashboardWindow
+
+            DashboardWindow(self, APPSETTINGS)
+        except Exception as exc:
+            messagebox.showerror("Dashboard", str(exc))
 
     def _sync_interval_minutes(self) -> int:
         try:

@@ -31,6 +31,7 @@ hiddenimports = [
     "employees_ui",
     "punches",
     "punches_ui",
+    "dashboard_ui",
     "acs_copy",
     "odbc_install",
     "ui_app",
