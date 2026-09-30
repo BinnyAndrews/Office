@@ -228,10 +228,11 @@ def colored_button(
     pady: int = 5,
 ) -> tk.Button:
     """Classic tk.Button with guaranteed brand colors on Windows."""
+    # Footer / actions use cyan (primary work) and grey (secondary) only.
     colors = {
-        "primary": (NAVY, "#FFFFFF", NAVY_DARK),
+        "primary": (CYAN, NAVY_DARK, CYAN_HOVER),
         "accent": (CYAN, NAVY_DARK, CYAN_HOVER),
-        "success": (SUCCESS, "#FFFFFF", SUCCESS_HOVER),
+        "success": (CYAN, NAVY_DARK, CYAN_HOVER),
         "warn": (WARN, "#FFFFFF", WARN_HOVER),
         "danger": (DANGER, "#FFFFFF", DANGER_HOVER),
         "ghost": (GHOST, NAVY, GHOST_HOVER),

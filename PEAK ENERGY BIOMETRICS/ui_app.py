@@ -36,6 +36,31 @@ SQL_DEFAULT_PUNCH_TABLE = "atteninfo"
 SQL_DEFAULT_USERNAME = "sa"
 SQL_DEFAULT_PASSWORD = "cctv@2025"
 SQL_DEFAULT_DRIVER = "ODBC Driver 18 for SQL Server"
+# Peak ACS Hikvision admin password (same on Entry + Exit)
+DEVICE_DEFAULT_PASSWORD = "poli44557"
+# Local defaults when SQL is unreachable — also cached in appsettings.json "devices"
+DEVICE_DEFAULTS: dict[str, dict[str, Any]] = {
+    "entry": {
+        "DisplayName": "Entry Reader",
+        "IpAddress": "10.80.100.11",
+        "Port": 80,
+        "Username": "admin",
+        "Password": DEVICE_DEFAULT_PASSWORD,
+        "Direction": "In",
+        "Https": False,
+        "Enabled": True,
+    },
+    "exit": {
+        "DisplayName": "Exit Reader",
+        "IpAddress": "10.80.100.12",
+        "Port": 80,
+        "Username": "admin",
+        "Password": DEVICE_DEFAULT_PASSWORD,
+        "Direction": "Out",
+        "Https": False,
+        "Enabled": True,
+    },
+}
 SINGLETON_HOST = "127.0.0.1"
 SINGLETON_PORT = 58741
 MUTEX_NAME = "Local\\PeakEnergyBiometricsUI_SingleInstance"
@@ -70,6 +95,14 @@ DEVICE PANEL (per reader)
   HTTPS             — use https for Open / API (auto-sets Port 443;
                       leave unchecked for normal HTTP on port 80)
   Last success / last event / last error — from CollectorState (read-only)
+
+CHANGE ADMIN PASSWORD (main button — both readers together)
+  Changes the Hikvision admin login password on Entry and Exit to the same
+  new password, verifies login on each, then saves it to DeviceConfig / the
+  Password fields. App/SQL password is updated only if BOTH succeed.
+  If Entry changes but Exit fails, the app keeps the old stored password and
+  tells you Entry is already on the new password (fix Exit manually or retry).
+  Does not change employee door PINs or card codes.
 
 COLLECTOR SETTINGS
   Enable punch collector — OFF = do not write punches (safe with another collector)
@@ -115,7 +148,7 @@ INSTALL / UNINSTALL
 
 WHERE DATA LIVES (typical ACS SQL = master database)
   SQL login              → appsettings.json next to the exe
-  Devices                → dbo.DeviceConfig
+  Devices                → dbo.DeviceConfig (+ local appsettings.json cache)
   Collector options      → dbo.AppConfig (includes CollectorEnabled)
   Punch sync health      → dbo.CollectorState
   Employees              → dbo.Employees
@@ -131,7 +164,10 @@ TRAY / WINDOW / BRANDING
 TROUBLESHOOTING
   Connectivity failed → VPN/LAN, correct IP/port
   Wrong password      → device admin credentials; wait if lockout
+  Admin pwd partial   → Entry may already be on the new password; Exit still old;
+                        app password not updated — fix Exit then retry or set manually
   SQL login failed    → Server (comma for port), password, ODBC 17/18, SQL running
+  SQL unreachable     → device IP/password still kept in appsettings.json next to exe
   Cannot open DB      → Create / Repair; for ACS use Database=master
   No tray icon        → notification overflow; try --window
   Employee push fail  → Test devices first; check Entry/Exit status columns
@@ -179,16 +215,24 @@ def open_ipc_server() -> socket.socket | None:
 
 
 class PasswordEntry(ttk.Frame):
-    def __init__(self, master: tk.Misc, **kwargs: Any) -> None:
+    def __init__(
+        self,
+        master: tk.Misc,
+        *,
+        value: str = "",
+        reveal: bool = False,
+    ) -> None:
         super().__init__(master)
-        self.var = tk.StringVar(**kwargs)
-        self.show = False
+        self.var = tk.StringVar(value=value)
+        self.show = bool(reveal)
         # Grid (not pack): entry shrinks; Show stays fully visible inside the panel.
         self.columnconfigure(0, weight=1)
         self.columnconfigure(1, weight=0)
-        self.entry = ttk.Entry(self, textvariable=self.var, show="*")
+        self.entry = ttk.Entry(self, textvariable=self.var, show="" if self.show else "*")
         self.entry.grid(row=0, column=0, sticky="ew")
-        self.btn = ttk.Button(self, text="Show", width=6, command=self.toggle)
+        self.btn = ttk.Button(
+            self, text="Hide" if self.show else "Show", width=6, command=self.toggle
+        )
         self.btn.grid(row=0, column=1, sticky="e", padx=(6, 2))
 
     def toggle(self) -> None:
@@ -212,7 +256,7 @@ class KekaApp(tk.Tk):
     ) -> None:
         super().__init__()
         self.title("Peak Energy Biometrics")
-        self.minsize(900, 720)
+        self.minsize(720, 640)
         self.protocol("WM_DELETE_WINDOW", self.hide_to_tray)
         self.tray_icon = None
         self._logo_photo = None
@@ -382,14 +426,22 @@ class KekaApp(tk.Tk):
         for col_i, (key, title) in enumerate((("entry", "Entry device"), ("exit", "Exit device"))):
             df = ttk.LabelFrame(form, text=title, padding=8)
             df.grid(row=1, column=col_i, sticky="nsew", padx=(0 if col_i == 0 else 4, 0 if col_i == 1 else 4), pady=(0, 6))
-            ip = tk.StringVar()
-            port = tk.StringVar(value="80")
-            user = tk.StringVar(value="admin")
-            pw = PasswordEntry(df)
-            direction = tk.StringVar(value="In" if key == "entry" else "Out")
-            name = tk.StringVar(value="Entry Reader" if key == "entry" else "Exit Reader")
-            enabled = tk.BooleanVar(value=True)
-            https = tk.BooleanVar(value=False)
+            defaults = DEVICE_DEFAULTS.get(key) or {}
+            ip = tk.StringVar(value=str(defaults.get("IpAddress") or ""))
+            port = tk.StringVar(value=str(defaults.get("Port") or 80))
+            user = tk.StringVar(value=str(defaults.get("Username") or "admin"))
+            pw = PasswordEntry(df, value=str(defaults.get("Password") or DEVICE_DEFAULT_PASSWORD), reveal=True)
+            direction = tk.StringVar(
+                value=str(defaults.get("Direction") or ("In" if key == "entry" else "Out"))
+            )
+            name = tk.StringVar(
+                value=str(
+                    defaults.get("DisplayName")
+                    or ("Entry Reader" if key == "entry" else "Exit Reader")
+                )
+            )
+            enabled = tk.BooleanVar(value=bool(defaults.get("Enabled", True)))
+            https = tk.BooleanVar(value=bool(defaults.get("Https", False)))
             last_success = tk.StringVar(value="—")
             last_event = tk.StringVar(value="—")
             last_error = tk.StringVar(value="—")
@@ -437,7 +489,7 @@ class KekaApp(tk.Tk):
                 "last_error": last_error,
             }
 
-        # Fixed footer — two aligned button rows (same columns)
+        # Fixed footer — two rows (cyan + grey), Help last on the right
         footer = tk.Frame(root, bg=ui_theme.BG, padx=4, pady=6)
         footer.grid(row=1, column=0, sticky="ew")
         footer.columnconfigure(0, weight=1)
@@ -445,49 +497,33 @@ class KekaApp(tk.Tk):
         btns = tk.Frame(footer, bg=ui_theme.BG)
         btns.grid(row=0, column=0, sticky="ew", pady=(4, 2))
         for col in range(7):
-            btns.columnconfigure(col, weight=0, uniform="footer_btns")
-        btns.columnconfigure(7, weight=1)
+            btns.columnconfigure(col, weight=1, uniform="footer_btns")
 
         pad = {"padx": (0, 6), "pady": 2, "sticky": "ew"}
-        ui_theme.colored_button(btns, "Save configuration", self.save_all, kind="primary").grid(
-            row=0, column=0, **pad
-        )
-        ui_theme.colored_button(
-            btns, "Create / Repair database", self.create_database, kind="ghost"
-        ).grid(row=0, column=1, **pad)
-        ui_theme.colored_button(btns, "Test devices", self.test_devices, kind="accent").grid(
-            row=0, column=2, **pad
-        )
-        ui_theme.colored_button(btns, "Run collector now", self.run_now, kind="success").grid(
-            row=0, column=3, **pad
-        )
-        ui_theme.colored_button(btns, "Reload", self.reload_all, kind="ghost").grid(
-            row=0, column=4, **pad
-        )
 
-        self.btn_install = ui_theme.colored_button(
-            btns, "Install / Start with Windows", self.install_startup, kind="primary"
+        def put(row: int, col: int, text: str, command: Any, kind: str = "ghost") -> tk.Button:
+            btn = ui_theme.colored_button(btns, text, command, kind=kind)
+            btn.grid(row=row, column=col, **pad)
+            return btn
+
+        # Row 1 — setup / devices
+        put(0, 0, "Save configuration", self.save_all, "accent")
+        put(0, 1, "Reload", self.reload_all, "ghost")
+        put(0, 2, "Create / Repair database", self.create_database, "ghost")
+        put(0, 3, "Test devices", self.test_devices, "accent")
+        put(0, 4, "Change admin password", self.change_admin_password, "ghost")
+        put(0, 5, "Run collector now", self.run_now, "accent")
+        # Row 2 — Windows / tools / Help (Help far right)
+        self.btn_install = put(1, 0, "Install / Start with Windows", self.install_startup, "accent")
+        self.btn_uninstall = put(
+            1, 1, "Uninstall / Stop with Windows", self.uninstall_startup, "ghost"
         )
-        self.btn_install.grid(row=1, column=0, **pad)
-        self.btn_uninstall = ui_theme.colored_button(
-            btns, "Uninstall / Stop with Windows", self.uninstall_startup, kind="ghost"
-        )
-        self.btn_uninstall.grid(row=1, column=1, **pad)
-        ui_theme.colored_button(btns, "Help", self.show_help, kind="ghost").grid(
-            row=1, column=2, **pad
-        )
-        ui_theme.colored_button(btns, "Punches", self.open_punches, kind="accent").grid(
-            row=1, column=3, **pad
-        )
-        ui_theme.colored_button(btns, "Employees", self.open_employees, kind="accent").grid(
-            row=1, column=4, **pad
-        )
-        ui_theme.colored_button(btns, "Dashboard", self.open_dashboard, kind="accent").grid(
-            row=1, column=5, **pad
-        )
-        ui_theme.colored_button(btns, "Minimize to tray", self.hide_to_tray, kind="ghost").grid(
-            row=1, column=6, padx=(0, 0), pady=2, sticky="ew"
-        )
+        put(1, 2, "Punches", self.open_punches, "accent")
+        put(1, 3, "Employees", self.open_employees, "accent")
+        put(1, 4, "Dashboard", self.open_dashboard, "accent")
+        put(1, 5, "Minimize to tray", self.hide_to_tray, "ghost")
+        put(1, 6, "Help", self.show_help, "ghost")
+
         # Install button state checked in background after first paint
         self.after(400, self._refresh_install_buttons)
 
@@ -608,6 +644,81 @@ class KekaApp(tk.Tk):
     def _fit_to_screen(self) -> None:
         self._go_fullscreen()
 
+    def _devices_snapshot_from_ui(self) -> dict[str, Any]:
+        """Current Entry/Exit fields for local appsettings cache (survives SQL outages)."""
+        out: dict[str, Any] = {}
+        for key, vars_ in self.device_vars.items():
+            out[key] = {
+                "DisplayName": vars_["name"].get().strip(),
+                "IpAddress": vars_["ip"].get().strip(),
+                "Port": int(vars_["port"].get() or 80),
+                "Username": vars_["user"].get().strip(),
+                "Password": vars_["pass"].get(),
+                "Direction": vars_["direction"].get().strip() or ("In" if key == "entry" else "Out"),
+                "Https": bool(vars_["https"].get()),
+                "Enabled": bool(vars_["enabled"].get()),
+            }
+        return out
+
+    def _normalize_devices_cache(self, raw: Any) -> dict[str, Any]:
+        """Normalize appsettings devices dict; fill missing keys from DEVICE_DEFAULTS."""
+        src = raw if isinstance(raw, dict) else {}
+        found: dict[str, Any] = {}
+        for key, defaults in DEVICE_DEFAULTS.items():
+            row = src.get(key) if isinstance(src.get(key), dict) else {}
+            pw = str(row.get("Password") or "").strip()
+            if not pw or pw in {"CHANGE_ME", "changeme"}:
+                pw = str(defaults.get("Password") or DEVICE_DEFAULT_PASSWORD)
+            found[key] = {
+                "DisplayName": str(row.get("DisplayName") or defaults["DisplayName"]),
+                "IpAddress": str(row.get("IpAddress") or defaults["IpAddress"]),
+                "Port": int(row.get("Port") or defaults["Port"] or 80),
+                "Username": str(row.get("Username") or defaults["Username"]),
+                "Password": pw,
+                "Direction": str(row.get("Direction") or defaults["Direction"]),
+                "Https": bool(row.get("Https", defaults["Https"])),
+                "Enabled": bool(row.get("Enabled", defaults["Enabled"])),
+            }
+        return found
+
+    @staticmethod
+    def _merge_device_rows(
+        primary: dict[str, Any], fallback: dict[str, Any]
+    ) -> dict[str, Any]:
+        """Merge device maps; never let an empty password wipe a known one."""
+        out: dict[str, Any] = {}
+        keys = set(primary) | set(fallback) | set(DEVICE_DEFAULTS)
+        for key in keys:
+            a = primary.get(key) if isinstance(primary.get(key), dict) else {}
+            b = fallback.get(key) if isinstance(fallback.get(key), dict) else {}
+            base = DEVICE_DEFAULTS.get(key) or {}
+            pw = str(a.get("Password") or "").strip() or str(b.get("Password") or "").strip()
+            if not pw or pw in {"CHANGE_ME", "changeme"}:
+                pw = str(base.get("Password") or DEVICE_DEFAULT_PASSWORD)
+            out[key] = {
+                "DisplayName": str(a.get("DisplayName") or b.get("DisplayName") or base.get("DisplayName") or key),
+                "IpAddress": str(a.get("IpAddress") or b.get("IpAddress") or base.get("IpAddress") or ""),
+                "Port": int(a.get("Port") or b.get("Port") or base.get("Port") or 80),
+                "Username": str(a.get("Username") or b.get("Username") or base.get("Username") or "admin"),
+                "Password": pw,
+                "Direction": str(a.get("Direction") or b.get("Direction") or base.get("Direction") or "In"),
+                "Https": bool(a["Https"]) if "Https" in a else bool(b.get("Https", base.get("Https", False))),
+                "Enabled": bool(a["Enabled"]) if "Enabled" in a else bool(b.get("Enabled", base.get("Enabled", True))),
+            }
+        return out
+
+    def _persist_devices_cache(self, devices: dict[str, Any] | None = None) -> None:
+        """Write devices into appsettings.json without requiring SQL."""
+        try:
+            boot = col.load_json(APPSETTINGS) if APPSETTINGS.exists() else {}
+        except Exception:
+            boot = {}
+        if not isinstance(boot, dict):
+            boot = {}
+        boot["devices"] = devices if devices is not None else self._devices_snapshot_from_ui()
+        # Keep sql / collector_enabled if present
+        col.save_json(APPSETTINGS, boot)
+
     def _row(self, parent: tk.Misc, row: int, label: str, widget: tk.Misc) -> None:
         ttk.Label(parent, text=label, width=18).grid(row=row, column=0, sticky=tk.W, pady=1, padx=(0, 6))
         widget.grid(row=row, column=1, sticky=tk.EW, pady=1, padx=(0, 4))
@@ -705,6 +816,9 @@ class KekaApp(tk.Tk):
                                     "driver": SQL_DEFAULT_DRIVER,
                                 },
                                 "collector_enabled": False,
+                                "devices": {
+                                    k: dict(v) for k, v in DEVICE_DEFAULTS.items()
+                                },
                             },
                         )
                 boot = col.load_json(APPSETTINGS)
@@ -719,6 +833,9 @@ class KekaApp(tk.Tk):
                 }:
                     sql["password"] = SQL_DEFAULT_PASSWORD
                 boot["sql"] = sql
+                # Keep any previously cached device IP/password until SQL replaces them
+                local_devices = self._normalize_devices_cache(boot.get("devices"))
+                boot["devices"] = local_devices
                 col.save_json(APPSETTINGS, boot)
                 sync_mins = "1"
                 lookback = "24"
@@ -783,6 +900,15 @@ class KekaApp(tk.Tk):
                     }
                 finally:
                     conn.close()
+                # Prefer SQL rows; keep local password/IP when SQL has blanks
+                if found:
+                    found = self._normalize_devices_cache(
+                        self._merge_device_rows(found, local_devices)
+                    )
+                else:
+                    found = local_devices
+                boot["devices"] = found
+                col.save_json(APPSETTINGS, boot)
                 payload = {
                     "sql": sql,
                     "sync_mins": sync_mins,
@@ -793,14 +919,28 @@ class KekaApp(tk.Tk):
                     "collector_enabled": collector_enabled,
                     "found": found,
                     "states": states,
+                    "devices_from": "sql",
                 }
             except Exception as exc:
                 error = str(exc)
                 try:
                     boot = col.load_json(APPSETTINGS)
-                    payload = {"sql": boot.get("sql") or {}, "found": {}, "states": {}}
+                    sql = boot.get("sql") or {}
+                    found = self._normalize_devices_cache(boot.get("devices"))
+                    payload = {
+                        "sql": sql,
+                        "found": found,
+                        "states": {},
+                        "collector_enabled": bool(boot.get("collector_enabled", False)),
+                        "devices_from": "cache",
+                    }
                 except Exception:
-                    payload = None
+                    payload = {
+                        "sql": {},
+                        "found": self._normalize_devices_cache({}),
+                        "states": {},
+                        "devices_from": "defaults",
+                    }
 
             self.after(0, lambda p=payload, e=error: self._apply_reload(p, e))
 
@@ -822,21 +962,27 @@ class KekaApp(tk.Tk):
                 found = payload.get("found") or {}
                 states = payload.get("states") or {}
                 for key, vars_ in self.device_vars.items():
-                    row = found.get(key)
+                    row = found.get(key) or DEVICE_DEFAULTS.get(key)
                     if not row:
                         vars_["last_success"].set("—")
                         vars_["last_event"].set("—")
                         vars_["last_error"].set("—")
                         continue
-                    vars_["name"].set(row["DisplayName"] or "")
-                    vars_["ip"].set(row["IpAddress"] or "")
-                    vars_["port"].set(str(row["Port"] or 80))
-                    vars_["user"].set(row["Username"] or "")
-                    vars_["pass"].set(row["Password"] or "")
-                    vars_["direction"].set(row["Direction"] or ("In" if key == "entry" else "Out"))
-                    vars_["https"].set(bool(row["Https"]))
-                    vars_["enabled"].set(bool(row["Enabled"]))
-                    st = states.get(row["IpAddress"])
+                    vars_["name"].set(row.get("DisplayName") or "")
+                    vars_["ip"].set(row.get("IpAddress") or "")
+                    vars_["port"].set(str(row.get("Port") or 80))
+                    vars_["user"].set(row.get("Username") or "")
+                    # Never blank out a typed/cached password with an empty load
+                    loaded_pw = str(row.get("Password") or "").strip()
+                    if not loaded_pw or loaded_pw in {"CHANGE_ME", "changeme"}:
+                        loaded_pw = str(vars_["pass"].get() or "").strip() or DEVICE_DEFAULT_PASSWORD
+                    vars_["pass"].set(loaded_pw)
+                    vars_["direction"].set(
+                        row.get("Direction") or ("In" if key == "entry" else "Out")
+                    )
+                    vars_["https"].set(bool(row.get("Https")))
+                    vars_["enabled"].set(bool(row.get("Enabled", True)))
+                    st = states.get(row.get("IpAddress"))
                     if st:
                         vars_["last_success"].set(
                             f"{st['LastSuccessUtc']} UTC" if st["LastSuccessUtc"] else "—"
@@ -850,8 +996,23 @@ class KekaApp(tk.Tk):
                         vars_["last_event"].set("—")
                         vars_["last_error"].set("—")
             if error:
-                self.set_status(f"Load failed: {error}")
-                messagebox.showerror("Load failed", error, parent=self)
+                src = (payload or {}).get("devices_from") or "cache"
+                if src in {"cache", "defaults"} and (payload or {}).get("found"):
+                    self.set_status(
+                        f"SQL unreachable — device IP/password kept from local cache. ({error})"
+                    )
+                    # Soft warning: devices still shown
+                    messagebox.showwarning(
+                        "SQL unreachable",
+                        "Could not reach SQL Server.\n\n"
+                        "Entry/Exit IP and passwords were kept from the local "
+                        "appsettings.json cache (or defaults).\n\n"
+                        f"Details: {error}",
+                        parent=self,
+                    )
+                else:
+                    self.set_status(f"Load failed: {error}")
+                    messagebox.showerror("Load failed", error, parent=self)
             else:
                 self.set_status("Configuration loaded.")
             self.after(30, self._fit_to_screen)
@@ -888,12 +1049,15 @@ class KekaApp(tk.Tk):
 
     def save_all(self, quiet: bool = False) -> bool:
         try:
+            devices = self._devices_snapshot_from_ui()
             boot = {
                 "sql": self._sql_defaults_from_ui(),
                 "collector_enabled": bool(self.collector_enabled.get()),
+                "devices": devices,
             }
             # Keep UI in sync with what we persist (fills blank user/pass with defaults)
             self._apply_sql_to_ui(boot["sql"])
+            # Always cache device IP/password locally first so they survive SQL outages
             col.save_json(APPSETTINGS, boot)
             # Full schema ensure only on Create/Repair — keeps Save fast
             conn = col.connect_sql(boot["sql"])
@@ -995,14 +1159,29 @@ class KekaApp(tk.Tk):
                 messagebox.showinfo(
                     "Saved",
                     "Configuration saved to appsettings.json and SQL.\n"
+                    "Device IP/password are cached locally and in DeviceConfig.\n"
                     "Punches use master.dbo.atteninfo." + extra,
                     parent=self,
                 )
             return True
         except Exception as exc:
             msg = self._friendly_sql_error(exc)
-            self.set_status(f"Save failed: {msg}")
-            messagebox.showerror("Save failed", msg, parent=self)
+            # Local device cache was already written before SQL — keep UI values
+            try:
+                self._persist_devices_cache()
+            except Exception:
+                pass
+            self.set_status(
+                f"Save failed (SQL) — device IP/password kept in appsettings.json. {msg}"
+            )
+            messagebox.showerror(
+                "Save failed",
+                "Could not save to SQL Server.\n\n"
+                "Entry/Exit IP and passwords were still saved locally in "
+                "appsettings.json next to the exe, so they will not be lost.\n\n"
+                f"{msg}",
+                parent=self,
+            )
             return False
 
     def _friendly_sql_error(self, exc: BaseException) -> str:
@@ -1138,6 +1317,250 @@ class KekaApp(tk.Tk):
                 self.after(0, lambda: messagebox.showerror("Test devices", str(exc)))
 
         threading.Thread(target=worker, daemon=True).start()
+
+    def change_admin_password(self) -> None:
+        """Change Hikvision admin password on Entry + Exit together; save SQL only if both OK (P1)."""
+        devices: list[dict[str, Any]] = []
+        labels: list[str] = []
+        for key in ("entry", "exit"):
+            vars_ = self.device_vars.get(key)
+            if not vars_:
+                continue
+            label = vars_["name"].get().strip() or key
+            ip = vars_["ip"].get().strip()
+            if not ip:
+                messagebox.showerror(
+                    "Change admin password",
+                    f"Enter an IP address for {label} first.",
+                    parent=self,
+                )
+                return
+            if not vars_["pass"].get():
+                messagebox.showerror(
+                    "Change admin password",
+                    f"Current admin password for {label} is empty.\n"
+                    "Enter the current password in the device Password field first.",
+                    parent=self,
+                )
+                return
+            devices.append(self._device_dict_from_ui(key))
+            labels.append(f"{label} ({ip})")
+
+        if len(devices) < 2:
+            messagebox.showerror(
+                "Change admin password",
+                "Both Entry and Exit device panels are required.",
+                parent=self,
+            )
+            return
+
+        new_password = self._ask_new_admin_password()
+        if new_password is None:
+            return
+
+        confirm = (
+            "Change the Hikvision admin password on BOTH readers to the same new password?\n\n"
+            + "\n".join(f"• {x}" for x in labels)
+            + "\n\n"
+            "Wrong attempts can temporarily lock the device admin login.\n"
+            "App/SQL password is updated only if both succeed."
+        )
+        if not messagebox.askyesno("Change admin password", confirm, parent=self):
+            return
+
+        try:
+            timeout = int(self.timeout_secs.get() or 20)
+        except ValueError:
+            timeout = 20
+
+        def worker() -> None:
+            try:
+                self.after(0, lambda: self.set_status("Changing admin password on both devices…"))
+                results = col.change_both_admin_passwords(
+                    devices, new_password, timeout=timeout
+                )
+                all_ok = bool(results) and all(r.get("ok") for r in results)
+                any_changed = any(r.get("changed") for r in results)
+                lines = ["Change admin password"]
+                for r in results:
+                    mark = "OK" if r.get("ok") else "FAIL"
+                    lines.append(f"  [{mark}] {r.get('name')} ({r.get('ip')}): {r.get('detail')}")
+                text = "\n".join(lines)
+
+                def finish() -> None:
+                    self.append_log(text)
+                    if all_ok:
+                        for key in ("entry", "exit"):
+                            if key in self.device_vars:
+                                self.device_vars[key]["pass"].set(new_password)
+                        if not self.save_all(quiet=True):
+                            messagebox.showwarning(
+                                "Change admin password",
+                                "Both devices accepted the new password, but saving "
+                                "to SQL/appsettings failed.\n\n"
+                                "Password fields on screen were updated — click "
+                                "Save configuration.",
+                                parent=self,
+                            )
+                            self.set_status(
+                                "Devices updated; save to SQL failed — click Save configuration."
+                            )
+                            return
+                        self.set_status("Admin password changed on Entry and Exit; saved.")
+                        messagebox.showinfo(
+                            "Change admin password",
+                            "Admin password changed and verified on Entry and Exit.\n"
+                            "Saved to DeviceConfig / Password fields.",
+                            parent=self,
+                        )
+                        return
+
+                    # P1: never update stored password on partial / total failure
+                    if any_changed:
+                        changed = [
+                            f"{r.get('name')} ({r.get('ip')})"
+                            for r in results
+                            if r.get("changed")
+                        ]
+                        failed = [
+                            f"{r.get('name')} ({r.get('ip')}): {r.get('detail')}"
+                            for r in results
+                            if not r.get("ok")
+                        ]
+                        msg = (
+                            "Partial failure — app/SQL password was NOT updated.\n\n"
+                            "Already changed on device:\n  • "
+                            + "\n  • ".join(changed)
+                            + "\n\nFailed:\n  • "
+                            + "\n  • ".join(failed)
+                            + "\n\nThose devices already use the NEW password. "
+                            "Fix the failed reader (or set it manually), then retry "
+                            "or update the Password fields to match before Save."
+                        )
+                        self.set_status("Partial password change — app password not updated.")
+                        messagebox.showerror("Change admin password", msg, parent=self)
+                    else:
+                        self.set_status("Admin password change failed.")
+                        messagebox.showerror("Change admin password", text, parent=self)
+
+                self.after(0, finish)
+            except Exception as exc:
+                self.after(0, lambda: self.set_status(f"Password change failed: {exc}"))
+                self.after(
+                    0,
+                    lambda: messagebox.showerror(
+                        "Change admin password", str(exc), parent=self
+                    ),
+                )
+
+        threading.Thread(target=worker, daemon=True).start()
+
+    def _ask_new_admin_password(self) -> str | None:
+        """Modal: new password + confirm. Returns password or None if cancelled."""
+        win = tk.Toplevel(self)
+        win.title("Change admin password")
+        win.transient(self)
+        win.grab_set()
+        win.resizable(False, False)
+        ui_theme.apply_theme(win)
+
+        frame = ttk.Frame(win, padding=12)
+        frame.grid(row=0, column=0, sticky="nsew")
+
+        cur_lines = []
+        for key in ("entry", "exit"):
+            vars_ = self.device_vars.get(key)
+            if not vars_:
+                continue
+            label = vars_["name"].get().strip() or key
+            pw = vars_["pass"].get() or "(empty — enter it on the device panel first)"
+            cur_lines.append(f"{label}: {pw}")
+        ttk.Label(
+            frame,
+            text="Current admin password (from device panel):\n" + "\n".join(cur_lines),
+            wraplength=400,
+            justify=tk.LEFT,
+        ).grid(row=0, column=0, columnspan=2, sticky="w", pady=(0, 10))
+
+        ttk.Label(
+            frame,
+            text="New admin password for Entry and Exit (same on both):",
+            wraplength=360,
+        ).grid(row=1, column=0, columnspan=2, sticky="w", pady=(0, 8))
+
+        ttk.Label(frame, text="New password").grid(row=2, column=0, sticky="w", pady=2)
+        new_var = tk.StringVar()
+        new_entry = ttk.Entry(frame, textvariable=new_var, show="*", width=32)
+        new_entry.grid(row=2, column=1, sticky="ew", pady=2, padx=(8, 0))
+
+        ttk.Label(frame, text="Confirm").grid(row=3, column=0, sticky="w", pady=2)
+        conf_var = tk.StringVar()
+        conf_entry = ttk.Entry(frame, textvariable=conf_var, show="*", width=32)
+        conf_entry.grid(row=3, column=1, sticky="ew", pady=2, padx=(8, 0))
+
+        show_var = tk.BooleanVar(value=False)
+
+        def toggle_show() -> None:
+            ch = "" if show_var.get() else "*"
+            new_entry.configure(show=ch)
+            conf_entry.configure(show=ch)
+
+        ttk.Checkbutton(
+            frame, text="Show passwords", variable=show_var, command=toggle_show
+        ).grid(row=4, column=1, sticky="w", pady=(4, 0))
+
+        ttk.Label(
+            frame,
+            text="Use a strong password (Hikvision rejects weak ones as riskPassword).",
+            wraplength=360,
+            foreground=ui_theme.NAVY,
+        ).grid(row=5, column=0, columnspan=2, sticky="w", pady=(8, 0))
+
+        result: dict[str, str | None] = {"value": None}
+
+        def on_ok() -> None:
+            a = new_var.get()
+            b = conf_var.get()
+            if not a.strip():
+                messagebox.showerror(
+                    "Change admin password", "Enter a new password.", parent=win
+                )
+                return
+            if a != b:
+                messagebox.showerror(
+                    "Change admin password", "Passwords do not match.", parent=win
+                )
+                return
+            # Same as current on either device?
+            currents = {
+                self.device_vars[k]["pass"].get()
+                for k in ("entry", "exit")
+                if k in self.device_vars
+            }
+            if a in currents:
+                messagebox.showerror(
+                    "Change admin password",
+                    "New password must be different from the current device password.",
+                    parent=win,
+                )
+                return
+            result["value"] = a
+            win.destroy()
+
+        def on_cancel() -> None:
+            result["value"] = None
+            win.destroy()
+
+        btns = ttk.Frame(frame)
+        btns.grid(row=6, column=0, columnspan=2, sticky="e", pady=(12, 0))
+        ttk.Button(btns, text="Cancel", command=on_cancel).pack(side=tk.RIGHT, padx=(6, 0))
+        ttk.Button(btns, text="Continue", command=on_ok).pack(side=tk.RIGHT)
+
+        new_entry.focus_set()
+        win.bind("<Return>", lambda _e: on_ok())
+        win.bind("<Escape>", lambda _e: on_cancel())
+        win.wait_window()
+        return result["value"]
 
     def _on_https_toggle(self, key: str) -> None:
         """When HTTPS is toggled, switch Port 80<->443 if still on the other default."""

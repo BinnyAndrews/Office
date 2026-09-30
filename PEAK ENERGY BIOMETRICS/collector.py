@@ -271,6 +271,332 @@ class HikTerminal:
             position += got
         return collected
 
+    def find_security_user_id(self, username: str) -> int:
+        """Resolve Hikvision Security user id for the given login name (usually admin → 1)."""
+        want = (username or "admin").strip().lower() or "admin"
+        users = self._list_security_users()
+        for u in users:
+            name = str(u.get("userName") or u.get("username") or "").strip().lower()
+            if name == want:
+                uid = as_int(u.get("id"))
+                if uid is not None:
+                    return uid
+        for u in users:
+            level = str(u.get("userLevel") or u.get("userType") or "").lower()
+            if "admin" in level:
+                uid = as_int(u.get("id"))
+                if uid is not None:
+                    return uid
+        if users:
+            uid = as_int(users[0].get("id"))
+            if uid is not None:
+                return uid
+        return 1
+
+    def _list_security_users(self) -> list[dict[str, Any]]:
+        """GET /ISAPI/Security/users — JSON preferred, XML fallback."""
+        for path in (
+            "/ISAPI/Security/users?format=json",
+            "/ISAPI/Security/users",
+        ):
+            try:
+                resp = self.request("GET", path)
+            except Exception as exc:
+                LOG.debug("%s: Security/users %s failed: %s", self.dev.get("ip"), path, exc)
+                continue
+            users = _parse_security_user_list(resp)
+            if users:
+                return users
+        return []
+
+    def change_admin_password(self, new_password: str) -> None:
+        """Change this device's admin (login) password via ISAPI Security/users.
+
+        Authenticates with the current password in ``self.dev``, then verifies
+        with the new password. Does not update SQL/config — caller does that.
+        """
+        new_password = str(new_password or "")
+        if not new_password.strip():
+            raise ValueError("New password is empty.")
+        old_password = str(self.dev.get("password") or "")
+        username = str(self.dev.get("username") or "admin").strip() or "admin"
+        if new_password == old_password:
+            raise ValueError("New password is the same as the current password.")
+
+        # Confirm current credentials before attempting a change
+        self.probe()
+        user_id = self.find_security_user_id(username)
+
+        errors: list[str] = []
+        # JSON first (modern ACS), then XML (older firmware)
+        attempts: list[tuple[str, dict[str, str], Any]] = [
+            (
+                f"/ISAPI/Security/users/{user_id}?format=json",
+                {"Content-Type": "application/json"},
+                json.dumps(
+                    {
+                        "User": {
+                            "id": user_id,
+                            "userName": username,
+                            "password": new_password,
+                            "loginPassword": old_password,
+                        }
+                    }
+                ),
+            ),
+            (
+                f"/ISAPI/Security/users/{user_id}",
+                {"Content-Type": "application/xml"},
+                (
+                    '<?xml version="1.0" encoding="UTF-8"?>'
+                    f"<User><id>{user_id}</id>"
+                    f"<userName>{_xml_escape(username)}</userName>"
+                    f"<password>{_xml_escape(new_password)}</password>"
+                    f"<loginPassword>{_xml_escape(old_password)}</loginPassword>"
+                    "</User>"
+                ),
+            ),
+            (
+                "/ISAPI/Security/users",
+                {"Content-Type": "application/xml"},
+                (
+                    '<?xml version="1.0" encoding="UTF-8"?>'
+                    "<UserList><User>"
+                    f"<id>{user_id}</id>"
+                    f"<userName>{_xml_escape(username)}</userName>"
+                    f"<password>{_xml_escape(new_password)}</password>"
+                    f"<loginPassword>{_xml_escape(old_password)}</loginPassword>"
+                    "</User></UserList>"
+                ),
+            ),
+        ]
+        changed = False
+        for path, headers, body in attempts:
+            try:
+                resp = self._request_check_status("PUT", path, headers=headers, data=body)
+                changed = True
+                LOG.info(
+                    "%s: admin password changed via %s (HTTP %s)",
+                    self.dev.get("ip"),
+                    path,
+                    resp.status_code,
+                )
+                break
+            except Exception as exc:
+                errors.append(f"{path}: {exc}")
+                LOG.warning(
+                    "%s: password change attempt failed (%s): %s",
+                    self.dev.get("ip"),
+                    path,
+                    exc,
+                )
+
+        if not changed:
+            detail = errors[-1] if errors else "unknown error"
+            raise RuntimeError(
+                f"{self.dev.get('ip')}: could not change admin password — {detail}"
+            )
+
+        # Verify new password works (digest with updated credentials)
+        verify_dev = dict(self.dev)
+        verify_dev["password"] = new_password
+        try:
+            HikTerminal(verify_dev, timeout=self.timeout).probe()
+        except Exception as exc:
+            raise DevicePasswordChangedError(
+                f"{self.dev.get('ip')}: admin password was changed on the device, "
+                f"but login with the new password failed — {exc}"
+            ) from exc
+
+    def _request_check_status(self, method: str, path: str, **kwargs: Any) -> requests.Response:
+        """Like request(), but also reject Hikvision ResponseStatus failures (riskPassword, etc.)."""
+        url = self.base + path
+        kwargs.setdefault("timeout", self.timeout)
+        resp = self.session.request(method, url, **kwargs)
+        if resp.status_code == 401:
+            raise RuntimeError(
+                f"{self.dev['ip']}: auth failed or device locked (HTTP 401). "
+                "Wait if lockout, then check admin password."
+            )
+        ok, detail = parse_hik_response_status(resp)
+        if resp.status_code >= 400 or not ok:
+            msg = detail or f"HTTP {resp.status_code}"
+            raise RuntimeError(f"{self.dev['ip']}: {msg}")
+        return resp
+
+
+class DevicePasswordChangedError(RuntimeError):
+    """Password was applied on the device, but a later verify step failed."""
+
+
+def _xml_escape(value: str) -> str:
+    return (
+        str(value)
+        .replace("&", "&amp;")
+        .replace("<", "&lt;")
+        .replace(">", "&gt;")
+        .replace('"', "&quot;")
+        .replace("'", "&apos;")
+    )
+
+
+def parse_hik_response_status(resp: requests.Response) -> tuple[bool, str]:
+    """Return (ok, detail) from a Hikvision ResponseStatus JSON/XML body.
+
+    Empty 2xx body is treated as success. statusCode 1 / subStatusCode ok → success.
+    """
+    text = (resp.text or "").strip()
+    if not text:
+        return resp.status_code < 400, f"HTTP {resp.status_code}" if resp.status_code >= 400 else ""
+
+    data: dict[str, Any] | None = None
+    ctype = (resp.headers.get("Content-Type") or "").lower()
+    if "json" in ctype or text.startswith("{") or text.startswith("["):
+        try:
+            raw = resp.json()
+            if isinstance(raw, dict):
+                data = raw.get("ResponseStatus") if isinstance(raw.get("ResponseStatus"), dict) else raw
+        except Exception:
+            data = None
+    if data is None and text.startswith("<"):
+        try:
+            root = ET.fromstring(text)
+            tag = local_tag(root.tag).lower()
+            if tag == "responsestatus":
+                data = {local_tag(c.tag): (c.text or "").strip() for c in root}
+            else:
+                # Nested ResponseStatus
+                for child in root.iter():
+                    if local_tag(child.tag).lower() == "responsestatus":
+                        data = {local_tag(c.tag): (c.text or "").strip() for c in child}
+                        break
+        except ET.ParseError:
+            data = None
+
+    if not isinstance(data, dict):
+        if resp.status_code < 400:
+            return True, ""
+        return False, (text[:200] or f"HTTP {resp.status_code}")
+
+    status_code = str(data.get("statusCode") or "").strip()
+    sub = str(data.get("subStatusCode") or "").strip()
+    status = str(
+        data.get("statusString") or data.get("statusMsg") or data.get("errorMsg") or ""
+    ).strip()
+    hints = {
+        "riskPassword": "password rejected as too weak (riskPassword) — use a stronger password",
+        "userPasswordError": "current admin password rejected",
+        "deviceLocked": "device locked after failed logins — wait and retry",
+        "notSupport": "password change not supported on this firmware",
+        "invalidOperation": "invalid operation on this device",
+    }
+    hint = hints.get(sub, "")
+    detail_parts = [p for p in (status, sub, hint) if p]
+    detail = " — ".join(detail_parts) if detail_parts else ""
+
+    # statusCode "1" = OK on Hikvision; missing statusCode on success payloads is OK
+    if status_code in {"", "1", "OK", "ok"} and sub.lower() in {"", "ok"}:
+        if resp.status_code < 400:
+            return True, detail
+    if status_code in {"1"} or sub.lower() == "ok":
+        return True, detail
+    if not status_code and not sub and resp.status_code < 400:
+        return True, detail
+    return False, detail or f"HTTP {resp.status_code}"
+
+
+def _parse_security_user_list(resp: requests.Response) -> list[dict[str, Any]]:
+    text = (resp.text or "").strip()
+    if not text:
+        return []
+    ctype = (resp.headers.get("Content-Type") or "").lower()
+    if "json" in ctype or text.startswith("{"):
+        try:
+            data = resp.json()
+        except Exception:
+            data = None
+        if isinstance(data, dict):
+            block = data.get("UserList") or data
+            users = block.get("User") if isinstance(block, dict) else None
+            if users is None and isinstance(data.get("User"), (list, dict)):
+                users = data.get("User")
+            if isinstance(users, dict):
+                return [users]
+            if isinstance(users, list):
+                return [u for u in users if isinstance(u, dict)]
+    if text.startswith("<"):
+        try:
+            root = ET.fromstring(text)
+        except ET.ParseError:
+            return []
+        users: list[dict[str, Any]] = []
+        for node in root.iter():
+            if local_tag(node.tag).lower() != "user":
+                continue
+            rec = {local_tag(c.tag): (c.text or "").strip() for c in node}
+            if rec.get("id") or rec.get("userName"):
+                users.append(rec)
+        return users
+    return []
+
+
+def change_device_admin_password(
+    dev: dict[str, Any],
+    new_password: str,
+    *,
+    timeout: int = 20,
+) -> None:
+    """Change admin password on one device and verify login with the new password."""
+    HikTerminal(dev, timeout=timeout).change_admin_password(new_password)
+
+
+def change_both_admin_passwords(
+    devices: list[dict[str, Any]],
+    new_password: str,
+    *,
+    timeout: int = 20,
+) -> list[dict[str, Any]]:
+    """Change admin password on each device in order (Entry then Exit).
+
+    Stops after the first failure. Earlier devices may already have the new
+    password on the hardware — caller must follow P1 (do not update SQL until
+    every device in the list succeeds).
+    """
+    results: list[dict[str, Any]] = []
+    for dev in devices:
+        name = str(dev.get("display_name") or dev.get("name") or "?")
+        ip = str(dev.get("ip") or "?")
+        item: dict[str, Any] = {
+            "name": name,
+            "ip": ip,
+            "ok": False,
+            "changed": False,
+            "detail": "",
+        }
+        try:
+            change_device_admin_password(dev, new_password, timeout=timeout)
+            item["ok"] = True
+            item["changed"] = True
+            item["detail"] = "Admin password changed and verified."
+            LOG.info("OK password change %s (%s)", name, ip)
+        except DevicePasswordChangedError as exc:
+            item["changed"] = True
+            item["detail"] = str(exc)
+            item["reason"] = "password"
+            LOG.error("PARTIAL password change %s (%s): %s", name, ip, exc)
+            results.append(item)
+            break
+        except Exception as exc:
+            code, detail = classify_device_error(exc)
+            msg = str(exc).strip() or detail
+            item["detail"] = msg
+            item["reason"] = code
+            LOG.error("FAIL password change %s (%s): %s", name, ip, msg)
+            results.append(item)
+            break
+        results.append(item)
+    return results
+
 
 def as_int(value: Any) -> int | None:
     if value is None or value == "":
@@ -775,8 +1101,8 @@ def ensure_atteninfo_database(sql: dict[str, Any]) -> list[str]:
                     INSERT INTO dbo.DeviceConfig
                         (DeviceKey, DisplayName, IpAddress, Port, Username, Password, Direction, Https, Enabled)
                     VALUES
-                        ('entry', N'Entry Reader', '10.80.100.11', 80, N'admin', N'CHANGE_ME', 'In',  0, 1),
-                        ('exit',  N'Exit Reader',  '10.80.100.12', 80, N'admin', N'CHANGE_ME', 'Out', 0, 1);
+                        ('entry', N'Entry Reader', '10.80.100.11', 80, N'admin', N'poli44557', 'In',  0, 1),
+                        ('exit',  N'Exit Reader',  '10.80.100.12', 80, N'admin', N'poli44557', 'Out', 0, 1);
                 END
                 """,
             ),
@@ -1288,6 +1614,7 @@ def _hik_http_detail(resp: Any) -> str:
     )
     sub = data.get("subStatusCode") or data.get("errorCode") or data.get("statusCode") or ""
     hints = {
+        "riskPassword": "password too weak — choose a stronger admin password",
         "lowScoreFacePic": "face photo quality too low — use a clearer frontal JPEG ≥ 640×480",
         "noFacePic": "no face detected in photo — use a clear frontal face crop",
         "faceExist": "face already exists — retry (app now deletes old face first)",
