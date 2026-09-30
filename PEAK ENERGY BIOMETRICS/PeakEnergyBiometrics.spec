@@ -1,4 +1,4 @@
-# -*- mode: python ; coding: utf-8 -*-
+﻿# -*- mode: python ; coding: utf-8 -*-
 """PyInstaller spec for Peak Energy Biometrics (one-file exe)."""
 
 from PyInstaller.utils.hooks import collect_all
@@ -8,10 +8,12 @@ block_cipher = None
 datas = [
     ("appsettings.example.json", "."),
     ("sql/02_atteninfo.sql", "sql"),
+    ("sql/enable_sql_auth.ps1", "sql"),
     ("docs/Peak-Attendance.md", "docs"),
     ("docs/Database-Schema.md", "docs"),
     ("PeakEnergyLogo.png", "."),
     ("PeakEnergyBiometrics.ico", "."),
+    ("installers/msodbcsql18_x64.msi", "installers"),
 ]
 
 hiddenimports = [
@@ -27,6 +29,10 @@ hiddenimports = [
     "collector",
     "employees",
     "employees_ui",
+    "punches",
+    "punches_ui",
+    "acs_copy",
+    "odbc_install",
     "ui_app",
     "paths",
 ]
@@ -82,3 +88,12 @@ exe = EXE(
     entitlements_file=None,
     icon="PeakEnergyBiometrics.ico",
 )
+
+
+
+
+
+
+
+
+

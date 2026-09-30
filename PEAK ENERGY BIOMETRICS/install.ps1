@@ -79,6 +79,25 @@ function Register-CollectorTask {
         Write-Host "Registered collector task '$CollectorTaskName' (every 1 minute, current user, hidden)."
         Write-Host "Tip: re-run install.ps1 as Administrator for SYSTEM-level collector."
     }
+    # Always run — clear "AC power only" / stop-on-battery defaults from schtasks
+    try {
+        $settings = New-ScheduledTaskSettingsSet `
+            -AllowStartIfOnBatteries `
+            -DontStopIfGoingOnBatteries `
+            -StartWhenAvailable `
+            -MultipleInstances IgnoreNew
+        $settings.DisallowStartIfOnBatteries = $false
+        $settings.StopIfGoingOnBatteries = $false
+        $task = Get-ScheduledTask -TaskName $CollectorTaskName
+        $action = New-ScheduledTaskAction `
+            -Execute $task.Actions[0].Execute `
+            -Argument $task.Actions[0].Arguments `
+            -WorkingDirectory $InstallDir
+        Set-ScheduledTask -TaskName $CollectorTaskName -Action $action -Settings $settings | Out-Null
+        Write-Host "Collector task power restrictions cleared (runs on AC or battery)."
+    } catch {
+        Write-Host "Warning: could not clear task power settings: $_"
+    }
 }
 
 function New-Shortcut {

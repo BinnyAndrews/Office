@@ -6,7 +6,9 @@ from __future__ import annotations
 import argparse
 import json
 import logging
+import subprocess
 import sys
+import time
 import uuid
 import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta, timezone
@@ -379,6 +381,7 @@ def connect_sql(
     *,
     autocommit: bool = False,
     timeout: int = 10,
+    trusted: bool = False,
 ) -> pyodbc.Connection:
     drivers = [sql.get("driver") or "ODBC Driver 18 for SQL Server", "ODBC Driver 17 for SQL Server"]
     installed = {d for d in pyodbc.drivers()}
@@ -387,14 +390,23 @@ def connect_sql(
     for driver in drivers:
         if driver not in installed and installed:
             continue
-        conn_str = (
-            f"DRIVER={{{driver}}};"
-            f"SERVER={sql['server']};"
-            f"DATABASE={db};"
-            f"UID={sql['username']};"
-            f"PWD={sql['password']};"
-            "Encrypt=yes;TrustServerCertificate=yes;"
-        )
+        if trusted:
+            conn_str = (
+                f"DRIVER={{{driver}}};"
+                f"SERVER={sql['server']};"
+                f"DATABASE={db};"
+                "Trusted_Connection=yes;"
+                "Encrypt=yes;TrustServerCertificate=yes;"
+            )
+        else:
+            conn_str = (
+                f"DRIVER={{{driver}}};"
+                f"SERVER={sql['server']};"
+                f"DATABASE={db};"
+                f"UID={sql['username']};"
+                f"PWD={sql['password']};"
+                "Encrypt=yes;TrustServerCertificate=yes;"
+            )
         try:
             return pyodbc.connect(conn_str, timeout=max(1, int(timeout)), autocommit=autocommit)
         except pyodbc.Error as exc:
@@ -404,15 +416,161 @@ def connect_sql(
     )
 
 
-def punch_table_name(sql: dict[str, Any]) -> str:
-    """Punch/events table used by the collector (AccessEvents or legacy atteninfo)."""
-    name = str(sql.get("punch_table") or "").strip()
-    if not name:
-        # Existing Peak ACS installs keep punches in master.dbo.atteninfo
-        if str(sql.get("database") or "").strip().lower() == "master":
-            name = "atteninfo"
+def _sql_quote_literal(value: str) -> str:
+    return value.replace("'", "''")
+
+
+def is_local_sql_server(server: str) -> bool:
+    host = (server or "").split(",")[0].split("\\")[0].strip().lower()
+    return host in {"", ".", "localhost", "127.0.0.1", "(local)", "::1"} or host.endswith(".local")
+
+
+def ensure_sa_and_sql_authentication(sql: dict[str, Any]) -> list[str]:
+    """
+    Ensure Mixed Mode (SQL + Windows auth) and enable the sa login.
+    Prefer Windows auth when available (sysadmin); fall back to configured SQL login.
+    Restart of SQL Server may be required for Mixed Mode to take effect.
+    """
+    notes: list[str] = []
+    conn: pyodbc.Connection | None = None
+    last_err: Exception | None = None
+
+    # Prefer Windows auth for local/admin setup; also try configured SQL login
+    attempts: list[bool] = [True, False] if is_local_sql_server(str(sql.get("server") or "")) else [False, True]
+    for trusted in attempts:
+        try:
+            conn = connect_sql(sql, database="master", autocommit=True, trusted=trusted)
+            mode = "Windows" if trusted else "SQL"
+            notes.append(f"Connected to master via {mode} authentication.")
+            break
+        except Exception as exc:
+            last_err = exc
+            conn = None
+
+    if conn is None:
+        raise RuntimeError(
+            "Cannot connect to SQL Server to enable sa / SQL authentication.\n"
+            "On the SQL PC, run Create / Repair while logged on as a Windows admin, "
+            "or enable Mixed Mode + sa in SSMS.\n"
+            f"Last error: {last_err}"
+        )
+
+    try:
+        cur = conn.cursor()
+        cur.execute("SELECT CAST(SERVERPROPERTY('IsIntegratedSecurityOnly') AS int)")
+        row = cur.fetchone()
+        windows_only = bool(row and int(row[0] or 0) == 1)
+
+        if windows_only:
+            try:
+                cur.execute(
+                    """
+                    EXEC xp_instance_regwrite
+                        N'HKEY_LOCAL_MACHINE',
+                        N'Software\\Microsoft\\MSSQLServer\\MSSQLServer',
+                        N'LoginMode',
+                        REG_DWORD,
+                        2
+                    """
+                )
+                notes.append(
+                    "SQL authentication (Mixed Mode) enabled in registry — "
+                    "restart the SQL Server service for it to take effect."
+                )
+                if is_local_sql_server(str(sql.get("server") or "")):
+                    restarted = _restart_local_sql_services()
+                    if restarted:
+                        notes.extend(restarted)
+                    else:
+                        notes.append("Could not auto-restart SQL Server; restart the service manually.")
+            except Exception as exc:
+                notes.append(
+                    "Could not set Mixed Mode automatically (need sysadmin on the SQL host). "
+                    f"Details: {exc}"
+                )
         else:
-            name = "AccessEvents"
+            notes.append("SQL authentication already enabled (Mixed Mode).")
+
+        # Enable sa (Peak ACS uses sa → master.dbo.atteninfo)
+        sa_password = str(sql.get("password") or "").strip()
+        try:
+            cur.execute("ALTER LOGIN [sa] ENABLE")
+            notes.append("Login sa is ENABLED.")
+            if sa_password:
+                cur.execute(
+                    "ALTER LOGIN [sa] WITH PASSWORD = N'"
+                    + _sql_quote_literal(sa_password)
+                    + "', CHECK_POLICY = OFF, CHECK_EXPIRATION = OFF"
+                )
+                notes.append("Login sa password updated from app settings.")
+        except Exception as exc:
+            notes.append(f"Could not enable/update sa: {exc}")
+
+        # Confirm auth mode after changes
+        try:
+            cur.execute(
+                """
+                SELECT CASE SERVERPROPERTY('IsIntegratedSecurityOnly')
+                    WHEN 1 THEN 'WindowsOnly' ELSE 'Mixed' END
+                """
+            )
+            mode_row = cur.fetchone()
+            if mode_row:
+                notes.append(f"Current auth mode: {mode_row[0]}")
+        except Exception:
+            pass
+    finally:
+        conn.close()
+
+    return notes
+
+
+def _restart_local_sql_services() -> list[str]:
+    """Restart local MSSQL* services so LoginMode=2 is applied."""
+    notes: list[str] = []
+    try:
+        # List SQL Server services
+        listed = subprocess.run(
+            ["powershell", "-NoProfile", "-Command",
+             "Get-Service | Where-Object { $_.Name -like 'MSSQL*' -or $_.Name -eq 'MSSQLSERVER' } "
+             "| Select-Object -ExpandProperty Name"],
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+        )
+        names = [n.strip() for n in (listed.stdout or "").splitlines() if n.strip()]
+        if not names:
+            return notes
+        for name in names:
+            # Elevate restart via PowerShell RunAs when needed
+            ps = (
+                f"try {{ Restart-Service -Name '{name}' -Force -ErrorAction Stop; exit 0 }} "
+                f"catch {{ "
+                f"$p = Start-Process powershell -Verb RunAs -Wait -PassThru "
+                f"-ArgumentList '-NoProfile -Command Restart-Service -Name ''{name}'' -Force'; "
+                f"exit $p.ExitCode }}"
+            )
+            r = subprocess.run(
+                ["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", ps],
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                errors="replace",
+            )
+            if r.returncode == 0:
+                notes.append(f"Restarted service {name}.")
+            else:
+                notes.append(f"Service {name} restart exit={r.returncode}.")
+        time.sleep(5)
+    except Exception as exc:
+        notes.append(f"SQL service restart skipped: {exc}")
+    return notes
+
+
+def punch_table_name(sql: dict[str, Any]) -> str:
+    """Punch/events table — Peak ACS uses master.dbo.atteninfo."""
+    name = str(sql.get("punch_table") or "atteninfo").strip() or "atteninfo"
     if not all(c.isalnum() or c == "_" for c in name):
         raise ValueError(f"Invalid punch table name: {name}")
     return name
@@ -423,8 +581,8 @@ def uses_legacy_atteninfo(sql: dict[str, Any]) -> bool:
 
 
 def ensure_atteninfo_database(sql: dict[str, Any]) -> list[str]:
-    """Create target database (unless system DB) + app tables. Returns status messages."""
-    db_name = (sql.get("database") or "atteninfo").strip() or "atteninfo"
+    """Ensure helper tables in target DB (master for ACS). Returns status messages."""
+    db_name = (sql.get("database") or "master").strip() or "master"
     # Only allow simple identifiers
     if not all(c.isalnum() or c == "_" for c in db_name):
         raise ValueError(f"Invalid database name: {db_name}")
@@ -523,14 +681,33 @@ def ensure_atteninfo_database(sql: dict[str, Any]) -> list[str]:
                 )
             )
         else:
-            # Legacy master.dbo.atteninfo — leave existing table/data untouched
+            # Peak ACS punch table master.dbo.atteninfo — create if missing, never alter if present
             cur.execute("SELECT OBJECT_ID(N'dbo.atteninfo', N'U')")
             if cur.fetchone()[0] is None:
-                raise RuntimeError(
-                    "Configured punch table dbo.atteninfo was not found in this database.\n"
-                    "Create it first, or set Database=atteninfo and Punch table=AccessEvents."
+                cur.execute(
+                    """
+                    CREATE TABLE dbo.atteninfo (
+                        ID                    VARCHAR(50) NULL,
+                        [datetime]            VARCHAR(50) NULL,
+                        [date]                VARCHAR(50) NULL,
+                        [time]                VARCHAR(50) NULL,
+                        authenticationresult  VARCHAR(50) NULL,
+                        authenticationtype    VARCHAR(50) NULL,
+                        device                VARCHAR(50) NULL,
+                        deviceno              VARCHAR(50) NULL,
+                        readername            VARCHAR(50) NULL,
+                        firstname             VARCHAR(50) NULL,
+                        lastname              VARCHAR(50) NULL,
+                        personname            VARCHAR(50) NULL,
+                        persongroup           VARCHAR(50) NULL,
+                        cardno                VARCHAR(50) NULL,
+                        direction             VARCHAR(50) NULL
+                    );
+                    """
                 )
-            notes.append("OK: atteninfo (existing — not modified)")
+                notes.append("Created dbo.atteninfo (ACS / Keka punch table).")
+            else:
+                notes.append("OK: atteninfo (existing — not modified)")
 
         statements.extend(
             [
@@ -741,15 +918,16 @@ def load_runtime_config(appsettings_path: Path = APPSETTINGS) -> dict[str, Any]:
         "sync_interval_minutes": int(app_cfg.get("SyncIntervalMinutes") or 1),
     }
     enabled = False
-    if "CollectorEnabled" in app_cfg:
+    if "collector_enabled" in boot:
+        # File next to the exe is authoritative for scheduled --collect runs
+        enabled = bool(boot.get("collector_enabled"))
+    elif "CollectorEnabled" in app_cfg:
         enabled = str(app_cfg.get("CollectorEnabled") or "0").strip().lower() in {
             "1",
             "true",
             "yes",
             "on",
         }
-    elif "collector_enabled" in boot:
-        enabled = bool(boot.get("collector_enabled"))
     return {
         "sql": sql,
         "devices": devices,
@@ -820,7 +998,7 @@ def insert_rows(
     cur: pyodbc.Cursor,
     rows: list[dict[str, Any]],
     *,
-    punch_table: str = "AccessEvents",
+    punch_table: str = "atteninfo",
 ) -> int:
     inserted = 0
     table = punch_table_name({"punch_table": punch_table})

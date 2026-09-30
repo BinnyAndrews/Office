@@ -29,6 +29,13 @@ import collector as col  # noqa: E402
 import theme as ui_theme  # noqa: E402
 
 APPSETTINGS = ROOT / "appsettings.json"
+
+# Peak ACS defaults — used until the user changes them (Database / Punch table stay fixed).
+SQL_DEFAULT_DATABASE = "master"
+SQL_DEFAULT_PUNCH_TABLE = "atteninfo"
+SQL_DEFAULT_USERNAME = "sa"
+SQL_DEFAULT_PASSWORD = "cctv@2025"
+SQL_DEFAULT_DRIVER = "ODBC Driver 18 for SQL Server"
 SINGLETON_HOST = "127.0.0.1"
 SINGLETON_PORT = 58741
 MUTEX_NAME = "Local\\PeakEnergyBiometricsUI_SingleInstance"
@@ -45,8 +52,8 @@ WHAT IT DOES
 FIRST RUN
   1. SQL Server — on ACS PC use localhost; from another PC use 10.80.100.10,1433
      Database=master, Punch table=atteninfo (existing Keka table — not modified).
-  2. Create / Repair database — adds helper tables only (Employees, DeviceConfig, …).
-     Does not recreate or wipe atteninfo.
+  2. Create / Repair database — enables SQL auth + sa if needed; adds helper tables only
+     (Employees, DeviceConfig, …). Does not recreate or wipe atteninfo.
   3. Set Entry and Exit IP, username, password (Enabled / HTTPS as needed).
   4. Save configuration → Test devices (both SUCCESS).
   5. Leave "Enable punch collector" OFF if another collector already writes punches.
@@ -66,7 +73,8 @@ DEVICE PANEL (per reader)
 
 COLLECTOR SETTINGS
   Enable punch collector — OFF = do not write punches (safe with another collector)
-  Sync interval          — Windows task period (minutes) when installed
+                         ON + Save = register Windows task using Sync interval
+  Sync interval          — minutes between automatic collector runs (when enabled)
   First lookback         — hours to pull when no watermark exists
   Timeout                — HTTP wait per device (seconds)
   Overlap                — re-read seconds before last watermark
@@ -270,29 +278,68 @@ class KekaApp(tk.Tk):
         root.rowconfigure(0, weight=1)
         root.columnconfigure(0, weight=1)
 
-        # Main form area (fills remaining space above footer)
-        form = ttk.Frame(root)
-        form.grid(row=0, column=0, sticky="nsew")
+        # Scrollable form — short screens can reach Test this device / Enabled / Last*
+        form_wrap = ttk.Frame(root)
+        form_wrap.grid(row=0, column=0, sticky="nsew")
+        form_wrap.rowconfigure(0, weight=1)
+        form_wrap.columnconfigure(0, weight=1)
+
+        canvas = tk.Canvas(form_wrap, bg=ui_theme.BG, highlightthickness=0, bd=0)
+        vscroll = ttk.Scrollbar(form_wrap, orient=tk.VERTICAL, command=canvas.yview)
+        canvas.configure(yscrollcommand=vscroll.set)
+        canvas.grid(row=0, column=0, sticky="nsew")
+        vscroll.grid(row=0, column=1, sticky="ns")
+
+        form = ttk.Frame(canvas)
+        form_window = canvas.create_window((0, 0), window=form, anchor="nw")
         form.columnconfigure(0, weight=1)
         form.columnconfigure(1, weight=1)
+
+        def _sync_scroll_region(_event: tk.Event | None = None) -> None:
+            canvas.configure(scrollregion=canvas.bbox("all"))
+
+        def _sync_form_width(event: tk.Event) -> None:
+            canvas.itemconfigure(form_window, width=max(event.width, 1))
+
+        form.bind("<Configure>", _sync_scroll_region)
+        canvas.bind("<Configure>", _sync_form_width)
+
+        self._canvas = canvas
+        self._vscroll = vscroll
+        self._content = form
+        self._bind_form_mousewheel(form_wrap)
 
         # Row 0: SQL | Collector side by side
         sql_f = ttk.LabelFrame(form, text="SQL Server", padding=8)
         sql_f.grid(row=0, column=0, sticky="nsew", padx=(0, 4), pady=(0, 6))
         self.sql_server = tk.StringVar()
-        self.sql_database = tk.StringVar(value="master")
-        self.sql_punch_table = tk.StringVar(value="atteninfo")
-        self.sql_user = tk.StringVar(value="sa")
-        self.sql_pass = PasswordEntry(sql_f)
+        self.sql_database = tk.StringVar(value=SQL_DEFAULT_DATABASE)
+        self.sql_punch_table = tk.StringVar(value=SQL_DEFAULT_PUNCH_TABLE)
+        self.sql_user = tk.StringVar(value=SQL_DEFAULT_USERNAME)
+        self.sql_pass = PasswordEntry(sql_f, value=SQL_DEFAULT_PASSWORD)
         self._row(sql_f, 0, "Server", ttk.Entry(sql_f, textvariable=self.sql_server))
-        self._row(sql_f, 1, "Database", ttk.Entry(sql_f, textvariable=self.sql_database))
-        self._row(sql_f, 2, "Punch table", ttk.Entry(sql_f, textvariable=self.sql_punch_table))
+        # Peak ACS: always master.dbo.atteninfo (not editable — avoids wrong DB)
+        self._row(
+            sql_f,
+            1,
+            "Database",
+            ttk.Entry(sql_f, textvariable=self.sql_database, state="readonly"),
+        )
+        self._row(
+            sql_f,
+            2,
+            "Punch table",
+            ttk.Entry(sql_f, textvariable=self.sql_punch_table, state="readonly"),
+        )
         self._row(sql_f, 3, "Username", ttk.Entry(sql_f, textvariable=self.sql_user))
         self._row(sql_f, 4, "Password", self.sql_pass)
         ttk.Label(
             sql_f,
-            text="Punch table atteninfo is left unchanged. On the ACS PC use Server=localhost "
-            "(from another PC use 10.80.100.10,1433).",
+            text="Defaults: Database=master, Punch table=atteninfo, Username=sa, "
+            "Password=cctv@2025 (change username/password if needed). "
+            "Create / Repair creates atteninfo if missing; existing data is never modified. "
+            "On this PC use Server=localhost or localhost\\SQLEXPRESS; "
+            "from another PC use 10.80.100.10,1433.",
             style="Muted.TLabel",
             wraplength=360,
         ).grid(row=5, column=0, columnspan=2, sticky=tk.W, pady=(4, 0))
@@ -389,9 +436,9 @@ class KekaApp(tk.Tk):
 
         btns = tk.Frame(footer, bg=ui_theme.BG)
         btns.grid(row=0, column=0, sticky="ew", pady=(4, 2))
-        for col in range(5):
+        for col in range(6):
             btns.columnconfigure(col, weight=0, uniform="footer_btns")
-        btns.columnconfigure(5, weight=1)
+        btns.columnconfigure(6, weight=1)
 
         pad = {"padx": (0, 6), "pady": 2, "sticky": "ew"}
         ui_theme.colored_button(btns, "Save configuration", self.save_all, kind="primary").grid(
@@ -415,17 +462,20 @@ class KekaApp(tk.Tk):
         )
         self.btn_install.grid(row=1, column=0, **pad)
         self.btn_uninstall = ui_theme.colored_button(
-            btns, "Uninstall / Stop with Windows", self.uninstall_startup, kind="warn"
+            btns, "Uninstall / Stop with Windows", self.uninstall_startup, kind="ghost"
         )
         self.btn_uninstall.grid(row=1, column=1, **pad)
         ui_theme.colored_button(btns, "Help", self.show_help, kind="ghost").grid(
             row=1, column=2, **pad
         )
-        ui_theme.colored_button(btns, "Employees", self.open_employees, kind="accent").grid(
+        ui_theme.colored_button(btns, "Punches", self.open_punches, kind="accent").grid(
             row=1, column=3, **pad
         )
+        ui_theme.colored_button(btns, "Employees", self.open_employees, kind="accent").grid(
+            row=1, column=4, **pad
+        )
         ui_theme.colored_button(btns, "Minimize to tray", self.hide_to_tray, kind="ghost").grid(
-            row=1, column=4, padx=(0, 0), pady=2, sticky="ew"
+            row=1, column=5, padx=(0, 0), pady=2, sticky="ew"
         )
         # Install button state checked in background after first paint
         self.after(400, self._refresh_install_buttons)
@@ -443,14 +493,13 @@ class KekaApp(tk.Tk):
         )
         self.status_lbl.grid(row=1, column=0, sticky="ew", pady=2)
 
-        self.log = tk.Text(footer, height=6, wrap=tk.WORD)
+        # Shorter log on short screens so more of the form (Test this device) stays visible
+        log_h = 3 if self.winfo_screenheight() <= 800 else 5
+        self.log = tk.Text(footer, height=log_h, wrap=tk.WORD)
         ui_theme.style_log_text(self.log)
         self.log.grid(row=2, column=0, sticky="ew", pady=(2, 0))
 
-        # Stubs used by older helpers
-        self._canvas = None
-        self._vscroll = None
-        self._content = form
+        self.after(100, self._sync_form_scroll)
 
     def _apply_app_icon(self) -> None:
         """Set window icon from Peak Energy logo (PNG + ICO)."""
@@ -501,6 +550,34 @@ class KekaApp(tk.Tk):
         draw.text((22, 20), "P", fill=(20, 90, 160))
         return img
 
+    def _bind_form_mousewheel(self, region: tk.Misc) -> None:
+        """Scroll the form with the mouse wheel while the pointer is over it."""
+
+        def _wheel(event: tk.Event) -> str | None:
+            canvas = self._canvas
+            if canvas is None:
+                return None
+            delta = int(getattr(event, "delta", 0) or 0)
+            if delta:
+                canvas.yview_scroll(int(-1 * (delta / 120)), "units")
+            return "break"
+
+        def _bind(_event: tk.Event | None = None) -> None:
+            region.bind_all("<MouseWheel>", _wheel)
+
+        def _unbind(_event: tk.Event | None = None) -> None:
+            region.unbind_all("<MouseWheel>")
+
+        region.bind("<Enter>", _bind)
+        region.bind("<Leave>", _unbind)
+
+    def _sync_form_scroll(self) -> None:
+        canvas = self._canvas
+        if canvas is None:
+            return
+        canvas.update_idletasks()
+        canvas.configure(scrollregion=canvas.bbox("all"))
+
     def _on_mousewheel(self, event: tk.Event) -> None:
         return
 
@@ -515,6 +592,7 @@ class KekaApp(tk.Tk):
         self.update_idletasks()
         win_w = max(self.winfo_width(), 900)
         self.status_lbl.configure(wraplength=max(600, win_w - 40))
+        self._sync_form_scroll()
 
     def _fit_to_screen(self) -> None:
         self._go_fullscreen()
@@ -601,9 +679,36 @@ class KekaApp(tk.Tk):
                     example = BUNDLE / "appsettings.example.json"
                     if not example.exists():
                         example = ROOT / "appsettings.example.json"
-                    APPSETTINGS.write_text(example.read_text(encoding="utf-8"), encoding="utf-8")
+                    if example.exists():
+                        APPSETTINGS.write_text(example.read_text(encoding="utf-8"), encoding="utf-8")
+                    else:
+                        col.save_json(
+                            APPSETTINGS,
+                            {
+                                "sql": {
+                                    "server": "localhost\\SQLEXPRESS",
+                                    "database": SQL_DEFAULT_DATABASE,
+                                    "punch_table": SQL_DEFAULT_PUNCH_TABLE,
+                                    "username": SQL_DEFAULT_USERNAME,
+                                    "password": SQL_DEFAULT_PASSWORD,
+                                    "driver": SQL_DEFAULT_DRIVER,
+                                },
+                                "collector_enabled": False,
+                            },
+                        )
                 boot = col.load_json(APPSETTINGS)
-                sql = boot["sql"]
+                sql = dict(boot.get("sql") or {})
+                sql["database"] = SQL_DEFAULT_DATABASE
+                sql["punch_table"] = SQL_DEFAULT_PUNCH_TABLE
+                if not str(sql.get("username") or "").strip():
+                    sql["username"] = SQL_DEFAULT_USERNAME
+                if not str(sql.get("password") or "").strip() or str(sql.get("password")).strip() in {
+                    "CHANGE_ME",
+                    "changeme",
+                }:
+                    sql["password"] = SQL_DEFAULT_PASSWORD
+                boot["sql"] = sql
+                col.save_json(APPSETTINGS, boot)
                 sync_mins = "1"
                 lookback = "24"
                 timeout_secs = "20"
@@ -693,12 +798,7 @@ class KekaApp(tk.Tk):
     def _apply_reload(self, payload: dict[str, Any] | None, error: str | None) -> None:
         try:
             if payload and payload.get("sql"):
-                sql = payload["sql"]
-                self.sql_server.set(sql.get("server", ""))
-                self.sql_database.set(sql.get("database", "master"))
-                self.sql_punch_table.set(sql.get("punch_table") or ("atteninfo" if str(sql.get("database") or "").lower() == "master" else "AccessEvents"))
-                self.sql_user.set(sql.get("username", "sa"))
-                self.sql_pass.set(sql.get("password", ""))
+                self._apply_sql_to_ui(payload["sql"])
             if payload and "sync_mins" in payload:
                 self.sync_mins.set(str(payload.get("sync_mins") or "1"))
                 self.lookback.set(str(payload.get("lookback") or "24"))
@@ -749,28 +849,46 @@ class KekaApp(tk.Tk):
             self.set_status(f"Load failed: {exc}")
             messagebox.showerror("Load failed", str(exc), parent=self)
 
+    def _sql_defaults_from_ui(self) -> dict[str, Any]:
+        """Build SQL settings: fixed master/atteninfo; user/pass default until changed."""
+        user = self.sql_user.get().strip() or SQL_DEFAULT_USERNAME
+        password = self.sql_pass.get()
+        if not str(password).strip():
+            password = SQL_DEFAULT_PASSWORD
+        return {
+            "server": self.sql_server.get().strip(),
+            "database": SQL_DEFAULT_DATABASE,
+            "punch_table": SQL_DEFAULT_PUNCH_TABLE,
+            "username": user,
+            "password": password,
+            "driver": SQL_DEFAULT_DRIVER,
+        }
+
+    def _apply_sql_to_ui(self, sql: dict[str, Any]) -> None:
+        self.sql_server.set(str(sql.get("server") or "").strip())
+        self.sql_database.set(SQL_DEFAULT_DATABASE)
+        self.sql_punch_table.set(SQL_DEFAULT_PUNCH_TABLE)
+        user = str(sql.get("username") or "").strip() or SQL_DEFAULT_USERNAME
+        password = str(sql.get("password") or "")
+        if not password.strip() or password.strip() in {"CHANGE_ME", "changeme"}:
+            password = SQL_DEFAULT_PASSWORD
+        self.sql_user.set(user)
+        self.sql_pass.set(password)
+
     def save_all(self, quiet: bool = False) -> bool:
         try:
             boot = {
-                "sql": {
-                    "server": self.sql_server.get().strip(),
-                    "database": self.sql_database.get().strip() or "master",
-                    "punch_table": self.sql_punch_table.get().strip() or "atteninfo",
-                    "username": self.sql_user.get().strip(),
-                    "password": self.sql_pass.get(),
-                    "driver": "ODBC Driver 18 for SQL Server",
-                },
+                "sql": self._sql_defaults_from_ui(),
                 "collector_enabled": bool(self.collector_enabled.get()),
             }
+            # Keep UI in sync with what we persist (fills blank user/pass with defaults)
+            self._apply_sql_to_ui(boot["sql"])
             col.save_json(APPSETTINGS, boot)
-            # Fresh SQL Server has no atteninfo DB yet — create/repair before writing devices
-            try:
-                notes = col.ensure_atteninfo_database(boot["sql"])
-            except Exception as ensure_exc:
-                raise RuntimeError(self._friendly_sql_error(ensure_exc)) from ensure_exc
+            # Full schema ensure only on Create/Repair — keeps Save fast
             conn = col.connect_sql(boot["sql"])
             try:
                 cur = conn.cursor()
+                notes: list[str] = []
                 for key, vars_ in self.device_vars.items():
                     https = 1 if vars_["https"].get() else 0
                     enabled = 1 if vars_["enabled"].get() else 0
@@ -829,17 +947,44 @@ class KekaApp(tk.Tk):
                 conn.commit()
             finally:
                 conn.close()
+
+            # Re-register the Windows task only on explicit Save (quiet=False).
+            # Test devices / Run now use quiet=True — recreating schtasks every time
+            # made probes feel slow whenever punch collector was enabled.
+            schedule_note = ""
+            if not quiet:
+                try:
+                    if self.collector_enabled.get():
+                        schedule_note = self._ensure_collector_scheduled_task()
+                    # When disabled, leave the task registered but collector exits immediately
+                except Exception as sched_exc:
+                    schedule_note = f"Warning: could not register collector schedule: {sched_exc}"
+
             created = any("Created database" in n for n in (notes or []))
-            self.set_status(
-                "Configuration saved (database created)." if created else "Configuration saved."
-            )
+            status = "Configuration saved (database created)." if created else "Configuration saved."
+            if schedule_note:
+                status = f"{status} {schedule_note}"
+            self.set_status(status)
+            self.after(50, self._refresh_install_buttons)
             if not quiet:
                 extra = ""
                 if created:
-                    extra = "\n\nDatabase atteninfo was created on the SQL Server."
+                    extra = "\n\nHelper database was created on the SQL Server."
+                if self.collector_enabled.get():
+                    mins = self._sync_interval_minutes()
+                    extra += (
+                        f"\n\nPunch collector is ON — Windows will run it every {mins} minute(s).\n"
+                        f"{schedule_note}"
+                    )
+                else:
+                    extra += (
+                        "\n\nPunch collector is OFF — scheduled runs will not write punches "
+                        "until you enable it and Save."
+                    )
                 messagebox.showinfo(
                     "Saved",
-                    "Configuration saved to appsettings.json and SQL." + extra,
+                    "Configuration saved to appsettings.json and SQL.\n"
+                    "Punches use master.dbo.atteninfo." + extra,
                     parent=self,
                 )
             return True
@@ -861,9 +1006,9 @@ class KekaApp(tk.Tk):
             )
         if "4060" in msg or "cannot open database" in low:
             return (
-                "Cannot open database atteninfo.\n\n"
-                "Use Create / Repair database (or Save again after this update — "
-                "Save will create the database if login to master works).\n\n"
+                "Cannot open database master.\n\n"
+                "Confirm SQL Server is reachable and the login can use Database=master "
+                "(Peak ACS punches are in master.dbo.atteninfo).\n\n"
                 f"Details: {msg}"
             )
         if "08001" in msg or "timeout" in low or "network" in low:
@@ -903,28 +1048,26 @@ class KekaApp(tk.Tk):
         return ok, f"{summary}\n\n{body}"
 
     def create_database(self) -> None:
-        """Create atteninfo + tables if SQL Server is already installed."""
+        """Enable sa + SQL auth if needed, then ensure helper tables in master."""
         if not messagebox.askyesno(
             "Create / Repair database",
-            "Create or repair database from the SQL settings above?\n\n"
-            "Requires SQL Server already installed and a login that can create databases "
-            "(e.g. sa).",
+            "This will:\n"
+            "• Enable SQL authentication (Mixed Mode) if needed\n"
+            "• Enable the sa login (password from settings above)\n"
+            "• Repair helper tables in master (Employees, DeviceConfig, …)\n\n"
+            "Punches stay in master.dbo.atteninfo — that table is not modified.\n"
+            "On the SQL Server PC, run this once as Windows admin if Mixed Mode "
+            "or sa is still disabled.",
             parent=self,
         ):
             return
 
         # Persist SQL settings to disk first (without needing atteninfo yet)
         boot = {
-            "sql": {
-                "server": self.sql_server.get().strip(),
-                "database": self.sql_database.get().strip() or "master",
-                "punch_table": self.sql_punch_table.get().strip() or "atteninfo",
-                "username": self.sql_user.get().strip(),
-                "password": self.sql_pass.get(),
-                "driver": "ODBC Driver 18 for SQL Server",
-            },
+            "sql": self._sql_defaults_from_ui(),
             "collector_enabled": bool(self.collector_enabled.get()),
         }
+        self._apply_sql_to_ui(boot["sql"])
         try:
             col.save_json(APPSETTINGS, boot)
         except Exception as exc:
@@ -933,9 +1076,11 @@ class KekaApp(tk.Tk):
 
         def worker() -> None:
             try:
+                self.after(0, lambda: self.set_status("Enabling sa / SQL authentication…"))
+                auth_notes = col.ensure_sa_and_sql_authentication(boot["sql"])
                 self.after(0, lambda: self.set_status("Creating / repairing database…"))
-                notes = col.ensure_atteninfo_database(boot["sql"])
-                # Write device/collector settings into the new DB
+                notes = auth_notes + col.ensure_atteninfo_database(boot["sql"])
+                # Write device/collector settings into the DB
                 ok = self.save_all(quiet=True)
                 text = "Database ready.\n\n" + "\n".join(notes)
                 if not ok:
@@ -1217,6 +1362,11 @@ class KekaApp(tk.Tk):
             try:
                 self.after(0, lambda: self.status.set("Running collector…"))
                 cfg = col.load_runtime_config(APPSETTINGS)
+                if not col.is_collector_enabled(cfg):
+                    raise RuntimeError(
+                        "Collector is still disabled in appsettings/SQL after Save.\n"
+                        "Turn on Enable punch collector, Save again, then retry."
+                    )
                 results = col.collect_all(cfg, dry_run=False, ignore_watermark=False)
                 ok, text = self._format_device_results(results, "Collector")
 
@@ -1248,13 +1398,157 @@ class KekaApp(tk.Tk):
     def open_employees(self) -> None:
         """Open employee management (SQL master + Entry/Exit sync)."""
         try:
-            if not self.save_all(quiet=True):
-                return
             from employees_ui import EmployeesWindow
 
             EmployeesWindow(self, APPSETTINGS)
         except Exception as exc:
             messagebox.showerror("Employees", str(exc))
+
+    def open_punches(self) -> None:
+        """Browse punches from SQL by selectable day (last 2 years)."""
+        try:
+            from punches_ui import PunchesWindow
+
+            PunchesWindow(self, APPSETTINGS)
+        except Exception as exc:
+            messagebox.showerror("Punches", str(exc))
+
+    def _sync_interval_minutes(self) -> int:
+        try:
+            mins = int(str(self.sync_mins.get() or "1").strip())
+        except ValueError:
+            mins = 1
+        return max(1, min(mins, 1440))
+
+    def _collector_task_command(self) -> tuple[str, Path]:
+        """Return (schtasks /TR command, working directory)."""
+        if getattr(sys, "frozen", False):
+            exe = Path(sys.executable).resolve()
+            app_folder = exe.parent
+            return f'"{exe}" --collect', app_folder
+        pyw = ROOT / "venv" / "Scripts" / "pythonw.exe"
+        if not pyw.exists():
+            pyw = ROOT / "venv" / "Scripts" / "python.exe"
+        script = ROOT / "peak_attendance.py"
+        return f'"{pyw}" "{script}" --collect', ROOT
+
+    def _harden_collector_scheduled_task(self, app_folder: Path) -> None:
+        """Force collector task to always run (ignore AC/battery power conditions)."""
+        # schtasks /Create defaults to "Start only if on AC power" — clear that every time.
+        wd = str(app_folder).replace("'", "''")
+        ps = f"""
+$ErrorActionPreference = 'Stop'
+$tn = 'Peak-Energy-Biometrics-Collector'
+$settings = New-ScheduledTaskSettingsSet `
+  -AllowStartIfOnBatteries `
+  -DontStopIfGoingOnBatteries `
+  -StartWhenAvailable `
+  -MultipleInstances IgnoreNew `
+  -ExecutionTimeLimit (New-TimeSpan -Hours 1)
+# CIM property names (not the New-ScheduledTaskSettingsSet switch names)
+$settings.DisallowStartIfOnBatteries = $false
+$settings.StopIfGoingOnBatteries = $false
+$task = Get-ScheduledTask -TaskName $tn
+$exe = [string]$task.Actions[0].Execute
+$arg = [string]$task.Actions[0].Arguments
+$action = New-ScheduledTaskAction -Execute $exe -Argument $arg -WorkingDirectory '{wd}'
+Set-ScheduledTask -TaskName $tn -Action $action -Settings $settings | Out-Null
+"""
+        subprocess.run(
+            ["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", ps],
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            timeout=60,
+        )
+
+    def _ensure_collector_scheduled_task(self) -> str:
+        """Create/update Peak-Energy-Biometrics-Collector using Sync interval (minutes)."""
+        mins = self._sync_interval_minutes()
+        tr, app_folder = self._collector_task_command()
+        r = subprocess.run(
+            [
+                "schtasks",
+                "/Create",
+                "/TN",
+                "Peak-Energy-Biometrics-Collector",
+                "/SC",
+                "MINUTE",
+                "/MO",
+                str(mins),
+                "/F",
+                "/TR",
+                tr,
+            ],
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+        )
+        if r.returncode == 0:
+            self._harden_collector_scheduled_task(app_folder)
+            self.after(50, self._refresh_install_buttons)
+            return f"Scheduled collector every {mins} minute(s) (always runs, AC or battery)."
+
+        # Fallback: hidden VBS (needed on some locked-down PCs)
+        vbs = app_folder / "run-collector.vbs"
+        if getattr(sys, "frozen", False):
+            exe = Path(sys.executable).resolve()
+            run_line = (
+                "sh.Run "
+                + ('"' * 3)
+                + str(exe)
+                + ('"' * 2)
+                + ' --collect", 0, False\n'
+            )
+        else:
+            pyw = ROOT / "venv" / "Scripts" / "pythonw.exe"
+            if not pyw.exists():
+                pyw = ROOT / "venv" / "Scripts" / "python.exe"
+            script = ROOT / "peak_attendance.py"
+            run_line = (
+                "sh.Run "
+                + ('"' * 3)
+                + str(pyw)
+                + '" "'
+                + str(script)
+                + ('"' * 2)
+                + ' --collect", 0, False\n'
+            )
+        vbs.write_text(
+            'Set sh = CreateObject("WScript.Shell")\n'
+            + f'sh.CurrentDirectory = "{app_folder}"\n'
+            + run_line,
+            encoding="ascii",
+            errors="replace",
+        )
+        tr2 = f'wscript.exe //B //Nologo "{vbs}"'
+        r2 = subprocess.run(
+            [
+                "schtasks",
+                "/Create",
+                "/TN",
+                "Peak-Energy-Biometrics-Collector",
+                "/SC",
+                "MINUTE",
+                "/MO",
+                str(mins),
+                "/F",
+                "/TR",
+                tr2,
+            ],
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+        )
+        if r2.returncode != 0:
+            detail = ((r.stderr or "") + (r2.stderr or "")).strip() or "schtasks failed"
+            raise RuntimeError(detail)
+        self._harden_collector_scheduled_task(app_folder)
+        self.after(50, self._refresh_install_buttons)
+        return f"Scheduled collector every {mins} minute(s) (VBS; always runs, AC or battery)."
 
     def _is_startup_installed(self) -> bool:
         """True if the Windows collector task is registered."""
@@ -1563,42 +1857,7 @@ class KekaApp(tk.Tk):
         shortcut(start_menu / "Peak Energy Biometrics.lnk")
         shortcut(desktop / "Peak Energy Biometrics.lnk")
         lines.append("Shortcuts: Startup, Start Menu, Desktop")
-
-        # Hidden collector every minute
-        tr = f'"{exe}" --collect'
-        r = subprocess.run(
-            ["schtasks", "/Create", "/TN", "Peak-Energy-Biometrics-Collector", "/SC", "MINUTE", "/MO", "1", "/F", "/TR", tr],
-            capture_output=True,
-            text=True,
-            encoding="utf-8",
-            errors="replace",
-        )
-        lines.append(f"Collector task exit={r.returncode}")
-        if r.returncode != 0:
-            # Fallback: VBS wrapper with window style 0
-            vbs = app_folder / "run-collector.vbs"
-            vbs.write_text(
-                'Set sh = CreateObject("WScript.Shell")\n'
-                + f'sh.CurrentDirectory = "{app_folder}"\n'
-                + 'sh.Run '
-                + ('"' * 3)
-                + str(exe)
-                + ('"' * 2)
-                + ' --collect", 0, False\n',
-                encoding="ascii",
-                errors="replace",
-            )
-            tr2 = f'wscript.exe //B //Nologo "{vbs}"'
-            r2 = subprocess.run(
-                ["schtasks", "/Create", "/TN", "Peak-Energy-Biometrics-Collector", "/SC", "MINUTE", "/MO", "1", "/F", "/TR", tr2],
-                capture_output=True,
-                text=True,
-                encoding="utf-8",
-                errors="replace",
-            )
-            lines.append(f"Collector VBS task exit={r2.returncode}")
-            if r2.returncode != 0:
-                raise RuntimeError((r.stderr or "") + (r2.stderr or "") or "schtasks failed")
+        lines.append(self._ensure_collector_scheduled_task())
         return "\n".join(lines)
 
     def hide_to_tray(self) -> None:

@@ -81,7 +81,7 @@ class PunchesWindow(tk.Toplevel):
 
         bar = ttk.Frame(root)
         bar.grid(row=0, column=0, sticky="ew", pady=(0, 8))
-        bar.columnconfigure(8, weight=1)
+        bar.columnconfigure(9, weight=1)
 
         ttk.Label(bar, text="Day").grid(row=0, column=0, sticky=tk.W, padx=(0, 6))
         today = date.today()
@@ -115,15 +115,18 @@ class PunchesWindow(tk.Toplevel):
         ui_theme.colored_button(bar, "Load punches", self.reload, kind="primary").grid(
             row=0, column=5, padx=(12, 0)
         )
+        ui_theme.colored_button(
+            bar, "Import history from ACS SQL…", self.import_from_acs, kind="accent"
+        ).grid(row=0, column=6, padx=(12, 0))
 
-        ttk.Label(bar, text="Employee No").grid(row=0, column=6, sticky=tk.W, padx=(16, 6))
+        ttk.Label(bar, text="Employee No").grid(row=0, column=7, sticky=tk.W, padx=(16, 6))
         self.filter_id = tk.StringVar()
-        ttk.Entry(bar, textvariable=self.filter_id, width=12).grid(row=0, column=7, sticky=tk.W)
+        ttk.Entry(bar, textvariable=self.filter_id, width=12).grid(row=0, column=8, sticky=tk.W)
         self.filter_id.trace_add("write", lambda *_a: self._apply_filter())
 
         self.status = tk.StringVar(value="Select a day and Load punches.")
         ttk.Label(bar, textvariable=self.status, style="Muted.TLabel").grid(
-            row=1, column=0, columnspan=9, sticky=tk.W, pady=(6, 0)
+            row=1, column=0, columnspan=10, sticky=tk.W, pady=(6, 0)
         )
 
         cols = ("date", "time", "id", "name", "direction", "device", "auth")
@@ -183,6 +186,132 @@ class PunchesWindow(tk.Toplevel):
     def _goto_today(self) -> None:
         self._set_day(date.today())
         self.reload()
+
+    def import_from_acs(self) -> None:
+        """One-time copy of previous punches/helpers from ACS SQL into this PC's SQL."""
+        dest = self._sql()
+        dest_server = str(dest.get("server") or "").strip()
+        user = str(dest.get("username") or "sa").strip() or "sa"
+        password = str(dest.get("password") or "")
+        source_default = "10.80.100.10,1433"
+
+        win = tk.Toplevel(self)
+        win.title("Import history from ACS SQL")
+        win.geometry("460x260")
+        win.transient(self)
+        win.grab_set()
+        ui_theme.apply_theme(win)
+
+        frame = ttk.Frame(win, padding=12)
+        frame.pack(fill=tk.BOTH, expand=True)
+        frame.columnconfigure(1, weight=1)
+
+        ttk.Label(
+            frame,
+            text="Copies previous punches (and helpers) from the ACS SQL Server\n"
+            "into the Server configured in the main window.\n"
+            "Existing local rows in those tables are replaced.",
+            style="Muted.TLabel",
+            justify=tk.LEFT,
+        ).grid(row=0, column=0, columnspan=2, sticky=tk.W, pady=(0, 10))
+
+        src_var = tk.StringVar(value=source_default)
+        ttk.Label(frame, text="Source (ACS)").grid(row=1, column=0, sticky=tk.W, pady=2)
+        ttk.Entry(frame, textvariable=src_var).grid(row=1, column=1, sticky=tk.EW, pady=2)
+        ttk.Label(frame, text="Destination").grid(row=2, column=0, sticky=tk.W, pady=2)
+        ttk.Label(frame, text=dest_server or "(set Server on main window)").grid(
+            row=2, column=1, sticky=tk.W, pady=2
+        )
+
+        helpers_var = tk.BooleanVar(value=True)
+        punches_var = tk.BooleanVar(value=True)
+        ui_theme.colored_checkbutton(
+            frame, "Copy Employees / devices / config", helpers_var
+        ).grid(row=3, column=0, columnspan=2, sticky=tk.W, pady=(8, 0))
+        ui_theme.colored_checkbutton(
+            frame, "Copy punches (atteninfo) — can take several minutes", punches_var
+        ).grid(row=4, column=0, columnspan=2, sticky=tk.W)
+
+        status = tk.StringVar(value="")
+        ttk.Label(frame, textvariable=status, style="Muted.TLabel").grid(
+            row=5, column=0, columnspan=2, sticky=tk.W, pady=(10, 0)
+        )
+
+        btns = ttk.Frame(frame)
+        btns.grid(row=6, column=0, columnspan=2, sticky=tk.E, pady=(12, 0))
+
+        def start() -> None:
+            source = src_var.get().strip()
+            if not source:
+                messagebox.showerror("Import", "Enter the ACS SQL Server.", parent=win)
+                return
+            if not dest_server:
+                messagebox.showerror(
+                    "Import",
+                    "Set Server on the main window (e.g. localhost\\SQLEXPRESS) and Save first.",
+                    parent=win,
+                )
+                return
+            if source.lower() == dest_server.lower():
+                messagebox.showerror(
+                    "Import",
+                    "Source and destination are the same. Point the main window at local SQL Express first.",
+                    parent=win,
+                )
+                return
+            if not helpers_var.get() and not punches_var.get():
+                messagebox.showerror("Import", "Select at least one copy option.", parent=win)
+                return
+            if not messagebox.askyesno(
+                "Import history",
+                f"Replace data on:\n  {dest_server}\n\nwith a copy from:\n  {source}\n\nContinue?",
+                parent=win,
+            ):
+                return
+
+            import_btn.configure(state=tk.DISABLED)
+            status.set("Importing…")
+
+            def worker() -> None:
+                try:
+                    import acs_copy
+
+                    def prog(msg: str) -> None:
+                        self.after(0, lambda m=msg: status.set(m))
+
+                    notes = acs_copy.copy_acs_data(
+                        source_server=source,
+                        dest_server=dest_server,
+                        username=user,
+                        password=password,
+                        include_helpers=bool(helpers_var.get()),
+                        include_punches=bool(punches_var.get()),
+                        progress=prog,
+                    )
+                    text = "Import finished.\n\n" + "\n".join(notes)
+
+                    def done() -> None:
+                        status.set("Import finished.")
+                        messagebox.showinfo("Import history", text, parent=win)
+                        win.destroy()
+                        self.reload()
+
+                    self.after(0, done)
+                except Exception as exc:
+                    self.after(
+                        0,
+                        lambda: (
+                            status.set("Import failed."),
+                            import_btn.configure(state=tk.NORMAL),
+                            messagebox.showerror("Import history", str(exc), parent=win),
+                        ),
+                    )
+
+            threading.Thread(target=worker, daemon=True).start()
+
+        import_btn = ui_theme.colored_button(btns, "Start import", start, kind="primary")
+        import_btn.pack(side=tk.LEFT, padx=(0, 6))
+        ui_theme.colored_button(btns, "Cancel", win.destroy, kind="ghost").pack(side=tk.LEFT)
 
     def reload(self) -> None:
         day = self._selected_day()
