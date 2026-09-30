@@ -171,3 +171,5 @@
 2026-09-29 21:30:03,144 ERROR ('42S02', "[42S02] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Invalid object name 'dbo.DeviceConfig'. (208) (SQLExecDirectW)")
 2026-09-29 21:31:03,162 ERROR ('42S02', "[42S02] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Invalid object name 'dbo.DeviceConfig'. (208) (SQLExecDirectW)")
 2026-09-29 21:32:03,277 ERROR ('42S02', "[42S02] [Microsoft][ODBC Driver 18 for SQL Server][SQL Server]Invalid object name 'dbo.DeviceConfig'. (208) (SQLExecDirectW)")
+2026-09-30 06:06:38,273 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-09-30 06:06:38,274 INFO Collector disabled — no punches written.
