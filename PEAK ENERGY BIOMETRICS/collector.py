@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import json
 import logging
+import re
 import subprocess
 import sys
 import time
@@ -28,6 +29,92 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 IST = timezone(timedelta(hours=5, minutes=30))
 ROOT = app_dir()
 BUNDLE = resource_dir()
+
+
+def normalize_hik_device_serial(raw: str | None) -> str:
+    """Match old ACS atteninfo.deviceno (short serial, e.g. FF6135365).
+
+    DeviceInfo sometimes returns a long product string ending in that serial
+    (e.g. DS-K1T342MFWX…ENFF6135365). Prefer the short form Keka/ACS used.
+    """
+    s = str(raw or "").strip()
+    if not s:
+        return ""
+    m = re.search(r"(FF[0-9A-Fa-f]{7,})\s*$", s, re.I)
+    if m:
+        return m.group(1).upper()
+    if len(s) > 20:
+        m2 = re.search(r"([A-Z0-9]{8,12})\s*$", s, re.I)
+        if m2:
+            return m2.group(1).upper()
+    return s[:50]
+
+
+def normalize_card_no(raw: Any) -> str:
+    """Match old ACS cardno: real badge digits, or empty string (never NULL)."""
+    s = str(raw if raw is not None else "").strip()
+    if not s or s.lower() in {"none", "null"}:
+        return ""
+    # Face/verify events often emit huge uint64-ish junk instead of a badge number
+    if s.isdigit() and len(s) >= 16:
+        try:
+            if int(s) > 10**15:
+                return ""
+        except ValueError:
+            pass
+    return s[:50]
+
+
+def as_text(value: Any, *, default: str = "", limit: int = 50) -> str:
+    """VARCHAR fields for atteninfo — never None/NULL."""
+    if value is None:
+        return default[:limit]
+    s = str(value).strip()
+    return (s if s else default)[:limit]
+
+
+ATTENINFO_VARCHAR_COLS = (
+    "ID",
+    "datetime",
+    "date",
+    "time",
+    "authenticationresult",
+    "authenticationtype",
+    "device",
+    "deviceno",
+    "readername",
+    "firstname",
+    "lastname",
+    "personname",
+    "persongroup",
+    "cardno",
+    "direction",
+)
+
+
+def scrub_atteninfo_nulls(conn: pyodbc.Connection) -> int:
+    """Replace NULL varchar cells with '' (and blank persongroup → All Departments)."""
+    cur = conn.cursor()
+    cur.execute("SELECT OBJECT_ID(N'dbo.atteninfo', N'U')")
+    if cur.fetchone()[0] is None:
+        return 0
+    total = 0
+    for col_name in ATTENINFO_VARCHAR_COLS:
+        # Safe identifiers only (fixed list above)
+        cur.execute(
+            f"UPDATE dbo.atteninfo SET [{col_name}] = N'' WHERE [{col_name}] IS NULL"
+        )
+        total += int(cur.rowcount or 0)
+    cur.execute(
+        """
+        UPDATE dbo.atteninfo
+        SET persongroup = N'All Departments'
+        WHERE persongroup IS NULL OR LTRIM(RTRIM(persongroup)) = N''
+        """
+    )
+    total += int(cur.rowcount or 0)
+    conn.commit()
+    return total
 FAIL_MINORS = {76}  # face auth failed — skip
 LOG = logging.getLogger("peak-attendance")
 APPSETTINGS = ROOT / "appsettings.json"
@@ -206,7 +293,7 @@ class HikTerminal:
         except Exception as exc:
             LOG.warning("%s: could not read device serial: %s", self.dev.get("ip"), exc)
             serial = ""
-        self._device_serial = serial[:50]
+        self._device_serial = normalize_hik_device_serial(serial)
         return self._device_serial or None
 
     def search_events(
@@ -607,12 +694,13 @@ def as_int(value: Any) -> int | None:
         return None
 
 
-def split_name(full: str) -> tuple[str | None, str | None]:
+def split_name(full: str) -> tuple[str, str]:
+    """Split person name; missing parts are empty string (old ACS style, not NULL)."""
     parts = full.strip().split(None, 1)
     if not parts:
-        return None, None
+        return "", ""
     if len(parts) == 1:
-        return parts[0][:50], None
+        return parts[0][:50], ""
     return parts[0][:50], parts[1][:50]
 
 
@@ -639,7 +727,7 @@ def normalize_event(
         return None
     serial = as_int(raw.get("serialNo") or raw.get("serialNO"))
     person = (str(raw.get("name") or "").strip() or None)
-    first, last = split_name(person) if person else (None, None)
+    first, last = split_name(person) if person else ("", "")
     direction_ui = str(dev.get("direction") or ("In" if int(dev.get("status", 0)) == 0 else "Out"))
     device_label = str(dev.get("display_name") or dev.get("name") or dev["ip"])[:50]
     if legacy_atteninfo:
@@ -651,50 +739,57 @@ def normalize_event(
         date_s = punch.strftime("%d-%m-%Y")
         device_label = device_label.upper()
         auth_result = "1"  # legacy stores numeric success
-        # Prefer face-style type string used by the existing collector when mode is face
-        verify = str(raw.get("currentVerifyMode") or raw.get("type") or "").strip()
-        if not verify or "face" in verify.lower():
+        auth_type = as_text(raw.get("currentVerifyMode") or raw.get("type") or "")
+        if not auth_type or "face" in auth_type.lower():
             auth_type = "ACSEventFaceVerifyPass"
-        else:
-            auth_type = verify[:50]
-        card_no = str(raw.get("cardNo") or "").strip()
-        reader = str(
+        card_no = normalize_card_no(raw.get("cardNo"))
+        reader = as_text(
             raw.get("cardReaderName")
             or raw.get("readerName")
             or raw.get("doorName")
-            or "Cardreader 01"
-        ).strip() or "Cardreader 01"
-        device_no = str(
-            dev.get("device_serial")
-            or raw.get("serialNumber")
-            or raw.get("deviceSerialNo")
-            or ""
-        ).strip()
+            or "Cardreader 01",
+            default="Cardreader 01",
+        )
+        device_no = normalize_hik_device_serial(
+            str(
+                dev.get("device_serial")
+                or raw.get("serialNumber")
+                or raw.get("deviceSerialNo")
+                or ""
+            ).strip()
+        )
     else:
         direction = direction_ui[:50]
         dt_s = punch.strftime("%Y-%m-%d %H:%M:%S")
         date_s = punch.strftime("%Y-%m-%d")
         auth_result = auth_result_label(minor)[:50]
-        auth_type = (str(raw.get("currentVerifyMode") or "")[:50] or None)
-        card_no = str(raw.get("cardNo") or "").strip()
-        reader = None
-        device_no = None
+        auth_type = as_text(raw.get("currentVerifyMode"))
+        card_no = normalize_card_no(raw.get("cardNo"))
+        reader = ""
+        device_no = ""
     return {
-        "ID": emp[:50],
-        "datetime": dt_s,
-        "date": date_s,
-        "time": punch.strftime("%H:%M:%S"),
-        "authenticationresult": auth_result,
-        "authenticationtype": auth_type,
-        "device": device_label,
-        "deviceno": (device_no[:50] if device_no else None),
-        "readername": (reader[:50] if reader else None),
-        "firstname": first,
-        "lastname": last,
-        "personname": (person[:50] if person else None),
-        "persongroup": None,
-        "cardno": (card_no[:50] if card_no else None),
-        "direction": direction[:50],
+        "ID": as_text(emp),
+        "datetime": as_text(dt_s),
+        "date": as_text(date_s),
+        "time": as_text(punch.strftime("%H:%M:%S")),
+        "authenticationresult": as_text(auth_result),
+        "authenticationtype": as_text(auth_type),
+        "device": as_text(device_label),
+        "deviceno": as_text(device_no),
+        "readername": as_text(reader),
+        "firstname": as_text(first),
+        "lastname": as_text(last),
+        "personname": as_text(person),
+        "persongroup": as_text(
+            raw.get("belongGroup")
+            or raw.get("employeeGroup")
+            or raw.get("department")
+            or raw.get("persongroup")
+            or "",
+            default="All Departments",
+        ),
+        "cardno": as_text(card_no),
+        "direction": as_text(direction),
         "DeviceIP": dev["ip"],
         "SerialNo": serial,
         "LogTime": punch,  # for watermark
@@ -1013,21 +1108,21 @@ def ensure_atteninfo_database(sql: dict[str, Any]) -> list[str]:
                 cur.execute(
                     """
                     CREATE TABLE dbo.atteninfo (
-                        ID                    VARCHAR(50) NULL,
-                        [datetime]            VARCHAR(50) NULL,
-                        [date]                VARCHAR(50) NULL,
-                        [time]                VARCHAR(50) NULL,
-                        authenticationresult  VARCHAR(50) NULL,
-                        authenticationtype    VARCHAR(50) NULL,
-                        device                VARCHAR(50) NULL,
-                        deviceno              VARCHAR(50) NULL,
-                        readername            VARCHAR(50) NULL,
-                        firstname             VARCHAR(50) NULL,
-                        lastname              VARCHAR(50) NULL,
-                        personname            VARCHAR(50) NULL,
-                        persongroup           VARCHAR(50) NULL,
-                        cardno                VARCHAR(50) NULL,
-                        direction             VARCHAR(50) NULL
+                        ID                    VARCHAR(50) NULL CONSTRAINT DF_atteninfo_ID DEFAULT (''),
+                        [datetime]            VARCHAR(50) NULL CONSTRAINT DF_atteninfo_datetime DEFAULT (''),
+                        [date]                VARCHAR(50) NULL CONSTRAINT DF_atteninfo_date DEFAULT (''),
+                        [time]                VARCHAR(50) NULL CONSTRAINT DF_atteninfo_time DEFAULT (''),
+                        authenticationresult  VARCHAR(50) NULL CONSTRAINT DF_atteninfo_authresult DEFAULT (''),
+                        authenticationtype    VARCHAR(50) NULL CONSTRAINT DF_atteninfo_authtype DEFAULT (''),
+                        device                VARCHAR(50) NULL CONSTRAINT DF_atteninfo_device DEFAULT (''),
+                        deviceno              VARCHAR(50) NULL CONSTRAINT DF_atteninfo_deviceno DEFAULT (''),
+                        readername            VARCHAR(50) NULL CONSTRAINT DF_atteninfo_readername DEFAULT (''),
+                        firstname             VARCHAR(50) NULL CONSTRAINT DF_atteninfo_firstname DEFAULT (''),
+                        lastname              VARCHAR(50) NULL CONSTRAINT DF_atteninfo_lastname DEFAULT (''),
+                        personname            VARCHAR(50) NULL CONSTRAINT DF_atteninfo_personname DEFAULT (''),
+                        persongroup           VARCHAR(50) NULL CONSTRAINT DF_atteninfo_persongroup DEFAULT ('All Departments'),
+                        cardno                VARCHAR(50) NULL CONSTRAINT DF_atteninfo_cardno DEFAULT (''),
+                        direction             VARCHAR(50) NULL CONSTRAINT DF_atteninfo_direction DEFAULT ('')
                     );
                     """
                 )
@@ -1186,6 +1281,9 @@ def ensure_atteninfo_database(sql: dict[str, Any]) -> list[str]:
         )
         tables = [r[0] for r in cur.fetchall()]
         notes.append("Tables: " + ", ".join(tables))
+        scrubbed = scrub_atteninfo_nulls(conn)
+        if scrubbed:
+            notes.append(f"Cleared NULL varchar values in atteninfo ({scrubbed} cell update(s)).")
     finally:
         conn.close()
 
@@ -1336,7 +1434,14 @@ def insert_rows(
             authenticationresult, authenticationtype, device,
             deviceno, readername,
             firstname, lastname, personname, persongroup, cardno, direction
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+        ) VALUES (
+            COALESCE(?, N''), COALESCE(?, N''), COALESCE(?, N''), COALESCE(?, N''),
+            COALESCE(?, N''), COALESCE(?, N''), COALESCE(?, N''),
+            COALESCE(?, N''), COALESCE(?, N''),
+            COALESCE(?, N''), COALESCE(?, N''), COALESCE(?, N''),
+            COALESCE(NULLIF(LTRIM(RTRIM(?)), N''), N'All Departments'),
+            COALESCE(?, N''), COALESCE(?, N'')
+        );
         """
         # Soft de-dupe (legacy table has no unique index)
         exists_sql = f"""
@@ -1350,7 +1455,14 @@ def insert_rows(
             authenticationresult, authenticationtype, device,
             firstname, lastname, personname, persongroup, direction,
             DeviceIP, SerialNo
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+        ) VALUES (
+            COALESCE(?, N''), COALESCE(?, N''), COALESCE(?, N''), COALESCE(?, N''),
+            COALESCE(?, N''), COALESCE(?, N''), COALESCE(?, N''),
+            COALESCE(?, N''), COALESCE(?, N''), COALESCE(?, N''),
+            COALESCE(NULLIF(LTRIM(RTRIM(?)), N''), N'All Departments'),
+            COALESCE(?, N''),
+            ?, ?
+        );
         """
         exists_sql = None
 
@@ -1369,37 +1481,37 @@ def insert_rows(
             if legacy:
                 cur.execute(
                     sql,
-                    row["ID"],
-                    row["datetime"],
-                    row["date"],
-                    row["time"],
-                    row["authenticationresult"],
-                    row["authenticationtype"],
-                    row["device"],
-                    row.get("deviceno"),
-                    row.get("readername"),
-                    row["firstname"],
-                    row["lastname"],
-                    row["personname"],
-                    row["persongroup"],
-                    row.get("cardno"),
-                    row["direction"],
+                    as_text(row.get("ID")),
+                    as_text(row.get("datetime")),
+                    as_text(row.get("date")),
+                    as_text(row.get("time")),
+                    as_text(row.get("authenticationresult")),
+                    as_text(row.get("authenticationtype")),
+                    as_text(row.get("device")),
+                    as_text(row.get("deviceno")),
+                    as_text(row.get("readername")),
+                    as_text(row.get("firstname")),
+                    as_text(row.get("lastname")),
+                    as_text(row.get("personname")),
+                    as_text(row.get("persongroup"), default="All Departments"),
+                    as_text(row.get("cardno")),
+                    as_text(row.get("direction")),
                 )
             else:
                 cur.execute(
                     sql,
-                    row["ID"],
-                    row["datetime"],
-                    row["date"],
-                    row["time"],
-                    row["authenticationresult"],
-                    row["authenticationtype"],
-                    row["device"],
-                    row["firstname"],
-                    row["lastname"],
-                    row["personname"],
-                    row["persongroup"],
-                    row["direction"],
+                    as_text(row.get("ID")),
+                    as_text(row.get("datetime")),
+                    as_text(row.get("date")),
+                    as_text(row.get("time")),
+                    as_text(row.get("authenticationresult")),
+                    as_text(row.get("authenticationtype")),
+                    as_text(row.get("device")),
+                    as_text(row.get("firstname")),
+                    as_text(row.get("lastname")),
+                    as_text(row.get("personname")),
+                    as_text(row.get("persongroup"), default="All Departments"),
+                    as_text(row.get("direction")),
                     row["DeviceIP"],
                     row["SerialNo"],
                 )

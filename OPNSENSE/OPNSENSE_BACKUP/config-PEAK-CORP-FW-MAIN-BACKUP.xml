@@ -24,7 +24,7 @@
       <scope>user</scope>
       <description>Captive portal guest Wi-Fi users (no GUI access)</description>
       <priv/>
-      <member>2000,2001,2002,2003,2004</member>
+      <member>2000,2001,2002,2003,2004,2005</member>
       <source_networks/>
     </group>
     <user uuid="f53504c5-304a-4078-a275-fb2afba3c568">
@@ -51,7 +51,7 @@
     <user uuid="abf051aa-608f-42d5-b542-a67a9365f233">
       <uid>2000</uid>
       <name>peakguest1</name>
-      <disabled>0</disabled>
+      <disabled>1</disabled>
       <scope>user</scope>
       <expires/>
       <authorizedkeys/>
@@ -72,7 +72,7 @@
     <user uuid="dd5c2431-313d-4f1b-967d-4401b43920ef">
       <uid>2001</uid>
       <name>peakguest2</name>
-      <disabled>0</disabled>
+      <disabled>1</disabled>
       <scope>user</scope>
       <expires/>
       <authorizedkeys/>
@@ -93,7 +93,7 @@
     <user uuid="d4594dcd-0547-42f9-b67e-ed29d443da9d">
       <uid>2002</uid>
       <name>peakguest3</name>
-      <disabled>0</disabled>
+      <disabled>1</disabled>
       <scope>user</scope>
       <expires/>
       <authorizedkeys/>
@@ -114,7 +114,7 @@
     <user uuid="c95b6f6c-6334-4237-a10d-1cf3ceefc901">
       <uid>2003</uid>
       <name>peakguest4</name>
-      <disabled>0</disabled>
+      <disabled>1</disabled>
       <scope>user</scope>
       <expires/>
       <authorizedkeys/>
@@ -135,7 +135,7 @@
     <user uuid="921c6a90-20a9-4a62-b5a3-d1876693341e">
       <uid>2004</uid>
       <name>peakguest5</name>
-      <disabled>0</disabled>
+      <disabled>1</disabled>
       <scope>user</scope>
       <expires/>
       <authorizedkeys/>
@@ -150,6 +150,27 @@
       <priv/>
       <language/>
       <descr>Peak Energy Guest 5 Wi-Fi</descr>
+      <dashboard/>
+      <menu_favorites/>
+    </user>
+    <user uuid="b2bd5b3b-55d0-4e36-9774-977a41c7d620">
+      <uid>2005</uid>
+      <name>peakguest</name>
+      <disabled>0</disabled>
+      <scope>user</scope>
+      <expires/>
+      <authorizedkeys/>
+      <otp_seed/>
+      <shell/>
+      <password>$2y$11$pjP0LaTTExSVFdbnSY4DD.bckfu6iwipEOuoMgDrv102kP.dTz3Ki</password>
+      <pwd_changed_at>1790560745.6121</pwd_changed_at>
+      <landing_page/>
+      <comment/>
+      <email/>
+      <apikeys/>
+      <priv/>
+      <language/>
+      <descr>Guest</descr>
       <dashboard/>
       <menu_favorites/>
     </user>
@@ -407,112 +428,190 @@
       <mode>automatic</mode>
     </outbound>
     <rule uuid="0165840e-c5c8-4476-b513-c4c8106b30f7">
-      <protocol>tcp</protocol>
+      <sequence>100</sequence>
+      <disabled>0</disabled>
+      <nordr>0</nordr>
       <interface>wan</interface>
       <ipprotocol>inet</ipprotocol>
-      <target>10.80.100.103</target>
-      <local-port>80</local-port>
+      <protocol>tcp</protocol>
       <source>
-        <any>1</any>
+        <network/>
+        <port/>
+        <not>0</not>
       </source>
       <destination>
         <network>wanip</network>
         <port>80</port>
+        <not>0</not>
       </destination>
+      <target>10.80.100.54</target>
+      <local-port>80</local-port>
+      <poolopts/>
+      <log>0</log>
+      <category/>
       <descr>PEAK-APP-HTTP-Airtel</descr>
-      <associated-rule-id/>
+      <tag/>
+      <tagged/>
+      <nosync>0</nosync>
       <natreflection>purenat</natreflection>
-      <enabled>1</enabled>
+      <pass/>
+      <audit>eyJjcmVhdGVkIjp7InVzZXJuYW1lIjoicm9vdEAxMC44MC45OS4xMDEiLCJ0aW1lIjoiMTc5MDg1MDQ4Ni41OSIsImRlc2NyaXB0aW9uIjoiXC9hcGlcL2FwaS5waHAgbWFkZSBjaGFuZ2VzIn0sInVwZGF0ZWQiOnsidXNlcm5hbWUiOiJyb290QDEwLjgwLjk5LjEwMSIsInRpbWUiOiIxNzkwODUwNDg2LjU5IiwiZGVzY3JpcHRpb24iOiJcL2FwaVwvYXBpLnBocCBtYWRlIGNoYW5nZXMifSwidXNlcmRhdGEiOnsibm90ZSI6IiJ9fQ==</audit>
+      <associated-rule-id/>
     </rule>
     <rule uuid="0bfd1f70-240b-4944-83fc-576370a76334">
-      <protocol>tcp</protocol>
+      <sequence>200</sequence>
+      <disabled>0</disabled>
+      <nordr>0</nordr>
       <interface>wan</interface>
       <ipprotocol>inet</ipprotocol>
-      <target>10.80.100.103</target>
-      <local-port>443</local-port>
+      <protocol>tcp</protocol>
       <source>
-        <any>1</any>
+        <network/>
+        <port/>
+        <not>0</not>
       </source>
       <destination>
         <network>wanip</network>
         <port>443</port>
+        <not>0</not>
       </destination>
+      <target>10.80.100.54</target>
+      <local-port>443</local-port>
+      <poolopts/>
+      <log>0</log>
+      <category/>
       <descr>PEAK-APP-HTTPS-Airtel</descr>
-      <associated-rule-id/>
+      <tag/>
+      <tagged/>
+      <nosync>0</nosync>
       <natreflection>purenat</natreflection>
-      <enabled>1</enabled>
+      <pass/>
+      <audit>eyJjcmVhdGVkIjp7InVzZXJuYW1lIjoicm9vdEAxMC44MC45OS4xMDEiLCJ0aW1lIjoiMTc5MDg1MDQ5OC4wNCIsImRlc2NyaXB0aW9uIjoiXC9hcGlcL2FwaS5waHAgbWFkZSBjaGFuZ2VzIn0sInVwZGF0ZWQiOnsidXNlcm5hbWUiOiJyb290QDEwLjgwLjk5LjEwMSIsInRpbWUiOiIxNzkwODUwNDk4LjA0IiwiZGVzY3JpcHRpb24iOiJcL2FwaVwvYXBpLnBocCBtYWRlIGNoYW5nZXMifSwidXNlcmRhdGEiOnsibm90ZSI6IiJ9fQ==</audit>
+      <associated-rule-id/>
     </rule>
     <rule uuid="d4406011-ee43-41bd-b351-1651cfba28aa">
-      <protocol>tcp</protocol>
+      <sequence>300</sequence>
+      <disabled>0</disabled>
+      <nordr>0</nordr>
       <interface>opt1</interface>
       <ipprotocol>inet</ipprotocol>
-      <target>10.80.100.103</target>
-      <local-port>80</local-port>
+      <protocol>tcp</protocol>
       <source>
-        <any>1</any>
+        <network/>
+        <port/>
+        <not>0</not>
       </source>
       <destination>
         <network>opt1ip</network>
         <port>80</port>
+        <not>0</not>
       </destination>
+      <target>10.80.100.54</target>
+      <local-port>80</local-port>
+      <poolopts/>
+      <log>0</log>
+      <category/>
       <descr>PEAK-APP-HTTP-Jio</descr>
-      <associated-rule-id/>
+      <tag/>
+      <tagged/>
+      <nosync>0</nosync>
       <natreflection>purenat</natreflection>
-      <enabled>1</enabled>
+      <pass/>
+      <audit>eyJjcmVhdGVkIjp7InVzZXJuYW1lIjoicm9vdEAxMC44MC45OS4xMDEiLCJ0aW1lIjoiMTc5MDg1MDUwNi45OSIsImRlc2NyaXB0aW9uIjoiXC9hcGlcL2FwaS5waHAgbWFkZSBjaGFuZ2VzIn0sInVwZGF0ZWQiOnsidXNlcm5hbWUiOiJyb290QDEwLjgwLjk5LjEwMSIsInRpbWUiOiIxNzkwODUwNTA2Ljk5IiwiZGVzY3JpcHRpb24iOiJcL2FwaVwvYXBpLnBocCBtYWRlIGNoYW5nZXMifSwidXNlcmRhdGEiOnsibm90ZSI6IiJ9fQ==</audit>
+      <associated-rule-id/>
     </rule>
     <rule uuid="2b545c2c-fe52-4d22-b5bf-148abd07e4d3">
-      <protocol>tcp</protocol>
+      <sequence>400</sequence>
+      <disabled>0</disabled>
+      <nordr>0</nordr>
       <interface>opt1</interface>
       <ipprotocol>inet</ipprotocol>
-      <target>10.80.100.103</target>
-      <local-port>443</local-port>
+      <protocol>tcp</protocol>
       <source>
-        <any>1</any>
+        <network/>
+        <port/>
+        <not>0</not>
       </source>
       <destination>
         <network>opt1ip</network>
         <port>443</port>
+        <not>0</not>
       </destination>
+      <target>10.80.100.54</target>
+      <local-port>443</local-port>
+      <poolopts/>
+      <log>0</log>
+      <category/>
       <descr>PEAK-APP-HTTPS-Jio</descr>
-      <associated-rule-id/>
+      <tag/>
+      <tagged/>
+      <nosync>0</nosync>
       <natreflection>purenat</natreflection>
-      <enabled>1</enabled>
+      <pass/>
+      <audit>eyJjcmVhdGVkIjp7InVzZXJuYW1lIjoicm9vdEAxMC44MC45OS4xMDEiLCJ0aW1lIjoiMTc5MDg1MDUxNy4wMCIsImRlc2NyaXB0aW9uIjoiXC9hcGlcL2FwaS5waHAgbWFkZSBjaGFuZ2VzIn0sInVwZGF0ZWQiOnsidXNlcm5hbWUiOiJyb290QDEwLjgwLjk5LjEwMSIsInRpbWUiOiIxNzkwODUwNTE3LjAwIiwiZGVzY3JpcHRpb24iOiJcL2FwaVwvYXBpLnBocCBtYWRlIGNoYW5nZXMifSwidXNlcmRhdGEiOnsibm90ZSI6IiJ9fQ==</audit>
+      <associated-rule-id/>
     </rule>
     <rule uuid="1d82ef2b-9392-47b7-a83c-303e340212d7">
-      <protocol>tcp</protocol>
+      <sequence>500</sequence>
+      <disabled>0</disabled>
+      <nordr>0</nordr>
       <interface>wan</interface>
       <ipprotocol>inet</ipprotocol>
-      <target>10.80.100.10</target>
-      <local-port>1433</local-port>
+      <protocol>tcp</protocol>
       <source>
-        <address>KEKA_HR</address>
+        <network>KEKA_HR</network>
+        <port/>
+        <not>0</not>
       </source>
       <destination>
         <network>wanip</network>
         <port>1433</port>
+        <not>0</not>
       </destination>
-      <descr>ACS-SQL-Airtel (KEKA_HR; AKRIVIA_HR disabled)</descr>
-      <associated-rule-id/>
-      <natreflection>purenat</natreflection>
-      <enabled>1</enabled>
-    </rule>
-    <rule uuid="37e6b0bc-7001-4757-a58f-12ad65d9a750">
-      <protocol>tcp</protocol>
-      <interface>opt1</interface>
-      <ipprotocol>inet</ipprotocol>
       <target>10.80.100.10</target>
       <local-port>1433</local-port>
+      <poolopts/>
+      <log>0</log>
+      <category/>
+      <descr>ACS-SQL-Airtel (KEKA_HR; AKRIVIA_HR disabled)</descr>
+      <tag/>
+      <tagged/>
+      <nosync>0</nosync>
+      <natreflection>purenat</natreflection>
+      <pass/>
+      <audit/>
+      <associated-rule-id/>
+    </rule>
+    <rule uuid="37e6b0bc-7001-4757-a58f-12ad65d9a750">
+      <sequence>600</sequence>
+      <disabled>0</disabled>
+      <nordr>0</nordr>
+      <interface>opt1</interface>
+      <ipprotocol>inet</ipprotocol>
+      <protocol>tcp</protocol>
       <source>
-        <address>KEKA_HR</address>
+        <network>KEKA_HR</network>
+        <port/>
+        <not>0</not>
       </source>
       <destination>
         <network>opt1ip</network>
         <port>1433</port>
+        <not>0</not>
       </destination>
+      <target>10.80.100.10</target>
+      <local-port>1433</local-port>
+      <poolopts/>
+      <log>0</log>
+      <category/>
       <descr>ACS-SQL-Jio (KEKA_HR; AKRIVIA_HR disabled)</descr>
-      <associated-rule-id/>
+      <tag/>
+      <tagged/>
+      <nosync>0</nosync>
       <natreflection>purenat</natreflection>
-      <enabled>1</enabled>
+      <pass/>
+      <audit/>
+      <associated-rule-id/>
     </rule>
   </nat>
   <filter>
@@ -523,7 +622,7 @@
   </ntpd>
   <OPNsense>
     <Firewall>
-      <Filter version="1.0.6" persisted_at="1790153636.57" description="Firewall rules (new)">
+      <Filter version="1.0.6" persisted_at="1790841071.68" description="Firewall rules (new)">
         <general/>
         <rules>
           <rule uuid="6e07864c-a5e2-4af6-a498-a0d4ff58ad77">
@@ -850,8 +949,8 @@
             <source_net>WIRED_CORP</source_net>
             <source_not>0</source_not>
             <source_port/>
-            <destination_net>any</destination_net>
-            <destination_not>0</destination_not>
+            <destination_net>LAN_RFC1918</destination_net>
+            <destination_not>1</destination_not>
             <destination_port/>
             <divert-to/>
             <gateway>WAN_LB</gateway>
@@ -896,7 +995,7 @@
             <enabled>1</enabled>
             <statetype>keep</statetype>
             <state-policy/>
-            <sequence>201</sequence>
+            <sequence>145</sequence>
             <action>pass</action>
             <quick>1</quick>
             <interfacenot>0</interfacenot>
@@ -2112,6 +2211,67 @@
             <description>Allow WIRED_CORP DNS to firewall</description>
             <audit/>
           </rule>
+          <rule uuid="a7c3e91f-2b84-4d6e-9f1a-5e8d0c4b7a12">
+            <enabled>1</enabled>
+            <statetype>keep</statetype>
+            <state-policy/>
+            <sequence>288</sequence>
+            <action>pass</action>
+            <quick>1</quick>
+            <interfacenot>0</interfacenot>
+            <interface>opt3</interface>
+            <received-on-not>0</received-on-not>
+            <received-on/>
+            <direction>in</direction>
+            <ipprotocol>inet</ipprotocol>
+            <protocol>icmp</protocol>
+            <icmptype/>
+            <icmp6type/>
+            <source_net>WL_CORP</source_net>
+            <source_not>0</source_not>
+            <source_port/>
+            <destination_net>(self)</destination_net>
+            <destination_not>0</destination_not>
+            <destination_port/>
+            <divert-to/>
+            <gateway/>
+            <replyto/>
+            <disablereplyto>0</disablereplyto>
+            <log>1</log>
+            <allowopts>0</allowopts>
+            <nosync>0</nosync>
+            <nopfsync>0</nopfsync>
+            <statetimeout/>
+            <udp-first/>
+            <udp-multiple/>
+            <udp-single/>
+            <max-src-nodes/>
+            <max-src-states/>
+            <max-src-conn/>
+            <max/>
+            <max-src-conn-rate/>
+            <max-src-conn-rates/>
+            <max-pkt-rate-number/>
+            <max-pkt-rate-seconds/>
+            <overload/>
+            <adaptivestart/>
+            <adaptiveend/>
+            <prio/>
+            <set-prio/>
+            <set-prio-low/>
+            <tag/>
+            <tagged/>
+            <tcpflags1/>
+            <tcpflags2/>
+            <tcpflags_any>0</tcpflags_any>
+            <categories/>
+            <sched/>
+            <tos/>
+            <shaper1/>
+            <shaper2/>
+            <description>Allow WL_CORP ICMP to firewall (self)</description>
+            <audit/>
+          </rule>
           <rule uuid="69c0df77-61f5-4e9b-8c87-2b6c7bd35dbc">
             <enabled>1</enabled>
             <statetype>keep</statetype>
@@ -2192,8 +2352,8 @@
             <source_net>WL_CORP</source_net>
             <source_not>0</source_not>
             <source_port/>
-            <destination_net>any</destination_net>
-            <destination_not>0</destination_not>
+            <destination_net>LAN_RFC1918</destination_net>
+            <destination_not>1</destination_not>
             <destination_port/>
             <divert-to/>
             <gateway>WAN_LB</gateway>
@@ -2231,14 +2391,14 @@
             <tos/>
             <shaper1/>
             <shaper2/>
-            <description>Allow WL_CORP_MACS to Internet via WAN_LB</description>
+            <description>Allow WL_CORP to Internet via WAN_LB</description>
             <audit>eyJjcmVhdGVkIjp7InVzZXJuYW1lIjoicm9vdEAxMC44MC45OS4xMDEiLCJ0aW1lIjoiMTc5MDE1MzQ5MS4xMyIsImRlc2NyaXB0aW9uIjoiXC9hcGlcL2FwaS5waHAgbWFkZSBjaGFuZ2VzIn0sInVwZGF0ZWQiOnsidXNlcm5hbWUiOiJyb290QDEwLjgwLjk5LjEwMSIsInRpbWUiOiIxNzkwMTUzNDkxLjEzIiwiZGVzY3JpcHRpb24iOiJcL2FwaVwvYXBpLnBocCBtYWRlIGNoYW5nZXMifSwidXNlcmRhdGEiOnsibm90ZSI6IiJ9fQ==</audit>
           </rule>
           <rule uuid="0ece8789-12d7-4651-8f87-ce2cb91a8095">
             <enabled>1</enabled>
             <statetype>keep</statetype>
             <state-policy/>
-            <sequence>326</sequence>
+            <sequence>291</sequence>
             <action>pass</action>
             <quick>1</quick>
             <interfacenot>0</interfacenot>
@@ -2292,14 +2452,14 @@
             <tos/>
             <shaper1/>
             <shaper2/>
-            <description>Allow WL_CORP_MACS to WIRED_CORP</description>
+            <description>Allow WL_CORP to WIRED_CORP</description>
             <audit>eyJjcmVhdGVkIjp7InVzZXJuYW1lIjoicm9vdEAxMC44MC45OS4xMDEiLCJ0aW1lIjoiMTc5MDE1MzU1MC4xNiIsImRlc2NyaXB0aW9uIjoiXC9hcGlcL2FwaS5waHAgbWFkZSBjaGFuZ2VzIn0sInVwZGF0ZWQiOnsidXNlcm5hbWUiOiJyb290QDEwLjgwLjk5LjEwMSIsInRpbWUiOiIxNzkwMTUzNTUwLjE2IiwiZGVzY3JpcHRpb24iOiJcL2FwaVwvYXBpLnBocCBtYWRlIGNoYW5nZXMifSwidXNlcmRhdGEiOnsibm90ZSI6IiJ9fQ==</audit>
           </rule>
           <rule uuid="05a6e3db-16f6-47b4-af7a-596edbdc9fbd">
             <enabled>1</enabled>
             <statetype>keep</statetype>
             <state-policy/>
-            <sequence>376</sequence>
+            <sequence>292</sequence>
             <action>pass</action>
             <quick>1</quick>
             <interfacenot>0</interfacenot>
@@ -2353,7 +2513,7 @@
             <tos/>
             <shaper1/>
             <shaper2/>
-            <description>Allow WL_CORP_MACS to MGMT</description>
+            <description>Allow WL_CORP to MGMT</description>
             <audit>eyJjcmVhdGVkIjp7InVzZXJuYW1lIjoicm9vdEAxMC44MC45OS4xMDEiLCJ0aW1lIjoiMTc5MDE1MzYyNC4xNCIsImRlc2NyaXB0aW9uIjoiXC9hcGlcL2FwaS5waHAgbWFkZSBjaGFuZ2VzIn0sInVwZGF0ZWQiOnsidXNlcm5hbWUiOiJyb290QDEwLjgwLjk5LjEwMSIsInRpbWUiOiIxNzkwMTUzNjI0LjE0IiwiZGVzY3JpcHRpb24iOiJcL2FwaVwvYXBpLnBocCBtYWRlIGNoYW5nZXMifSwidXNlcmRhdGEiOnsibm90ZSI6IiJ9fQ==</audit>
           </rule>
         </rules>
@@ -2736,7 +2896,7 @@ f2:2b:8d:10:05:ed</content>
         <interface/>
       </general>
     </Hostwatch>
-    <captiveportal version="1.0.5" persisted_at="1790154507.60" description="Captive portal application model">
+    <captiveportal version="1.0.5" persisted_at="1790560364.40" description="Captive portal application model">
       <zones>
         <zone uuid="44701c42-d25f-4767-a341-91a6175c697d">
           <enabled>1</enabled>
@@ -2744,7 +2904,7 @@ f2:2b:8d:10:05:ed</content>
           <interfaces>opt4</interfaces>
           <disableRules>0</disableRules>
           <authservers>Local Database</authservers>
-          <roaming>0</roaming>
+          <roaming>1</roaming>
           <alwaysSendAccountingReqs>0</alwaysSendAccountingReqs>
           <authEnforceGroup>2000</authEnforceGroup>
           <idletimeout>60</idletimeout>
@@ -3188,7 +3348,7 @@ f2:2b:8d:10:05:ed</content>
           <server_port>53001</server_port>
         </general>
       </ddns>
-      <dhcp4 version="1.0.6" persisted_at="1790557793.83" description="Kea DHCPv4 configuration">
+      <dhcp4 version="1.0.6" persisted_at="1790839200.67" description="Kea DHCPv4 configuration">
         <general>
           <enabled>1</enabled>
           <manual_config>0</manual_config>
@@ -4290,8 +4450,8 @@ f2:2b:8d:10:05:ed</content>
   </OPNsense>
   <revision>
     <username>root@10.80.99.101</username>
-    <description>/api/ids/settings/add_policy/ made changes</description>
-    <time>1790559072.55</time>
+    <description>/api/firewall/d_nat/set_rule/2b545c2c-fe52-4d22-b5bf-148abd07e4d3 made changes</description>
+    <time>1790850517.00</time>
   </revision>
   <sysctl version="1.0.2" persisted_at="1790214545.76" description="System Tunables">
     <item uuid="13df480e-62ed-4840-b7c4-fc2afb2bfea1">

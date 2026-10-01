@@ -83,6 +83,99 @@ def _copy_table(src_cur: Any, dst_conn: Any, table: str, progress: ProgressFn | 
     return total
 
 
+def _normalize_imported_cardno(dst_conn: Any) -> int:
+    """Match old ACS cardno: drop face-event uint64 junk (NULL scrubbed separately)."""
+    dst_cur = dst_conn.cursor()
+    if not _table_exists(dst_cur, PUNCH_TABLE):
+        return 0
+    n = 0
+    dst_cur.execute(
+        f"""
+        SELECT DISTINCT cardno FROM dbo.{_quote_ident(PUNCH_TABLE)}
+        WHERE cardno IS NOT NULL AND LTRIM(RTRIM(cardno)) <> N''
+        """
+    )
+    for (raw,) in dst_cur.fetchall():
+        fixed = col.normalize_card_no(raw)
+        if fixed != str(raw):
+            dst_cur.execute(
+                f"""
+                UPDATE dbo.{_quote_ident(PUNCH_TABLE)}
+                SET cardno = ?
+                WHERE cardno = ?
+                """,
+                fixed,
+                raw,
+            )
+            n += int(dst_cur.rowcount or 0)
+    dst_conn.commit()
+    return n
+
+
+def _normalize_imported_deviceno(dst_conn: Any) -> tuple[int, int]:
+    """Shorten long Hikvision product IDs to ACS-style serials; fill blanks by device."""
+    dst_cur = dst_conn.cursor()
+    if not _table_exists(dst_cur, PUNCH_TABLE):
+        return 0, 0
+
+    rewritten = 0
+    dst_cur.execute(
+        f"""
+        SELECT DISTINCT deviceno FROM dbo.{_quote_ident(PUNCH_TABLE)}
+        WHERE deviceno IS NOT NULL AND LTRIM(RTRIM(deviceno)) <> N''
+        """
+    )
+    for (raw,) in dst_cur.fetchall():
+        short = col.normalize_hik_device_serial(str(raw))
+        if short and short != str(raw).strip():
+            dst_cur.execute(
+                f"""
+                UPDATE dbo.{_quote_ident(PUNCH_TABLE)}
+                SET deviceno = ?
+                WHERE deviceno = ?
+                """,
+                short,
+                raw,
+            )
+            rewritten += int(dst_cur.rowcount or 0)
+
+    # Fill blank/null using the most common serial already present for that device label
+    dst_cur.execute(
+        f"""
+        SELECT device, deviceno, COUNT(*) AS n
+        FROM dbo.{_quote_ident(PUNCH_TABLE)}
+        WHERE device IS NOT NULL
+          AND deviceno IS NOT NULL AND LTRIM(RTRIM(deviceno)) <> N''
+        GROUP BY device, deviceno
+        ORDER BY device, n DESC
+        """
+    )
+    best_by_device: dict[str, str] = {}
+    for device, serial, _n in dst_cur.fetchall():
+        key = str(device or "").strip()
+        if key and key not in best_by_device:
+            best_by_device[key] = col.normalize_hik_device_serial(str(serial)) or str(serial)
+
+    filled = 0
+    for device, serial in best_by_device.items():
+        if not serial:
+            continue
+        dst_cur.execute(
+            f"""
+            UPDATE dbo.{_quote_ident(PUNCH_TABLE)}
+            SET deviceno = ?
+            WHERE device = ?
+              AND (deviceno IS NULL OR LTRIM(RTRIM(deviceno)) = N'')
+            """,
+            serial[:50],
+            device,
+        )
+        filled += int(dst_cur.rowcount or 0)
+
+    dst_conn.commit()
+    return rewritten, filled
+
+
 def copy_acs_data(
     *,
     source_server: str,
@@ -150,6 +243,28 @@ def copy_acs_data(
             src_cur = src.cursor()
             n = _copy_table(src_cur, dst, table, progress)
             notes.append(f"OK {table}: {n} row(s)")
+            if table == PUNCH_TABLE and n > 0:
+                if progress:
+                    progress("Normalizing imported punches (no NULLs)…")
+                rewritten, filled_serial = _normalize_imported_deviceno(dst)
+                if rewritten:
+                    notes.append(
+                        f"Normalized deviceno to short serial on {rewritten} imported row(s)."
+                    )
+                if filled_serial:
+                    notes.append(
+                        f"Filled blank deviceno on {filled_serial} imported row(s) from device label."
+                    )
+                card_fixed = _normalize_imported_cardno(dst)
+                if card_fixed:
+                    notes.append(
+                        f"Normalized cardno (NULL/junk → empty or badge) on {card_fixed} row(s)."
+                    )
+                scrubbed = col.scrub_atteninfo_nulls(dst)
+                if scrubbed:
+                    notes.append(
+                        f"Replaced NULL varchar cells with empty/defaults ({scrubbed} update(s))."
+                    )
 
         # Keep local collector on/off + intervals (ACS import must not disable the schedule)
         if preserved and _table_exists(dst.cursor(), "AppConfig"):
