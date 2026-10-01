@@ -8072,3 +8072,12 @@
 2026-10-01 16:17:15,320 INFO SUCCESS  entry (10.80.100.11): OK — 6 event(s), 2 punch(es), inserted 0 new row(s).
 2026-10-01 16:17:15,320 INFO SUCCESS  exit (10.80.100.12): OK — 11 event(s), 5 punch(es), inserted 4 new row(s).
 2026-10-01 16:17:15,320 INFO Result: SUCCESS — all 2 device(s) OK.
+2026-10-01 16:18:16,361 INFO entry (10.80.100.11) searching 2026-10-01T16:12:19+05:30 → 2026-10-01T16:23:16+05:30
+2026-10-01 16:18:16,441 INFO 10.80.100.11: 6 device events, 2 punches after filter
+2026-10-01 16:18:16,495 INFO 10.80.100.11: inserted 0 new row(s)
+2026-10-01 16:18:16,498 INFO exit (10.80.100.12) searching 2026-10-01T16:14:39+05:30 → 2026-10-01T16:23:16+05:30
+2026-10-01 16:18:16,591 INFO 10.80.100.12: 8 device events, 4 punches after filter
+2026-10-01 16:18:16,635 INFO 10.80.100.12: inserted 0 new row(s)
+2026-10-01 16:18:16,637 INFO SUCCESS  entry (10.80.100.11): OK — 6 event(s), 2 punch(es), inserted 0 new row(s).
+2026-10-01 16:18:16,638 INFO SUCCESS  exit (10.80.100.12): OK — 8 event(s), 4 punch(es), inserted 0 new row(s).
+2026-10-01 16:18:16,638 INFO Result: SUCCESS — all 2 device(s) OK.
