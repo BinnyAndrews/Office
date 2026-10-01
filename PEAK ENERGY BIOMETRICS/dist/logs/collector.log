@@ -7937,3 +7937,120 @@
 2026-10-01 16:02:15,760 INFO SUCCESS  entry (10.80.100.11): OK — 6 event(s), 2 punch(es), inserted 0 new row(s).
 2026-10-01 16:02:15,760 INFO SUCCESS  exit (10.80.100.12): OK — 6 event(s), 2 punch(es), inserted 1 new row(s).
 2026-10-01 16:02:15,761 INFO Result: SUCCESS — all 2 device(s) OK.
+2026-10-01 16:03:13,846 INFO entry (10.80.100.11) searching 2026-10-01T15:59:14+05:30 → 2026-10-01T16:08:13+05:30
+2026-10-01 16:03:13,926 INFO 10.80.100.11: 6 device events, 2 punches after filter
+2026-10-01 16:03:13,966 INFO 10.80.100.11: inserted 0 new row(s)
+2026-10-01 16:03:13,968 INFO exit (10.80.100.12) searching 2026-10-01T15:59:37+05:30 → 2026-10-01T16:08:13+05:30
+2026-10-01 16:03:14,045 INFO 10.80.100.12: 6 device events, 2 punches after filter
+2026-10-01 16:03:14,101 INFO 10.80.100.12: inserted 1 new row(s)
+2026-10-01 16:03:14,103 INFO SUCCESS  entry (10.80.100.11): OK — 6 event(s), 2 punch(es), inserted 0 new row(s).
+2026-10-01 16:03:14,104 INFO SUCCESS  exit (10.80.100.12): OK — 6 event(s), 2 punch(es), inserted 1 new row(s).
+2026-10-01 16:03:14,104 INFO Result: SUCCESS — all 2 device(s) OK.
+2026-10-01 16:04:13,822 INFO entry (10.80.100.11) searching 2026-10-01T15:59:14+05:30 → 2026-10-01T16:09:13+05:30
+2026-10-01 16:04:13,896 INFO 10.80.100.11: 6 device events, 2 punches after filter
+2026-10-01 16:04:13,942 INFO 10.80.100.11: inserted 0 new row(s)
+2026-10-01 16:04:13,944 INFO exit (10.80.100.12) searching 2026-10-01T16:00:33+05:30 → 2026-10-01T16:09:13+05:30
+2026-10-01 16:04:14,100 INFO 10.80.100.12: 9 device events, 3 punches after filter
+2026-10-01 16:04:14,172 INFO 10.80.100.12: inserted 1 new row(s)
+2026-10-01 16:04:14,174 INFO SUCCESS  entry (10.80.100.11): OK — 6 event(s), 2 punch(es), inserted 0 new row(s).
+2026-10-01 16:04:14,175 INFO SUCCESS  exit (10.80.100.12): OK — 9 event(s), 3 punch(es), inserted 1 new row(s).
+2026-10-01 16:04:14,175 INFO Result: SUCCESS — all 2 device(s) OK.
+2026-10-01 16:05:30,403 INFO entry (10.80.100.11) searching 2026-10-01T15:59:14+05:30 → 2026-10-01T16:10:30+05:30
+2026-10-01 16:05:30,503 INFO 10.80.100.11: 6 device events, 2 punches after filter
+2026-10-01 16:05:30,544 INFO 10.80.100.11: inserted 0 new row(s)
+2026-10-01 16:05:30,550 INFO exit (10.80.100.12) searching 2026-10-01T16:02:04+05:30 → 2026-10-01T16:10:30+05:30
+2026-10-01 16:05:30,629 INFO 10.80.100.12: 6 device events, 2 punches after filter
+2026-10-01 16:05:30,670 INFO 10.80.100.12: inserted 0 new row(s)
+2026-10-01 16:05:30,671 INFO SUCCESS  entry (10.80.100.11): OK — 6 event(s), 2 punch(es), inserted 0 new row(s).
+2026-10-01 16:05:30,672 INFO SUCCESS  exit (10.80.100.12): OK — 6 event(s), 2 punch(es), inserted 0 new row(s).
+2026-10-01 16:05:30,672 INFO Result: SUCCESS — all 2 device(s) OK.
+2026-10-01 16:06:20,235 INFO entry (10.80.100.11) searching 2026-10-01T15:59:14+05:30 → 2026-10-01T16:11:20+05:30
+2026-10-01 16:06:20,364 INFO 10.80.100.11: 6 device events, 2 punches after filter
+2026-10-01 16:06:20,406 INFO 10.80.100.11: inserted 0 new row(s)
+2026-10-01 16:06:20,409 INFO exit (10.80.100.12) searching 2026-10-01T16:02:04+05:30 → 2026-10-01T16:11:20+05:30
+2026-10-01 16:06:20,516 INFO 10.80.100.12: 6 device events, 2 punches after filter
+2026-10-01 16:06:20,546 INFO 10.80.100.12: inserted 0 new row(s)
+2026-10-01 16:06:20,548 INFO SUCCESS  entry (10.80.100.11): OK — 6 event(s), 2 punch(es), inserted 0 new row(s).
+2026-10-01 16:06:20,548 INFO SUCCESS  exit (10.80.100.12): OK — 6 event(s), 2 punch(es), inserted 0 new row(s).
+2026-10-01 16:06:20,548 INFO Result: SUCCESS — all 2 device(s) OK.
+2026-10-01 16:07:30,278 INFO entry (10.80.100.11) searching 2026-10-01T15:59:14+05:30 → 2026-10-01T16:12:30+05:30
+2026-10-01 16:07:30,371 INFO 10.80.100.11: 6 device events, 2 punches after filter
+2026-10-01 16:07:30,420 INFO 10.80.100.11: inserted 0 new row(s)
+2026-10-01 16:07:30,423 INFO exit (10.80.100.12) searching 2026-10-01T16:02:04+05:30 → 2026-10-01T16:12:30+05:30
+2026-10-01 16:07:30,609 INFO 10.80.100.12: 6 device events, 2 punches after filter
+2026-10-01 16:07:30,695 INFO 10.80.100.12: inserted 0 new row(s)
+2026-10-01 16:07:30,717 INFO SUCCESS  entry (10.80.100.11): OK — 6 event(s), 2 punch(es), inserted 0 new row(s).
+2026-10-01 16:07:30,718 INFO SUCCESS  exit (10.80.100.12): OK — 6 event(s), 2 punch(es), inserted 0 new row(s).
+2026-10-01 16:07:30,718 INFO Result: SUCCESS — all 2 device(s) OK.
+2026-10-01 16:08:18,577 INFO entry (10.80.100.11) searching 2026-10-01T15:59:14+05:30 → 2026-10-01T16:13:18+05:30
+2026-10-01 16:08:18,739 INFO 10.80.100.11: 6 device events, 2 punches after filter
+2026-10-01 16:08:18,787 INFO 10.80.100.11: inserted 0 new row(s)
+2026-10-01 16:08:18,790 INFO exit (10.80.100.12) searching 2026-10-01T16:02:04+05:30 → 2026-10-01T16:13:18+05:30
+2026-10-01 16:08:18,874 INFO 10.80.100.12: 6 device events, 2 punches after filter
+2026-10-01 16:08:18,903 INFO 10.80.100.12: inserted 0 new row(s)
+2026-10-01 16:08:18,905 INFO SUCCESS  entry (10.80.100.11): OK — 6 event(s), 2 punch(es), inserted 0 new row(s).
+2026-10-01 16:08:18,905 INFO SUCCESS  exit (10.80.100.12): OK — 6 event(s), 2 punch(es), inserted 0 new row(s).
+2026-10-01 16:08:18,906 INFO Result: SUCCESS — all 2 device(s) OK.
+2026-10-01 16:09:16,197 INFO entry (10.80.100.11) searching 2026-10-01T15:59:14+05:30 → 2026-10-01T16:14:16+05:30
+2026-10-01 16:09:16,272 INFO 10.80.100.11: 6 device events, 2 punches after filter
+2026-10-01 16:09:16,313 INFO 10.80.100.11: inserted 0 new row(s)
+2026-10-01 16:09:16,317 INFO exit (10.80.100.12) searching 2026-10-01T16:02:04+05:30 → 2026-10-01T16:14:16+05:30
+2026-10-01 16:09:16,413 INFO 10.80.100.12: 6 device events, 2 punches after filter
+2026-10-01 16:09:16,440 INFO 10.80.100.12: inserted 0 new row(s)
+2026-10-01 16:09:16,442 INFO SUCCESS  entry (10.80.100.11): OK — 6 event(s), 2 punch(es), inserted 0 new row(s).
+2026-10-01 16:09:16,442 INFO SUCCESS  exit (10.80.100.12): OK — 6 event(s), 2 punch(es), inserted 0 new row(s).
+2026-10-01 16:09:16,443 INFO Result: SUCCESS — all 2 device(s) OK.
+2026-10-01 16:10:13,511 INFO entry (10.80.100.11) searching 2026-10-01T15:59:14+05:30 → 2026-10-01T16:15:13+05:30
+2026-10-01 16:10:13,655 INFO 10.80.100.11: 6 device events, 2 punches after filter
+2026-10-01 16:10:13,696 INFO 10.80.100.11: inserted 0 new row(s)
+2026-10-01 16:10:13,699 INFO exit (10.80.100.12) searching 2026-10-01T16:02:04+05:30 → 2026-10-01T16:15:13+05:30
+2026-10-01 16:10:13,763 INFO 10.80.100.12: 6 device events, 2 punches after filter
+2026-10-01 16:10:13,793 INFO 10.80.100.12: inserted 0 new row(s)
+2026-10-01 16:10:13,795 INFO SUCCESS  entry (10.80.100.11): OK — 6 event(s), 2 punch(es), inserted 0 new row(s).
+2026-10-01 16:10:13,795 INFO SUCCESS  exit (10.80.100.12): OK — 6 event(s), 2 punch(es), inserted 0 new row(s).
+2026-10-01 16:10:13,796 INFO Result: SUCCESS — all 2 device(s) OK.
+2026-10-01 16:11:14,294 INFO entry (10.80.100.11) searching 2026-10-01T15:59:14+05:30 → 2026-10-01T16:16:14+05:30
+2026-10-01 16:11:14,394 INFO 10.80.100.11: 6 device events, 2 punches after filter
+2026-10-01 16:11:14,436 INFO 10.80.100.11: inserted 0 new row(s)
+2026-10-01 16:11:14,439 INFO exit (10.80.100.12) searching 2026-10-01T16:02:04+05:30 → 2026-10-01T16:16:14+05:30
+2026-10-01 16:11:14,546 INFO 10.80.100.12: 9 device events, 3 punches after filter
+2026-10-01 16:11:14,612 INFO 10.80.100.12: inserted 1 new row(s)
+2026-10-01 16:11:14,614 INFO SUCCESS  entry (10.80.100.11): OK — 6 event(s), 2 punch(es), inserted 0 new row(s).
+2026-10-01 16:11:14,615 INFO SUCCESS  exit (10.80.100.12): OK — 9 event(s), 3 punch(es), inserted 1 new row(s).
+2026-10-01 16:11:14,615 INFO Result: SUCCESS — all 2 device(s) OK.
+2026-10-01 16:12:15,332 INFO entry (10.80.100.11) searching 2026-10-01T15:59:14+05:30 → 2026-10-01T16:17:15+05:30
+2026-10-01 16:12:15,416 INFO 10.80.100.11: 6 device events, 2 punches after filter
+2026-10-01 16:12:15,459 INFO 10.80.100.11: inserted 0 new row(s)
+2026-10-01 16:12:15,463 INFO exit (10.80.100.12) searching 2026-10-01T16:08:56+05:30 → 2026-10-01T16:17:15+05:30
+2026-10-01 16:12:15,549 INFO 10.80.100.12: 3 device events, 1 punches after filter
+2026-10-01 16:12:15,571 INFO 10.80.100.12: inserted 0 new row(s)
+2026-10-01 16:12:15,573 INFO SUCCESS  entry (10.80.100.11): OK — 6 event(s), 2 punch(es), inserted 0 new row(s).
+2026-10-01 16:12:15,574 INFO SUCCESS  exit (10.80.100.12): OK — 3 event(s), 1 punch(es), inserted 0 new row(s).
+2026-10-01 16:12:15,574 INFO Result: SUCCESS — all 2 device(s) OK.
+2026-10-01 16:13:15,809 INFO entry (10.80.100.11) searching 2026-10-01T15:59:14+05:30 → 2026-10-01T16:18:15+05:30
+2026-10-01 16:13:15,903 INFO 10.80.100.11: 6 device events, 2 punches after filter
+2026-10-01 16:13:15,943 INFO 10.80.100.11: inserted 0 new row(s)
+2026-10-01 16:13:15,947 INFO exit (10.80.100.12) searching 2026-10-01T16:08:56+05:30 → 2026-10-01T16:18:15+05:30
+2026-10-01 16:13:16,050 INFO 10.80.100.12: 3 device events, 1 punches after filter
+2026-10-01 16:13:16,072 INFO 10.80.100.12: inserted 0 new row(s)
+2026-10-01 16:13:16,073 INFO SUCCESS  entry (10.80.100.11): OK — 6 event(s), 2 punch(es), inserted 0 new row(s).
+2026-10-01 16:13:16,074 INFO SUCCESS  exit (10.80.100.12): OK — 3 event(s), 1 punch(es), inserted 0 new row(s).
+2026-10-01 16:13:16,074 INFO Result: SUCCESS — all 2 device(s) OK.
+2026-10-01 16:14:30,277 INFO entry (10.80.100.11) searching 2026-10-01T15:59:14+05:30 → 2026-10-01T16:19:30+05:30
+2026-10-01 16:14:30,460 INFO 10.80.100.11: 12 device events, 4 punches after filter
+2026-10-01 16:14:30,570 INFO 10.80.100.11: inserted 2 new row(s)
+2026-10-01 16:14:30,573 INFO exit (10.80.100.12) searching 2026-10-01T16:08:56+05:30 → 2026-10-01T16:19:30+05:30
+2026-10-01 16:14:30,686 INFO 10.80.100.12: 3 device events, 1 punches after filter
+2026-10-01 16:14:30,718 INFO 10.80.100.12: inserted 0 new row(s)
+2026-10-01 16:14:30,722 INFO SUCCESS  entry (10.80.100.11): OK — 12 event(s), 4 punch(es), inserted 2 new row(s).
+2026-10-01 16:14:30,722 INFO SUCCESS  exit (10.80.100.12): OK — 3 event(s), 1 punch(es), inserted 0 new row(s).
+2026-10-01 16:14:30,722 INFO Result: SUCCESS — all 2 device(s) OK.
+2026-10-01 16:15:18,035 INFO entry (10.80.100.11) searching 2026-10-01T16:12:19+05:30 → 2026-10-01T16:20:18+05:30
+2026-10-01 16:15:18,132 INFO 10.80.100.11: 6 device events, 2 punches after filter
+2026-10-01 16:15:18,177 INFO 10.80.100.11: inserted 0 new row(s)
+2026-10-01 16:15:18,180 INFO exit (10.80.100.12) searching 2026-10-01T16:08:56+05:30 → 2026-10-01T16:20:18+05:30
+2026-10-01 16:15:18,298 INFO 10.80.100.12: 3 device events, 1 punches after filter
+2026-10-01 16:15:18,319 INFO 10.80.100.12: inserted 0 new row(s)
+2026-10-01 16:15:18,321 INFO SUCCESS  entry (10.80.100.11): OK — 6 event(s), 2 punch(es), inserted 0 new row(s).
+2026-10-01 16:15:18,321 INFO SUCCESS  exit (10.80.100.12): OK — 3 event(s), 1 punch(es), inserted 0 new row(s).
+2026-10-01 16:15:18,321 INFO Result: SUCCESS — all 2 device(s) OK.
