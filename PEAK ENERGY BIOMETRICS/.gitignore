@@ -8,7 +8,7 @@
 #*.log
 #run.cmd
 #build/
-#dist/
+dist/logs/collector.log
 
 sql/_local_passwords.json
 #sql/_setup_local.sql
