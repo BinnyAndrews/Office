@@ -1,0 +1,36 @@
+2 set WAN_AIRTEL interval=5 iface=wan proto=inet
+2 set WAN_JIO interval=5 iface=opt1 proto=inet
+2 routing set: {'result': 'saved'}
+6 LAN_RFC1918: {'result': 'saved'}
+3 del ec42364f-09b4-4133-bdd7-eb03dfd3a2f2: {'result': 'not found'}
+3 del 8af6f814-5b8a-4f93-8db3-eb3f4248c1fc: {'result': 'not found'}
+3 del a30a91bf-3393-4e49-85f2-77143cde5311: {'result': 'not found'}
+4 MGMT: {'result': 'saved'}
+4 Guest: {'result': 'saved'}
+5 log-off 8775d0bb-edc7-4736-b7a4-98752dd86206: {'result': 'saved'}
+5 log-off 9cdb9a90-6e4e-440a-bc3a-14cedf3e9ab9: {'result': 'saved'}
+5 log-off a7c3e91f-2b84-4d6e-9f1a-5e8d0c4b7a12: {'result': 'saved'}
+5 log-off 69c0df77-61f5-4e9b-8c87-2b6c7bd35dbc: {'result': 'saved'}
+5 FAIL 0ece8789-12d7-4651-8f87-ce2cb91a8095: list indices must be integers or slices, not str
+5 FAIL 05a6e3db-16f6-47b4-af7a-596edbdc9fbd: list indices must be integers or slices, not str
+5 log-off 204b9f91-cdaa-4077-ac22-8c73c1f4db88: {'result': 'saved'}
+5 log-off 49cd1036-18a0-406e-bebb-e71c7735e47b: {'result': 'saved'}
+8 add CORP_INTERNAL: {'result': 'saved', 'uuid': '6533abec-1d78-4468-aa0d-274d05c388f1'}
+8 WG: {'result': 'saved'}
+9 dedupe del peakpulse-dev 5cb4d6fb-ab09-4415-8b4e-b927062e8f05: {'result': 'deleted'}
+9 ensure peakpulse-dev: {'result': 'saved'}
+9 dedupe del app afff5d99-fc61-4c11-904a-9cd971817590: {'result': 'deleted'}
+9 ensure app: {'result': 'saved'}
+apply /api/firewall/alias/reconfigure: {'status': 'ok'}
+apply /api/firewall/filter/apply: {'status': 'OK\n\n'}
+apply /api/routing/settings/reconfigure: {'status': 'ok'}
+apply /api/unbound/service/reconfigure: {'status': 'ok'}
+VERIFY gw WAN_AIRTEL interval=5
+VERIFY gw WAN_JIO interval=5
+VERIFY alias CORP_INTERNAL='10.80.99.0/24\n10.80.100.0/24\n10.80.101.0/24'
+VERIFY alias LAN_RFC1918='10.0.0.0/8\n172.16.0.0/12\n192.168.0.0/16'
+VERIFY MGMT dst=LAN_RFC1918 dnot=1 log=0 desc=MGMT to Internet via WAN_LB
+VERIFY Guest dst=LAN_RFC1918 dnot=1 log=0 desc=WL_GUEST to Internet (scheduled)
+VERIFY WG dst=CORP_INTERNAL dnot=0 log=0 desc=WG admin to CORP_INTERNAL (no guest)
+VERIFY host peakpulse-dev->10.80.100.54
+VERIFY host app->10.80.100.54

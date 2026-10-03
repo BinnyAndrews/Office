@@ -1,0 +1,136 @@
+﻿{
+    "gateways":  {
+                     "gateway_item":  {
+                                          "661fa084-7e66-4687-a09b-7b3aa650c307":  {
+                                                                                       "disabled":  "0",
+                                                                                       "name":  "WAN_AIRTEL",
+                                                                                       "descr":  "Airtel-FIBER",
+                                                                                       "interface":  {
+                                                                                                         "lan":  {
+                                                                                                                     "value":  "MGMT",
+                                                                                                                     "selected":  0
+                                                                                                                 },
+                                                                                                         "wan":  {
+                                                                                                                     "value":  "WAN_AIRTEL",
+                                                                                                                     "selected":  1
+                                                                                                                 },
+                                                                                                         "opt1":  {
+                                                                                                                      "value":  "WAN_JIO",
+                                                                                                                      "selected":  0
+                                                                                                                  },
+                                                                                                         "opt2":  {
+                                                                                                                      "value":  "WIRED_CORP",
+                                                                                                                      "selected":  0
+                                                                                                                  },
+                                                                                                         "opt6":  {
+                                                                                                                      "value":  "WIREGUARD",
+                                                                                                                      "selected":  0
+                                                                                                                  },
+                                                                                                         "opt3":  {
+                                                                                                                      "value":  "WL_CORP",
+                                                                                                                      "selected":  0
+                                                                                                                  },
+                                                                                                         "opt4":  {
+                                                                                                                      "value":  "WL_GUEST",
+                                                                                                                      "selected":  0
+                                                                                                                  }
+                                                                                                     },
+                                                                                       "ipprotocol":  {
+                                                                                                          "inet":  {
+                                                                                                                       "value":  "IPv4",
+                                                                                                                       "selected":  1
+                                                                                                                   },
+                                                                                                          "inet6":  {
+                                                                                                                        "value":  "IPv6",
+                                                                                                                        "selected":  0
+                                                                                                                    }
+                                                                                                      },
+                                                                                       "gateway":  "125.19.224.17",
+                                                                                       "defaultgw":  "1",
+                                                                                       "fargw":  "0",
+                                                                                       "monitor_disable":  "0",
+                                                                                       "monitor_noroute":  "0",
+                                                                                       "monitor_killstates":  "1",
+                                                                                       "monitor_killstates_priority":  "0",
+                                                                                       "monitor":  "8.8.8.8",
+                                                                                       "force_down":  "0",
+                                                                                       "nosync":  "0",
+                                                                                       "priority":  "1",
+                                                                                       "weight":  "1",
+                                                                                       "latencylow":  "",
+                                                                                       "latencyhigh":  "",
+                                                                                       "losslow":  "",
+                                                                                       "losshigh":  "",
+                                                                                       "interval":  "1",
+                                                                                       "time_period":  "",
+                                                                                       "loss_interval":  "",
+                                                                                       "data_length":  ""
+                                                                                   },
+                                          "f7e80d15-4e8d-4982-a114-7e87de9aa1cc":  {
+                                                                                       "disabled":  "0",
+                                                                                       "name":  "WAN_JIO",
+                                                                                       "descr":  "JIO-RF",
+                                                                                       "interface":  {
+                                                                                                         "lan":  {
+                                                                                                                     "value":  "MGMT",
+                                                                                                                     "selected":  0
+                                                                                                                 },
+                                                                                                         "wan":  {
+                                                                                                                     "value":  "WAN_AIRTEL",
+                                                                                                                     "selected":  0
+                                                                                                                 },
+                                                                                                         "opt1":  {
+                                                                                                                      "value":  "WAN_JIO",
+                                                                                                                      "selected":  1
+                                                                                                                  },
+                                                                                                         "opt2":  {
+                                                                                                                      "value":  "WIRED_CORP",
+                                                                                                                      "selected":  0
+                                                                                                                  },
+                                                                                                         "opt6":  {
+                                                                                                                      "value":  "WIREGUARD",
+                                                                                                                      "selected":  0
+                                                                                                                  },
+                                                                                                         "opt3":  {
+                                                                                                                      "value":  "WL_CORP",
+                                                                                                                      "selected":  0
+                                                                                                                  },
+                                                                                                         "opt4":  {
+                                                                                                                      "value":  "WL_GUEST",
+                                                                                                                      "selected":  0
+                                                                                                                  }
+                                                                                                     },
+                                                                                       "ipprotocol":  {
+                                                                                                          "inet":  {
+                                                                                                                       "value":  "IPv4",
+                                                                                                                       "selected":  1
+                                                                                                                   },
+                                                                                                          "inet6":  {
+                                                                                                                        "value":  "IPv6",
+                                                                                                                        "selected":  0
+                                                                                                                    }
+                                                                                                      },
+                                                                                       "gateway":  "47.247.169.93",
+                                                                                       "defaultgw":  "1",
+                                                                                       "fargw":  "0",
+                                                                                       "monitor_disable":  "0",
+                                                                                       "monitor_noroute":  "0",
+                                                                                       "monitor_killstates":  "1",
+                                                                                       "monitor_killstates_priority":  "0",
+                                                                                       "monitor":  "1.1.1.1",
+                                                                                       "force_down":  "0",
+                                                                                       "nosync":  "0",
+                                                                                       "priority":  "2",
+                                                                                       "weight":  "1",
+                                                                                       "latencylow":  "",
+                                                                                       "latencyhigh":  "",
+                                                                                       "losslow":  "",
+                                                                                       "losshigh":  "",
+                                                                                       "interval":  "1",
+                                                                                       "time_period":  "",
+                                                                                       "loss_interval":  "",
+                                                                                       "data_length":  ""
+                                                                                   }
+                                      }
+                 }
+}

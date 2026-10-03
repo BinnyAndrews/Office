@@ -1,0 +1,25 @@
+﻿{
+    "items":  [
+                  {
+                      "name":  "WAN_AIRTEL",
+                      "address":  "125.19.224.17",
+                      "status":  "none",
+                      "loss":  "0.0 %",
+                      "delay":  "9.8 ms",
+                      "stddev":  "0.2 ms",
+                      "monitor":  "8.8.8.8",
+                      "status_translated":  "Online"
+                  },
+                  {
+                      "name":  "WAN_JIO",
+                      "address":  "47.247.169.93",
+                      "status":  "none",
+                      "loss":  "0.0 %",
+                      "delay":  "21.1 ms",
+                      "stddev":  "18.3 ms",
+                      "monitor":  "1.1.1.1",
+                      "status_translated":  "Online"
+                  }
+              ],
+    "status":  "ok"
+}

@@ -1,0 +1,77 @@
+Host https://10.80.99.1:4444
+CATEGORY exists WAN=9f8ba911-88e4-435a-b2c9-e14d47fb0964
+CATEGORY exists MGMT=f1f1e631-5f6f-4175-8f2f-52885e9dfc65
+CATEGORY exists CORP=002db29a-b534-4e4e-9aea-347e58cc781e
+CATEGORY exists GUEST=1ad2d821-19ea-4a47-9bb7-c5bf785d38db
+CATEGORY exists VPN=824fa8f4-3334-43a4-852e-c755edcb20a9
+GROUP exists WAN uuid=c9f75bca-40b7-4151-8085-394262f58f3f ifname=WAN
+Using WAN group ifname=WAN uuid=c9f75bca-40b7-4151-8085-394262f58f3f
+MGMT DNS already deleted
+SET enable MAC internet (ec42364f-09b4-4133-bdd7-eb03dfd3a2f2): {'result': 'saved'}
+SET enable MAC wired (8af6f814-5b8a-4f93-8db3-eb3f4248c1fc): {'result': 'saved'}
+SET enable MAC mgmt (a30a91bf-3393-4e49-85f2-77143cde5311): {'result': 'saved'}
+SET MAC internet harden (ec42364f-09b4-4133-bdd7-eb03dfd3a2f2): {'result': 'saved'}
+SET MAC wired cats (8af6f814-5b8a-4f93-8db3-eb3f4248c1fc): {'result': 'saved'}
+SET MAC mgmt cats (a30a91bf-3393-4e49-85f2-77143cde5311): {'result': 'saved'}
+SET disable open WL_CORP to WIRED (0ece8789-12d7-4651-8f87-ce2cb91a8095): {'result': 'saved'}
+SET disable open WL_CORP to MGMT (05a6e3db-16f6-47b4-af7a-596edbdc9fbd): {'result': 'saved'}
+SET disable open WL_CORP to Internet (4e991f78-76e2-4986-a64f-984965cde410): {'result': 'saved'}
+SET Block unknown MACs (4bd7e3ec-20e9-4c0c-8262-006f294131c8): {'result': 'saved'}
+SET WL DNS (69c0df77-61f5-4e9b-8c87-2b6c7bd35dbc): {'result': 'saved'}
+SET WL ICMP (a7c3e91f-2b84-4d6e-9f1a-5e8d0c4b7a12): {'result': 'saved'}
+SET WG WAN dest self + WAN group (d3afe269-6a1b-45d8-963c-5b1c08249b1a): {'result': 'saved'}
+SET Admin block to WAN (a8645db6-7a3e-4de6-a2d7-be6f6c291693): {'result': 'saved'}
+SET ACS SQL to WAN (eb0252a3-5817-48f8-af35-672050c5fb46): {'result': 'saved'}
+SET PEAK-APP to WAN (832c830f-abc7-4ca5-ac1a-68987b7144b3): {'result': 'saved'}
+SKIP PEAK-APP src lock: no Cloudflare/allowlist alias exists (src remains any -> OFFICE_PC:HTTP_HTTPS)
+SET categorize/log d7583097-3044-4ccd-a391-67c1fde978d5 (d7583097-3044-4ccd-a391-67c1fde978d5): {'result': 'saved'}
+SET categorize/log 4766a786-2140-4cf2-a15b-63b6a8983261 (4766a786-2140-4cf2-a15b-63b6a8983261): {'result': 'saved'}
+SET categorize/log d44d0f95-e3ac-4f1a-b6fb-c577ce7f865a (d44d0f95-e3ac-4f1a-b6fb-c577ce7f865a): {'result': 'saved'}
+SET categorize/log 6e07864c-a5e2-4af6-a498-a0d4ff58ad77 (6e07864c-a5e2-4af6-a498-a0d4ff58ad77): {'result': 'saved'}
+SET categorize/log abf92213-2f30-496f-af4a-f57fd51fae8b (abf92213-2f30-496f-af4a-f57fd51fae8b): {'result': 'saved'}
+SET categorize/log 8775d0bb-edc7-4736-b7a4-98752dd86206 (8775d0bb-edc7-4736-b7a4-98752dd86206): {'result': 'saved'}
+SET categorize/log 9cdb9a90-6e4e-440a-bc3a-14cedf3e9ab9 (9cdb9a90-6e4e-440a-bc3a-14cedf3e9ab9): {'result': 'saved'}
+SET categorize/log 06034113-3a1d-461e-9427-1daa9b16d8a2 (06034113-3a1d-461e-9427-1daa9b16d8a2): {'result': 'saved'}
+SET categorize/log b6c1281f-6be6-4a15-9b45-d6bf4fbcafef (b6c1281f-6be6-4a15-9b45-d6bf4fbcafef): {'result': 'saved'}
+SET categorize/log 204b9f91-cdaa-4077-ac22-8c73c1f4db88 (204b9f91-cdaa-4077-ac22-8c73c1f4db88): {'result': 'saved'}
+SET categorize/log 49cd1036-18a0-406e-bebb-e71c7735e47b (49cd1036-18a0-406e-bebb-e71c7735e47b): {'result': 'saved'}
+SET categorize/log 92a13ced-799a-4355-bc69-b27f633c795a (92a13ced-799a-4355-bc69-b27f633c795a): {'result': 'saved'}
+SET categorize/log 04d2ba2b-490f-4707-98a9-e317371ca83d (04d2ba2b-490f-4707-98a9-e317371ca83d): {'result': 'saved'}
+SET categorize/log 855bf1aa-21de-463e-8bf9-fbc2542abceb (855bf1aa-21de-463e-8bf9-fbc2542abceb): {'result': 'saved'}
+SET categorize/log aadf170f-d2a7-4de0-8f37-bc85fd571ec7 (aadf170f-d2a7-4de0-8f37-bc85fd571ec7): {'result': 'saved'}
+SET categorize/log a8645db6-7a3e-4de6-a2d7-be6f6c291693 (a8645db6-7a3e-4de6-a2d7-be6f6c291693): {'result': 'saved'}
+SET categorize/log eb0252a3-5817-48f8-af35-672050c5fb46 (eb0252a3-5817-48f8-af35-672050c5fb46): {'result': 'saved'}
+SET categorize/log 832c830f-abc7-4ca5-ac1a-68987b7144b3 (832c830f-abc7-4ca5-ac1a-68987b7144b3): {'result': 'saved'}
+KEEP Guest DNS/Captive manual rules: they carry peak_optimised schedule (auto portal rules do not)
+SKIP quieter default-deny logs: no API for nologdefaultblock (set in Firewall → Settings → Advanced → Logging)
+APPLY filter: {'status': 'OK\n\n'}
+
+=== USER RULES AFTER ===
+  en=1 pass  if=WAN src=KEKA_HR dst=ACS_SERVER dport=1433 | Allow ACS SQL 1433 from KEKA_HR (AKRIVIA_HR retained disabled)
+  en=1 pass  if=WAN src=any dst=OFFICE_PC dport=HTTP_HTTPS | Allow PEAK-APP HTTP/HTTPS from WAN
+  en=1 block if=WAN src=any dst=(self) dport=ADMIN_PORTS | Block WAN to firewall GUI/SSH
+  en=1 pass  if=WAN src=any dst=(self) dport=51820 | Allow WireGuard UDP 51820 on WAN
+  en=1 pass  if=lan src=MGMT dst=(self) dport= | Allow MGMT to firewall (self)
+  en=1 pass  if=lan src=MGMT dst=WIRED_CORP dport= | MGMT to WIRED_CORP
+  en=1 pass  if=lan src=MGMT dst=WL_CORP dport= | MGMT to WL_CORP
+  en=1 pass  if=lan src=MGMT dst=WL_GUEST dport= | MGMT to WL_GUEST
+  en=1 pass  if=lan src=MGMT dst=any dport= | MGMT to any via WAN_LB
+  en=1 pass  if=opt2 src=WIRED_CORP dst=(self) dport=domain | Allow WIRED_CORP DNS to firewall
+  en=1 pass  if=opt2 src=WIRED_CORP dst=WL_CORP dport= | WIRED_CORP to WL_CORP
+  en=1 pass  if=opt2 src=WIRED_CORP dst=LAN_RFC1918 dport= | WIRED_CORP to Internet via WAN_LB
+  en=1 block if=opt2 src=WIRED_CORP dst=WL_GUEST dport= | Block WIRED_CORP to WL_GUEST
+  en=1 pass  if=opt3 src=WL_CORP dst=(self) dport= | Allow WL_CORP ICMP to firewall (self)
+  en=1 pass  if=opt3 src=WL_CORP dst=(self) dport=domain | Allow WL_CORP DNS to firewall
+  en=0 pass  if=opt3 src=WL_CORP dst=WIRED_CORP dport= | Allow WL_CORP to WIRED_CORP
+  en=0 pass  if=opt3 src=WL_CORP dst=MGMT dport= | Allow WL_CORP to MGMT
+  en=0 pass  if=opt3 src=WL_CORP dst=LAN_RFC1918 dport= | Allow WL_CORP to Internet via WAN_LB
+  en=1 pass  if=opt3 src=WL_CORP_MACS dst=LAN_RFC1918 dport= | Allow WL_CORP_MACS to Internet via WAN_LB
+  en=1 pass  if=opt3 src=WL_CORP_MACS dst=WIRED_CORP dport= | Allow WL_CORP_MACS to WIRED_CORP
+  en=1 pass  if=opt3 src=WL_CORP_MACS dst=MGMT dport= | Allow WL_CORP_MACS to MGMT
+  en=1 block if=opt3 src=WL_CORP dst=any dport= | Block unknown WL_CORP MACs
+  en=1 pass  if=opt4 src=WL_GUEST dst=(self) dport=domain | Guest DNS
+  en=1 pass  if=opt4 src=WL_GUEST dst=(self) dport=8000 | Guest Captive Portal
+  en=1 block if=opt4 src=WL_GUEST dst=LAN_RFC1918 dport= | Block WL_GUEST to internal
+  en=1 pass  if=opt4 src=WL_GUEST dst=any dport= | WL_GUEST to Internet (scheduled)
+  en=1 pass  if=opt6 src=10.80.200.0/28 dst=10.80.0.0/16 dport= | WG admin to LAN
+  en=1 pass  if=opt6 src=10.80.200.0/28 dst=(self) dport= | WG admin to firewall (GUI/SSH)

@@ -1,0 +1,29 @@
+﻿2 gateway_interval: result={"result":"failed","validations":{"gateways.gateway_item.661fa084-7e66-4687-a09b-7b3aa650c307.interface":"Option [] not in list.","gateways.gateway_item.661fa084-7e66-4687-a09b-7b3aa650c307.ipprotocol":"Option [] not in list.","gateways.gateway_item.f7e80d15-4e8d-4982-a114-7e87de9aa1cc.interface":"Option [] not in list.","gateways.gateway_item.f7e80d15-4e8d-4982-a114-7e87de9aa1cc.ipprotocol":"Option [] not in list."}}
+6 FAIL The property 'content' cannot be found on this object. Verify that the property exists and can be set.
+3 del ec42364f-09b4-4133-bdd7-eb03dfd3a2f2 : {"result":"not found"}
+3 del 8af6f814-5b8a-4f93-8db3-eb3f4248c1fc : {"result":"not found"}
+3 del a30a91bf-3393-4e49-85f2-77143cde5311 : {"result":"not found"}
+4 MGMT FAIL The property 'destination_net' cannot be found on this object. Verify that the property exists and can be set.
+4 Guest FAIL The property 'destination_net' cannot be found on this object. Verify that the property exists and can be set.
+5 FAIL 8775d0bb-edc7-4736-b7a4-98752dd86206 The property 'log' cannot be found on this object. Verify that the property exists and can be set.
+5 FAIL 9cdb9a90-6e4e-440a-bc3a-14cedf3e9ab9 The property 'log' cannot be found on this object. Verify that the property exists and can be set.
+5 FAIL a7c3e91f-2b84-4d6e-9f1a-5e8d0c4b7a12 The property 'log' cannot be found on this object. Verify that the property exists and can be set.
+5 FAIL 69c0df77-61f5-4e9b-8c87-2b6c7bd35dbc The property 'log' cannot be found on this object. Verify that the property exists and can be set.
+5 FAIL 0ece8789-12d7-4651-8f87-ce2cb91a8095 The property 'log' cannot be found on this object. Verify that the property exists and can be set.
+5 FAIL 05a6e3db-16f6-47b4-af7a-596edbdc9fbd The property 'log' cannot be found on this object. Verify that the property exists and can be set.
+5 FAIL 204b9f91-cdaa-4077-ac22-8c73c1f4db88 The property 'log' cannot be found on this object. Verify that the property exists and can be set.
+5 FAIL 49cd1036-18a0-406e-bebb-e71c7735e47b The property 'log' cannot be found on this object. Verify that the property exists and can be set.
+8 FAIL The property 'enabled' cannot be found on this object. Verify that the property exists and can be set.
+9 add peakpulse-dev -> 10.80.100.54 : {"result":"saved","uuid":"274ec4a9-82e8-4a77-bd87-0b11800cc931"}
+9 add app -> 10.80.100.54 : {"result":"saved","uuid":"e6feda5f-4fab-4429-b3d3-5cfc3e0351bb"}
+apply alias: {"status":"ok"}
+apply filter: {"status":"OK\n\n"}
+apply routing: {"status":"ok"}
+apply unbound: {"status":"ok"}
+VERIFY gateway_intervals=1/1
+VERIFY LAN_RFC1918=10.80.0.0/16
+VERIFY MGMT dst=any dnot=0 desc=MGMT to any via WAN_LB
+VERIFY Guest dst=any dnot=0
+VERIFY WG dst=10.80.0.0/16
+VERIFY disabled_mac_rules_left=0
+VERIFY hosts=fw=10.80.99.1 | peak-corp-fw=10.80.99.1 | fw-corp=10.80.100.1 | acs=10.80.100.10 | oc200=10.80.99.3 | peakpulse-dev=10.80.100.54 | peakpulse-dev=10.80.100.54 | app=10.80.100.54 | app=10.80.100.54
