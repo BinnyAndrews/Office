@@ -194,13 +194,24 @@ class EmployeesWindow(tk.Toplevel):
         row(
             3,
             "Gender",
-            ttk.Combobox(detail, textvariable=self.var_gender, values=["", "male", "female"], width=16),
+            ttk.Combobox(
+                detail,
+                textvariable=self.var_gender,
+                values=["", "male", "female", "unknown"],
+                width=16,
+            ),
         )
         row(
             4,
             "User type",
-            ttk.Combobox(detail, textvariable=self.var_type, values=["normal", "visitor"], width=16),
+            ttk.Combobox(
+                detail,
+                textvariable=self.var_type,
+                values=["normal", "visitor", "blackList"],
+                width=16,
+            ),
         )
+        self.var_type.trace_add("write", lambda *_: self._on_user_type_changed())
         row(5, "Card No", ttk.Entry(detail, textvariable=self.var_card))
         ui_theme.colored_checkbutton(detail, "Access enabled", self.var_enabled).grid(
             row=6, column=0, columnspan=2, sticky=tk.W, pady=2
@@ -363,6 +374,8 @@ class EmployeesWindow(tk.Toplevel):
             self.var_type.set(row.get("UserType") or "normal")
             self.var_card.set(row.get("CardNo") or "")
             user_type = str(row.get("UserType") or "").strip().lower()
+            if user_type == "visitor":
+                self.var_gender.set("unknown")
             access_on = bool(row.get("ValidEnabled", True)) and user_type not in {
                 "blacklist",
                 "black_list",
@@ -485,12 +498,16 @@ class EmployeesWindow(tk.Toplevel):
         if enabled and user_type.lower() in {"blacklist", "black_list", "black-list"}:
             user_type = "normal"
             self.var_type.set(user_type)
+        gender = self.var_gender.get().strip() or None
+        if user_type.lower() == "visitor":
+            gender = "unknown"
+            self.var_gender.set(gender)
         return {
             "EmployeeNo": no,
             "Name": name,
             "FirstName": first or None,
             "LastName": last or None,
-            "Gender": self.var_gender.get().strip() or None,
+            "Gender": gender,
             "UserType": user_type,
             "CardNo": self.var_card.get().strip() or None,
             "ValidEnabled": enabled,
@@ -499,6 +516,10 @@ class EmployeesWindow(tk.Toplevel):
             "Notes": self.var_notes.get().strip() or None,
             "HasFace": bool(self.face_bytes),
         }
+
+    def _on_user_type_changed(self) -> None:
+        if str(self.var_type.get() or "").strip().lower() == "visitor":
+            self.var_gender.set("unknown")
 
     def pull(self) -> None:
         if not messagebox.askyesno(

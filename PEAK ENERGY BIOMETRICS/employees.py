@@ -263,7 +263,26 @@ def ensure_employee_tables(cur: pyodbc.Cursor) -> list[str]:
         """
     )
     notes.append("OK: Employees.FirstName/LastName")
+    # Visitors always use gender unknown (Hikvision + local policy)
+    cur.execute(
+        """
+        IF OBJECT_ID(N'dbo.Employees', N'U') IS NOT NULL
+            UPDATE dbo.Employees
+            SET Gender = 'unknown', UpdatedAt = SYSUTCDATETIME()
+            WHERE LOWER(LTRIM(RTRIM(ISNULL(UserType, N'')))) = N'visitor'
+              AND LOWER(LTRIM(RTRIM(ISNULL(Gender, N'')))) <> N'unknown';
+        """
+    )
+    notes.append("OK: visitor Gender=unknown")
     return notes
+
+
+def apply_visitor_gender(emp: dict[str, Any]) -> dict[str, Any]:
+    """Force Gender to unknown when UserType is visitor."""
+    user_type = str(emp.get("UserType") or "").strip().lower()
+    if user_type == "visitor":
+        emp["Gender"] = "unknown"
+    return emp
 
 
 def split_person_name(full: str | None) -> tuple[str, str]:
@@ -341,6 +360,70 @@ def search_users(hik: col.HikTerminal, page_size: int = 30) -> list[dict[str, An
     return out
 
 
+def _parse_card_list(payload: dict[str, Any]) -> list[dict[str, Any]]:
+    block = payload.get("CardInfoSearch") or payload
+    cards = block.get("CardInfo") or []
+    if isinstance(cards, dict):
+        cards = [cards]
+    return list(cards)
+
+
+def search_cards(hik: col.HikTerminal, page_size: int = 30) -> dict[str, str]:
+    """Map employeeNo → cardNo from CardInfo/Search (UserInfo often omits cards)."""
+    search_id = f"card-{uuid.uuid4().hex[:12]}"
+    position = 0
+    by_emp: dict[str, str] = {}
+    while True:
+        body = {
+            "CardInfoSearchCond": {
+                "searchID": search_id,
+                "searchResultPosition": position,
+                "maxResults": page_size,
+            }
+        }
+        resp = hik.request(
+            "POST",
+            "/ISAPI/AccessControl/CardInfo/Search?format=json",
+            headers={"Content-Type": "application/json"},
+            data=json.dumps(body),
+        )
+        payload = resp.json()
+        block = payload.get("CardInfoSearch") or payload
+        cards = _parse_card_list(payload)
+        for card in cards:
+            emp_no = str(
+                card.get("employeeNo") or card.get("employeeNoString") or ""
+            ).strip()
+            card_no = str(card.get("cardNo") or card.get("CardNo") or "").strip()
+            if emp_no and card_no and emp_no not in by_emp:
+                by_emp[emp_no] = card_no
+        status = str(block.get("responseStatusStrg") or "").upper()
+        got = int(block.get("numOfMatches") or len(cards) or 0)
+        if status in {"OK", "NO MATCH", "NO MATCHES", "NOMATCH", "NO_MATCHES"} or got == 0:
+            break
+        if status != "MORE":
+            break
+        position += got
+    return by_emp
+
+
+def _extract_card_no(raw: dict[str, Any]) -> str | None:
+    """Best-effort card number from a UserInfo (or similar) payload."""
+    card = raw.get("cardNo") or raw.get("CardNo")
+    if not card:
+        cards = raw.get("Card") or raw.get("cardList") or raw.get("CardList") or []
+        if isinstance(cards, dict):
+            card = cards.get("cardNo") or cards.get("CardNo")
+        elif isinstance(cards, list) and cards:
+            first = cards[0] or {}
+            if isinstance(first, dict):
+                card = first.get("cardNo") or first.get("CardNo")
+            else:
+                card = first
+    text = str(card).strip() if card is not None else ""
+    return text or None
+
+
 def _parse_bool_flag(value: Any, default: bool = True) -> bool:
     if value is None:
         return default
@@ -384,29 +467,25 @@ def _normalize_user(raw: dict[str, Any], device_key: str) -> dict[str, Any]:
     valid = raw.get("Valid") or {}
     begin = valid.get("beginTime") or raw.get("beginTime")
     end = valid.get("endTime") or raw.get("endTime")
-    card = raw.get("cardNo") or raw.get("CardNo")
-    if not card:
-        cards = raw.get("Card") or raw.get("cardList") or []
-        if isinstance(cards, dict):
-            card = cards.get("cardNo")
-        elif isinstance(cards, list) and cards:
-            card = (cards[0] or {}).get("cardNo")
+    card = _extract_card_no(raw)
     full_name = str(raw.get("name") or emp or "").strip() or emp
     first, last = split_person_name(full_name)
-    return {
-        "EmployeeNo": emp,
-        "Name": full_name,
-        "FirstName": first or None,
-        "LastName": last or None,
-        "Gender": (str(raw.get("gender") or "").strip() or None),
-        "UserType": (str(raw.get("userType") or "normal").strip() or "normal"),
-        "CardNo": (str(card).strip() if card else None),
-        "ValidEnabled": _user_access_enabled(raw),
-        "ValidFrom": _parse_hik_dt(begin),
-        "ValidTo": _parse_hik_dt(end),
-        "device_key": device_key,
-        "raw": raw,
-    }
+    return apply_visitor_gender(
+        {
+            "EmployeeNo": emp,
+            "Name": full_name,
+            "FirstName": first or None,
+            "LastName": last or None,
+            "Gender": (str(raw.get("gender") or "").strip() or None),
+            "UserType": (str(raw.get("userType") or "normal").strip() or "normal"),
+            "CardNo": card,
+            "ValidEnabled": _user_access_enabled(raw),
+            "ValidFrom": _parse_hik_dt(begin),
+            "ValidTo": _parse_hik_dt(end),
+            "device_key": device_key,
+            "raw": raw,
+        }
+    )
 
 
 def _parse_hik_dt(value: Any) -> datetime | None:
@@ -536,6 +615,7 @@ def modify_user_on_device(hik: col.HikTerminal, emp: dict[str, Any]) -> None:
 
 def _userinfo_payload(emp: dict[str, Any]) -> dict[str, Any]:
     """Build UserInfo for create/modify — map Access enabled <-> Valid.enable / userType."""
+    emp = apply_visitor_gender(dict(emp))
     enabled = bool(emp.get("ValidEnabled", True))
     user_type = str(emp.get("UserType") or "normal").strip() or "normal"
     # Re-enable: clear blacklist type so the person works again
@@ -555,9 +635,71 @@ def _userinfo_payload(emp: dict[str, Any]) -> dict[str, Any]:
         "doorRight": "1",
         "RightPlan": [{"doorNo": 1, "planTemplateNo": "1"}],
     }
-    if emp.get("Gender"):
-        info["gender"] = emp["Gender"]
+    gender = str(emp.get("Gender") or "").strip()
+    if gender:
+        info["gender"] = gender
+    elif user_type.lower() == "visitor":
+        info["gender"] = "unknown"
+    card = str(emp.get("CardNo") or "").strip()
+    if card:
+        # Some firmwares accept card on UserInfo; CardInfo API is still the source of truth
+        info["cardNo"] = card
     return info
+
+
+def delete_cards_for_employee(hik: col.HikTerminal, employee_no: str) -> None:
+    """Best-effort delete of all cards for one person."""
+    body = {"CardInfoDelCond": {"EmployeeNoList": [{"employeeNo": employee_no}]}}
+    hik.request(
+        "PUT",
+        "/ISAPI/AccessControl/CardInfo/Delete?format=json",
+        headers={"Content-Type": "application/json"},
+        data=json.dumps(body),
+    )
+
+
+def upsert_card_on_device(hik: col.HikTerminal, employee_no: str, card_no: str) -> None:
+    """Create/update card via CardInfo (required — UserInfo rarely stores cardNo)."""
+    card_no = str(card_no or "").strip()
+    if not card_no:
+        return
+    info = {
+        "employeeNo": employee_no,
+        "cardNo": card_no,
+        "cardType": "normalCard",
+    }
+    body = {"CardInfo": info}
+    try:
+        hik.request(
+            "POST",
+            "/ISAPI/AccessControl/CardInfo/Record?format=json",
+            headers={"Content-Type": "application/json"},
+            data=json.dumps(body),
+        )
+        return
+    except Exception:
+        pass
+    try:
+        hik.request(
+            "PUT",
+            "/ISAPI/AccessControl/CardInfo/Modify?format=json",
+            headers={"Content-Type": "application/json"},
+            data=json.dumps(body),
+        )
+        return
+    except Exception:
+        pass
+    # Card may already exist under a different number for this person — replace
+    try:
+        delete_cards_for_employee(hik, employee_no)
+    except Exception:
+        pass
+    hik.request(
+        "POST",
+        "/ISAPI/AccessControl/CardInfo/Record?format=json",
+        headers={"Content-Type": "application/json"},
+        data=json.dumps(body),
+    )
 
 
 def delete_user_on_device(hik: col.HikTerminal, employee_no: str) -> None:
@@ -778,6 +920,9 @@ def upsert_user_on_device(hik: col.HikTerminal, emp: dict[str, Any]) -> None:
         create_user_on_device(hik, emp)
     except Exception:
         modify_user_on_device(hik, emp)
+    card = str(emp.get("CardNo") or "").strip()
+    if card:
+        upsert_card_on_device(hik, emp["EmployeeNo"], card)
 
 
 # --- SQL ----------------------------------------------------------------------
@@ -837,7 +982,7 @@ def get_employee(sql: dict[str, Any], employee_no: str) -> dict[str, Any] | None
 
 def save_employee_sql(sql: dict[str, Any], emp: dict[str, Any], face: bytes | None = None) -> None:
     """Upsert employee. face=None leaves image unchanged; face=b'' clears it."""
-    emp = ensure_name_fields(dict(emp))
+    emp = apply_visitor_gender(ensure_name_fields(dict(emp)))
     conn = col.connect_sql(sql)
     try:
         cur = conn.cursor()
@@ -1047,11 +1192,19 @@ def pull_from_devices(cfg: dict[str, Any]) -> dict[str, Any]:
             hik = col.HikTerminal(dev, timeout=_timeout(cfg))
             users = search_users(hik)
             LOG.info("%s: pulled %s user(s)", key, len(users))
+            cards_by_emp: dict[str, str] = {}
+            try:
+                cards_by_emp = search_cards(hik)
+                LOG.info("%s: pulled %s card(s)", key, len(cards_by_emp))
+            except Exception as card_exc:
+                LOG.warning("%s: CardInfo search failed (UserInfo may lack cardNo): %s", key, card_exc)
             for raw in users:
                 norm = _normalize_user(raw, key)
                 emp_no = norm["EmployeeNo"]
                 if not emp_no:
                     continue
+                if not norm.get("CardNo") and emp_no in cards_by_emp:
+                    norm["CardNo"] = cards_by_emp[emp_no]
                 existing = by_emp.get(emp_no)
                 if existing is None:
                     by_emp[emp_no] = norm
@@ -1087,6 +1240,11 @@ def pull_from_devices(cfg: dict[str, Any]) -> dict[str, Any]:
     for emp_no, emp in by_emp.items():
         emp["SourceDevices"] = ",".join(sorted(emp.get("_devices") or []))
         try:
+            # Don't wipe a known CardNo if this pull couldn't read cards
+            if not emp.get("CardNo"):
+                existing_sql = get_employee(sql, emp_no)
+                if existing_sql and existing_sql.get("CardNo"):
+                    emp["CardNo"] = existing_sql["CardNo"]
             save_employee_sql(sql, emp, face=faces.get(emp_no))
         except Exception as exc:
             LOG.exception("SQL save failed for %s", emp_no)

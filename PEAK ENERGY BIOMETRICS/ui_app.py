@@ -430,7 +430,7 @@ class KekaApp(tk.Tk):
             ip = tk.StringVar(value=str(defaults.get("IpAddress") or ""))
             port = tk.StringVar(value=str(defaults.get("Port") or 80))
             user = tk.StringVar(value=str(defaults.get("Username") or "admin"))
-            pw = PasswordEntry(df, value=str(defaults.get("Password") or DEVICE_DEFAULT_PASSWORD), reveal=True)
+            pw = PasswordEntry(df, value=str(defaults.get("Password") or DEVICE_DEFAULT_PASSWORD))
             direction = tk.StringVar(
                 value=str(defaults.get("Direction") or ("In" if key == "entry" else "Out"))
             )

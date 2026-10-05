@@ -74,3 +74,11 @@ build-exe.cmd
 ```
 
 Output: `dist\PeakEnergyBiometrics.exe`
+
+Dashboard-only viewer (SQL Server + Punches + Dashboard; no collector/devices):
+
+```bat
+build-dashboard-exe.cmd
+```
+
+Output: `dist\PeakEnergyDashboard.exe`

@@ -207,8 +207,8 @@ Pulled from Entry/Exit Hikvision readers and editable in the **Employees** UI. C
 | `Name` | `NVARCHAR(128)` | Full display name pushed to Hikvision (`name`) |
 | `FirstName` | `NVARCHAR(64)` | First name (SQL/UI); combined into `Name` for devices |
 | `LastName` | `NVARCHAR(64)` | Last name (SQL/UI); combined into `Name` for devices |
-| `Gender` | `VARCHAR(16)` | Optional |
-| `UserType` | `VARCHAR(32)` | e.g. `normal` |
+| `Gender` | `VARCHAR(16)` | Optional (`male` / `female` / `unknown`); visitors always `unknown` |
+| `UserType` | `VARCHAR(32)` | e.g. `normal`, `visitor`, `blackList` |
 | `CardNo` | `VARCHAR(64)` | Optional card |
 | `ValidEnabled` | `BIT` | Access enabled |
 | `ValidFrom` / `ValidTo` | `DATETIME2(0)` | Validity window |
