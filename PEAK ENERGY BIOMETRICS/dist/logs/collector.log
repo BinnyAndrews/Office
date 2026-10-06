@@ -8496,3 +8496,5 @@
 2026-10-06 07:01:23,635 INFO Collector disabled — no punches written.
 2026-10-06 07:02:14,279 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
 2026-10-06 07:02:14,280 INFO Collector disabled — no punches written.
+2026-10-06 07:03:13,536 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-06 07:03:13,536 INFO Collector disabled — no punches written.
