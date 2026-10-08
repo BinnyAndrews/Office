@@ -10593,3 +10593,1041 @@
 2026-10-07 15:54:20,899 INFO Collector disabled — no punches written.
 2026-10-07 15:55:22,285 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
 2026-10-07 15:55:22,286 INFO Collector disabled — no punches written.
+2026-10-07 15:56:26,265 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-07 15:56:26,266 INFO Collector disabled — no punches written.
+2026-10-07 15:57:14,848 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-07 15:57:14,849 INFO Collector disabled — no punches written.
+2026-10-07 15:58:13,382 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-07 15:58:13,382 INFO Collector disabled — no punches written.
+2026-10-08 06:07:33,160 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: A socket operation was attempted to an unreachable host.\r\n (10065) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (10065)')
+2026-10-08 06:13:29,025 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 06:13:29,026 INFO Collector disabled — no punches written.
+2026-10-08 06:14:26,087 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 06:14:26,087 INFO Collector disabled — no punches written.
+2026-10-08 06:15:12,550 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 06:15:12,550 INFO Collector disabled — no punches written.
+2026-10-08 06:16:11,279 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 06:16:11,280 INFO Collector disabled — no punches written.
+2026-10-08 06:17:11,919 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 06:17:11,920 INFO Collector disabled — no punches written.
+2026-10-08 06:18:24,534 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 06:18:24,534 INFO Collector disabled — no punches written.
+2026-10-08 06:19:13,455 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 06:19:13,455 INFO Collector disabled — no punches written.
+2026-10-08 06:20:16,718 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 06:20:16,718 INFO Collector disabled — no punches written.
+2026-10-08 06:21:15,492 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 06:21:15,493 INFO Collector disabled — no punches written.
+2026-10-08 06:22:12,711 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 06:22:12,711 INFO Collector disabled — no punches written.
+2026-10-08 06:23:13,993 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 06:23:13,993 INFO Collector disabled — no punches written.
+2026-10-08 06:24:30,168 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 06:24:30,168 INFO Collector disabled — no punches written.
+2026-10-08 06:25:14,803 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 06:25:14,803 INFO Collector disabled — no punches written.
+2026-10-08 06:26:35,323 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 06:26:35,323 INFO Collector disabled — no punches written.
+2026-10-08 06:27:46,695 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 06:27:46,696 INFO Collector disabled — no punches written.
+2026-10-08 06:28:19,093 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 06:28:19,093 INFO Collector disabled — no punches written.
+2026-10-08 06:29:12,227 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 06:29:12,227 INFO Collector disabled — no punches written.
+2026-10-08 06:30:14,521 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 06:30:14,522 INFO Collector disabled — no punches written.
+2026-10-08 06:31:21,564 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 06:31:21,565 INFO Collector disabled — no punches written.
+2026-10-08 06:32:12,910 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 06:32:12,911 INFO Collector disabled — no punches written.
+2026-10-08 06:33:16,270 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 06:33:16,270 INFO Collector disabled — no punches written.
+2026-10-08 06:34:19,417 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 06:34:19,417 INFO Collector disabled — no punches written.
+2026-10-08 06:35:27,292 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 06:35:27,293 INFO Collector disabled — no punches written.
+2026-10-08 06:36:13,243 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 06:36:13,243 INFO Collector disabled — no punches written.
+2026-10-08 06:37:13,058 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 06:37:13,058 INFO Collector disabled — no punches written.
+2026-10-08 06:38:19,510 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 06:38:19,510 INFO Collector disabled — no punches written.
+2026-10-08 06:39:15,292 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 06:39:15,293 INFO Collector disabled — no punches written.
+2026-10-08 06:40:18,757 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 06:40:18,758 INFO Collector disabled — no punches written.
+2026-10-08 06:41:19,478 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 06:41:19,478 INFO Collector disabled — no punches written.
+2026-10-08 06:42:14,628 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 06:42:14,629 INFO Collector disabled — no punches written.
+2026-10-08 06:43:17,950 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 06:43:17,951 INFO Collector disabled — no punches written.
+2026-10-08 06:44:16,368 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 06:44:16,369 INFO Collector disabled — no punches written.
+2026-10-08 06:45:14,646 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 06:45:14,647 INFO Collector disabled — no punches written.
+2026-10-08 06:46:17,023 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 06:46:17,024 INFO Collector disabled — no punches written.
+2026-10-08 06:47:15,301 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 06:47:15,302 INFO Collector disabled — no punches written.
+2026-10-08 06:48:18,264 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 06:48:18,264 INFO Collector disabled — no punches written.
+2026-10-08 06:49:14,749 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 06:49:14,749 INFO Collector disabled — no punches written.
+2026-10-08 06:50:22,702 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 06:50:22,703 INFO Collector disabled — no punches written.
+2026-10-08 06:51:14,223 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 06:51:14,223 INFO Collector disabled — no punches written.
+2026-10-08 06:52:15,188 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 06:52:15,189 INFO Collector disabled — no punches written.
+2026-10-08 06:53:14,444 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 06:53:14,444 INFO Collector disabled — no punches written.
+2026-10-08 06:54:14,929 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 06:54:14,929 INFO Collector disabled — no punches written.
+2026-10-08 06:55:16,779 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 06:55:16,779 INFO Collector disabled — no punches written.
+2026-10-08 06:56:16,673 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 06:56:16,674 INFO Collector disabled — no punches written.
+2026-10-08 06:57:54,783 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 06:57:54,785 INFO Collector disabled — no punches written.
+2026-10-08 06:58:32,559 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 06:58:32,560 INFO Collector disabled — no punches written.
+2026-10-08 06:59:19,348 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 06:59:19,350 INFO Collector disabled — no punches written.
+2026-10-08 07:00:19,387 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:00:19,388 INFO Collector disabled — no punches written.
+2026-10-08 07:01:21,680 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:01:21,681 INFO Collector disabled — no punches written.
+2026-10-08 07:02:14,115 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:02:14,116 INFO Collector disabled — no punches written.
+2026-10-08 07:03:14,765 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:03:14,766 INFO Collector disabled — no punches written.
+2026-10-08 07:04:14,152 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:04:14,152 INFO Collector disabled — no punches written.
+2026-10-08 07:05:13,974 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:05:13,975 INFO Collector disabled — no punches written.
+2026-10-08 07:06:19,937 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:06:19,939 INFO Collector disabled — no punches written.
+2026-10-08 07:07:18,812 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:07:18,813 INFO Collector disabled — no punches written.
+2026-10-08 07:08:14,275 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:08:14,275 INFO Collector disabled — no punches written.
+2026-10-08 07:09:16,188 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:09:16,188 INFO Collector disabled — no punches written.
+2026-10-08 07:10:26,531 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:10:26,533 INFO Collector disabled — no punches written.
+2026-10-08 07:11:15,705 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:11:15,706 INFO Collector disabled — no punches written.
+2026-10-08 07:12:45,136 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:12:45,138 INFO Collector disabled — no punches written.
+2026-10-08 07:13:26,987 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:13:26,987 INFO Collector disabled — no punches written.
+2026-10-08 07:14:14,476 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:14:14,476 INFO Collector disabled — no punches written.
+2026-10-08 07:15:23,234 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:15:23,235 INFO Collector disabled — no punches written.
+2026-10-08 07:16:19,928 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:16:19,928 INFO Collector disabled — no punches written.
+2026-10-08 07:17:14,680 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:17:14,681 INFO Collector disabled — no punches written.
+2026-10-08 07:18:15,303 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:18:15,304 INFO Collector disabled — no punches written.
+2026-10-08 07:19:17,293 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:19:17,293 INFO Collector disabled — no punches written.
+2026-10-08 07:20:19,017 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:20:19,018 INFO Collector disabled — no punches written.
+2026-10-08 07:21:17,055 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:21:17,056 INFO Collector disabled — no punches written.
+2026-10-08 07:22:25,267 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:22:25,269 INFO Collector disabled — no punches written.
+2026-10-08 07:23:29,687 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:23:29,688 INFO Collector disabled — no punches written.
+2026-10-08 07:24:19,957 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:24:19,958 INFO Collector disabled — no punches written.
+2026-10-08 07:25:17,166 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:25:17,167 INFO Collector disabled — no punches written.
+2026-10-08 07:26:24,726 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:26:24,727 INFO Collector disabled — no punches written.
+2026-10-08 07:27:15,240 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:27:15,241 INFO Collector disabled — no punches written.
+2026-10-08 07:28:14,205 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:28:14,206 INFO Collector disabled — no punches written.
+2026-10-08 07:29:18,134 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:29:18,135 INFO Collector disabled — no punches written.
+2026-10-08 07:30:15,008 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:30:15,008 INFO Collector disabled — no punches written.
+2026-10-08 07:31:21,167 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:31:21,168 INFO Collector disabled — no punches written.
+2026-10-08 07:32:17,536 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:32:17,537 INFO Collector disabled — no punches written.
+2026-10-08 07:33:15,387 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:33:15,388 INFO Collector disabled — no punches written.
+2026-10-08 07:34:15,939 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:34:15,940 INFO Collector disabled — no punches written.
+2026-10-08 07:35:18,040 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:35:18,040 INFO Collector disabled — no punches written.
+2026-10-08 07:36:14,387 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:36:14,387 INFO Collector disabled — no punches written.
+2026-10-08 07:37:18,070 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:37:18,071 INFO Collector disabled — no punches written.
+2026-10-08 07:38:17,185 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:38:17,186 INFO Collector disabled — no punches written.
+2026-10-08 07:39:14,590 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:39:14,591 INFO Collector disabled — no punches written.
+2026-10-08 07:40:14,236 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:40:14,236 INFO Collector disabled — no punches written.
+2026-10-08 07:41:16,302 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:41:16,302 INFO Collector disabled — no punches written.
+2026-10-08 07:42:39,474 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:42:39,475 INFO Collector disabled — no punches written.
+2026-10-08 07:43:37,647 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:43:37,648 INFO Collector disabled — no punches written.
+2026-10-08 07:44:15,454 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:44:15,454 INFO Collector disabled — no punches written.
+2026-10-08 07:45:17,749 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:45:17,750 INFO Collector disabled — no punches written.
+2026-10-08 07:46:13,568 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:46:13,568 INFO Collector disabled — no punches written.
+2026-10-08 07:47:24,434 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:47:24,435 INFO Collector disabled — no punches written.
+2026-10-08 07:48:28,643 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:48:28,643 INFO Collector disabled — no punches written.
+2026-10-08 07:49:17,254 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:49:17,255 INFO Collector disabled — no punches written.
+2026-10-08 07:50:32,716 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:50:32,717 INFO Collector disabled — no punches written.
+2026-10-08 07:51:11,187 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:51:11,187 INFO Collector disabled — no punches written.
+2026-10-08 07:52:15,591 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:52:15,592 INFO Collector disabled — no punches written.
+2026-10-08 07:53:11,872 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:53:11,873 INFO Collector disabled — no punches written.
+2026-10-08 07:54:16,551 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:54:16,552 INFO Collector disabled — no punches written.
+2026-10-08 07:55:25,976 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:55:25,976 INFO Collector disabled — no punches written.
+2026-10-08 07:56:20,167 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:56:20,168 INFO Collector disabled — no punches written.
+2026-10-08 07:57:16,583 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:57:16,584 INFO Collector disabled — no punches written.
+2026-10-08 07:58:16,246 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:58:16,247 INFO Collector disabled — no punches written.
+2026-10-08 07:59:15,956 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 07:59:15,957 INFO Collector disabled — no punches written.
+2026-10-08 08:00:18,095 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 08:00:18,096 INFO Collector disabled — no punches written.
+2026-10-08 08:01:22,100 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 08:01:22,102 INFO Collector disabled — no punches written.
+2026-10-08 08:02:33,313 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 08:02:33,315 INFO Collector disabled — no punches written.
+2026-10-08 08:03:18,763 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 08:03:18,764 INFO Collector disabled — no punches written.
+2026-10-08 08:04:15,076 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 08:04:15,077 INFO Collector disabled — no punches written.
+2026-10-08 08:05:13,847 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 08:05:13,848 INFO Collector disabled — no punches written.
+2026-10-08 08:06:16,873 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 08:06:16,874 INFO Collector disabled — no punches written.
+2026-10-08 08:07:21,019 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 08:07:21,020 INFO Collector disabled — no punches written.
+2026-10-08 08:08:19,081 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 08:08:19,082 INFO Collector disabled — no punches written.
+2026-10-08 08:09:19,203 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 08:09:19,204 INFO Collector disabled — no punches written.
+2026-10-08 08:10:19,654 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 08:10:19,657 INFO Collector disabled — no punches written.
+2026-10-08 08:11:36,780 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 08:11:36,781 INFO Collector disabled — no punches written.
+2026-10-08 08:12:26,230 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 08:12:26,231 INFO Collector disabled — no punches written.
+2026-10-08 08:13:40,989 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 08:13:40,989 INFO Collector disabled — no punches written.
+2026-10-08 08:14:30,827 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 08:14:30,828 INFO Collector disabled — no punches written.
+2026-10-08 08:15:22,238 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 08:15:22,241 INFO Collector disabled — no punches written.
+2026-10-08 08:16:26,536 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 08:16:26,537 INFO Collector disabled — no punches written.
+2026-10-08 08:17:18,197 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 08:17:18,198 INFO Collector disabled — no punches written.
+2026-10-08 08:18:18,369 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 08:18:18,370 INFO Collector disabled — no punches written.
+2026-10-08 08:19:47,601 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 08:19:47,602 INFO Collector disabled — no punches written.
+2026-10-08 08:20:43,886 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 08:20:43,887 INFO Collector disabled — no punches written.
+2026-10-08 08:21:32,859 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 08:21:32,859 INFO Collector disabled — no punches written.
+2026-10-08 08:23:11,001 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 08:23:11,002 INFO Collector disabled — no punches written.
+2026-10-08 08:24:35,361 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 08:24:35,362 INFO Collector disabled — no punches written.
+2026-10-08 08:27:31,990 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 08:27:32,013 INFO Collector disabled — no punches written.
+2026-10-08 08:28:30,174 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 08:28:30,176 INFO Collector disabled — no punches written.
+2026-10-08 08:29:16,673 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 08:29:16,674 INFO Collector disabled — no punches written.
+2026-10-08 08:31:33,619 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 08:31:33,620 INFO Collector disabled — no punches written.
+2026-10-08 08:32:39,191 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 08:32:39,193 INFO Collector disabled — no punches written.
+2026-10-08 08:33:32,773 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 08:33:32,774 INFO Collector disabled — no punches written.
+2026-10-08 08:34:22,091 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 08:34:22,092 INFO Collector disabled — no punches written.
+2026-10-08 08:35:16,211 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 08:35:16,211 INFO Collector disabled — no punches written.
+2026-10-08 08:36:19,549 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 08:36:19,550 INFO Collector disabled — no punches written.
+2026-10-08 08:37:18,475 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 08:37:18,477 INFO Collector disabled — no punches written.
+2026-10-08 08:38:17,054 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 08:38:17,055 INFO Collector disabled — no punches written.
+2026-10-08 08:39:33,793 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 08:39:33,794 INFO Collector disabled — no punches written.
+2026-10-08 08:40:16,706 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 08:40:16,706 INFO Collector disabled — no punches written.
+2026-10-08 08:41:16,921 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 08:41:16,921 INFO Collector disabled — no punches written.
+2026-10-08 08:42:17,929 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 08:42:17,930 INFO Collector disabled — no punches written.
+2026-10-08 08:43:16,371 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 08:43:16,372 INFO Collector disabled — no punches written.
+2026-10-08 08:44:21,096 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 08:44:21,096 INFO Collector disabled — no punches written.
+2026-10-08 08:45:21,291 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 08:45:21,292 INFO Collector disabled — no punches written.
+2026-10-08 08:46:30,227 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 08:46:30,227 INFO Collector disabled — no punches written.
+2026-10-08 08:47:19,121 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 08:47:19,123 INFO Collector disabled — no punches written.
+2026-10-08 08:48:33,569 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 08:48:33,570 INFO Collector disabled — no punches written.
+2026-10-08 08:49:15,618 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 08:49:15,618 INFO Collector disabled — no punches written.
+2026-10-08 08:50:31,228 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 08:50:31,229 INFO Collector disabled — no punches written.
+2026-10-08 08:51:46,671 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 08:51:46,672 INFO Collector disabled — no punches written.
+2026-10-08 08:52:27,497 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 08:52:27,498 INFO Collector disabled — no punches written.
+2026-10-08 08:53:17,630 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 08:53:17,631 INFO Collector disabled — no punches written.
+2026-10-08 08:54:14,697 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 08:54:14,697 INFO Collector disabled — no punches written.
+2026-10-08 08:55:17,850 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 08:55:17,850 INFO Collector disabled — no punches written.
+2026-10-08 08:56:23,815 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 08:56:23,815 INFO Collector disabled — no punches written.
+2026-10-08 08:57:18,091 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 08:57:18,092 INFO Collector disabled — no punches written.
+2026-10-08 08:58:15,784 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 08:58:15,785 INFO Collector disabled — no punches written.
+2026-10-08 08:59:24,872 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 08:59:24,873 INFO Collector disabled — no punches written.
+2026-10-08 09:00:18,082 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:00:18,083 INFO Collector disabled — no punches written.
+2026-10-08 09:01:21,824 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:01:21,825 INFO Collector disabled — no punches written.
+2026-10-08 09:02:25,165 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:02:25,165 INFO Collector disabled — no punches written.
+2026-10-08 09:03:15,310 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:03:15,310 INFO Collector disabled — no punches written.
+2026-10-08 09:04:14,286 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:04:14,287 INFO Collector disabled — no punches written.
+2026-10-08 09:05:16,930 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:05:16,931 INFO Collector disabled — no punches written.
+2026-10-08 09:06:32,224 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:06:32,225 INFO Collector disabled — no punches written.
+2026-10-08 09:07:15,581 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:07:15,582 INFO Collector disabled — no punches written.
+2026-10-08 09:08:14,141 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:08:14,142 INFO Collector disabled — no punches written.
+2026-10-08 09:09:15,752 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:09:15,753 INFO Collector disabled — no punches written.
+2026-10-08 09:10:14,322 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:10:14,322 INFO Collector disabled — no punches written.
+2026-10-08 09:11:18,866 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:11:18,867 INFO Collector disabled — no punches written.
+2026-10-08 09:12:16,683 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:12:16,684 INFO Collector disabled — no punches written.
+2026-10-08 09:13:31,046 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:13:31,046 INFO Collector disabled — no punches written.
+2026-10-08 09:14:19,332 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:14:19,334 INFO Collector disabled — no punches written.
+2026-10-08 09:15:20,414 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:15:20,416 INFO Collector disabled — no punches written.
+2026-10-08 09:16:19,087 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:16:19,088 INFO Collector disabled — no punches written.
+2026-10-08 09:17:16,052 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:17:16,054 INFO Collector disabled — no punches written.
+2026-10-08 09:18:19,031 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:18:19,032 INFO Collector disabled — no punches written.
+2026-10-08 09:19:08,814 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:19:08,816 INFO Collector disabled — no punches written.
+2026-10-08 09:20:14,430 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:20:14,431 INFO Collector disabled — no punches written.
+2026-10-08 09:21:17,172 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:21:17,173 INFO Collector disabled — no punches written.
+2026-10-08 09:22:40,632 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:22:40,633 INFO Collector disabled — no punches written.
+2026-10-08 09:23:18,707 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:23:18,707 INFO Collector disabled — no punches written.
+2026-10-08 09:24:35,164 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:24:35,165 INFO Collector disabled — no punches written.
+2026-10-08 09:25:15,972 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:25:15,972 INFO Collector disabled — no punches written.
+2026-10-08 09:26:18,536 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:26:18,537 INFO Collector disabled — no punches written.
+2026-10-08 09:27:20,178 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:27:20,179 INFO Collector disabled — no punches written.
+2026-10-08 09:28:15,081 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:28:15,082 INFO Collector disabled — no punches written.
+2026-10-08 09:29:13,562 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:29:13,562 INFO Collector disabled — no punches written.
+2026-10-08 09:30:14,519 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:30:14,520 INFO Collector disabled — no punches written.
+2026-10-08 09:31:19,157 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:31:19,158 INFO Collector disabled — no punches written.
+2026-10-08 09:32:16,282 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:32:16,283 INFO Collector disabled — no punches written.
+2026-10-08 09:33:19,741 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:33:19,741 INFO Collector disabled — no punches written.
+2026-10-08 09:34:28,247 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:34:28,248 INFO Collector disabled — no punches written.
+2026-10-08 09:35:16,432 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:35:16,446 INFO Collector disabled — no punches written.
+2026-10-08 09:36:24,190 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:36:24,191 INFO Collector disabled — no punches written.
+2026-10-08 09:37:12,519 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:37:12,521 INFO Collector disabled — no punches written.
+2026-10-08 09:38:17,118 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:38:17,119 INFO Collector disabled — no punches written.
+2026-10-08 09:39:15,249 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:39:15,250 INFO Collector disabled — no punches written.
+2026-10-08 09:40:16,079 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:40:16,080 INFO Collector disabled — no punches written.
+2026-10-08 09:41:14,153 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:41:14,154 INFO Collector disabled — no punches written.
+2026-10-08 09:42:13,736 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:42:13,738 INFO Collector disabled — no punches written.
+2026-10-08 09:43:18,531 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:43:18,532 INFO Collector disabled — no punches written.
+2026-10-08 09:44:19,039 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:44:19,040 INFO Collector disabled — no punches written.
+2026-10-08 09:45:15,833 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:45:15,834 INFO Collector disabled — no punches written.
+2026-10-08 09:46:13,686 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:46:13,686 INFO Collector disabled — no punches written.
+2026-10-08 09:47:18,141 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:47:18,142 INFO Collector disabled — no punches written.
+2026-10-08 09:48:19,497 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:48:19,497 INFO Collector disabled — no punches written.
+2026-10-08 09:49:16,025 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:49:16,026 INFO Collector disabled — no punches written.
+2026-10-08 09:50:32,529 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:50:32,530 INFO Collector disabled — no punches written.
+2026-10-08 09:51:31,028 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:51:31,029 INFO Collector disabled — no punches written.
+2026-10-08 09:52:37,755 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:52:37,756 INFO Collector disabled — no punches written.
+2026-10-08 09:53:16,409 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:53:16,410 INFO Collector disabled — no punches written.
+2026-10-08 09:54:14,363 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:54:14,364 INFO Collector disabled — no punches written.
+2026-10-08 09:55:14,749 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:55:14,750 INFO Collector disabled — no punches written.
+2026-10-08 09:56:14,645 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:56:14,646 INFO Collector disabled — no punches written.
+2026-10-08 09:57:30,925 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:57:30,926 INFO Collector disabled — no punches written.
+2026-10-08 09:58:15,796 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:58:15,797 INFO Collector disabled — no punches written.
+2026-10-08 09:59:20,771 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 09:59:20,772 INFO Collector disabled — no punches written.
+2026-10-08 10:00:15,930 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 10:00:15,935 INFO Collector disabled — no punches written.
+2026-10-08 10:01:28,413 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 10:01:28,414 INFO Collector disabled — no punches written.
+2026-10-08 10:02:15,760 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 10:02:15,761 INFO Collector disabled — no punches written.
+2026-10-08 10:03:20,125 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 10:03:20,126 INFO Collector disabled — no punches written.
+2026-10-08 10:04:19,138 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 10:04:19,139 INFO Collector disabled — no punches written.
+2026-10-08 10:05:17,378 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 10:05:17,379 INFO Collector disabled — no punches written.
+2026-10-08 10:06:17,343 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 10:06:17,344 INFO Collector disabled — no punches written.
+2026-10-08 10:07:32,337 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 10:07:32,338 INFO Collector disabled — no punches written.
+2026-10-08 10:08:23,583 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 10:08:23,584 INFO Collector disabled — no punches written.
+2026-10-08 10:09:18,121 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 10:09:18,122 INFO Collector disabled — no punches written.
+2026-10-08 10:10:20,478 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 10:10:20,479 INFO Collector disabled — no punches written.
+2026-10-08 10:11:45,046 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 10:12:47,617 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 10:13:36,492 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 10:14:40,805 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 10:15:38,666 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 10:18:46,421 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 10:19:35,651 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 10:20:39,605 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 10:21:43,126 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 10:22:38,948 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 10:23:56,841 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 10:24:40,339 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 10:25:38,433 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 10:26:38,105 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 10:27:39,173 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 10:28:38,054 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 10:29:35,745 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 10:30:48,403 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 10:31:35,869 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 10:32:41,449 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 10:33:33,434 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 10:34:49,141 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 10:35:35,792 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 10:36:37,192 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 10:37:37,228 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 10:38:45,932 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 10:39:42,396 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 10:40:36,359 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 10:41:44,387 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 10:42:42,112 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 10:43:31,531 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 10:44:49,949 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 10:45:34,743 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 10:46:38,605 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 10:47:37,401 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 10:47:37,401 INFO Collector disabled — no punches written.
+2026-10-08 10:48:23,041 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 10:48:23,043 INFO Collector disabled — no punches written.
+2026-10-08 10:49:15,902 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 10:49:15,904 INFO Collector disabled — no punches written.
+2026-10-08 10:50:16,381 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 10:50:16,382 INFO Collector disabled — no punches written.
+2026-10-08 10:51:23,329 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 10:51:23,330 INFO Collector disabled — no punches written.
+2026-10-08 10:52:19,767 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 10:52:19,768 INFO Collector disabled — no punches written.
+2026-10-08 10:53:23,690 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 10:53:23,691 INFO Collector disabled — no punches written.
+2026-10-08 10:54:32,426 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 10:54:32,426 INFO Collector disabled — no punches written.
+2026-10-08 10:55:17,115 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 10:55:17,116 INFO Collector disabled — no punches written.
+2026-10-08 10:56:18,198 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 10:56:18,199 INFO Collector disabled — no punches written.
+2026-10-08 10:57:17,032 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 10:57:17,033 INFO Collector disabled — no punches written.
+2026-10-08 10:58:14,979 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 10:58:14,980 INFO Collector disabled — no punches written.
+2026-10-08 10:59:19,756 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 10:59:19,757 INFO Collector disabled — no punches written.
+2026-10-08 11:00:17,134 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:00:17,134 INFO Collector disabled — no punches written.
+2026-10-08 11:01:16,839 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:01:16,840 INFO Collector disabled — no punches written.
+2026-10-08 11:02:14,971 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:02:14,972 INFO Collector disabled — no punches written.
+2026-10-08 11:03:17,033 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:03:17,034 INFO Collector disabled — no punches written.
+2026-10-08 11:04:35,078 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:04:35,078 INFO Collector disabled — no punches written.
+2026-10-08 11:05:15,066 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:05:15,066 INFO Collector disabled — no punches written.
+2026-10-08 11:06:14,110 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:06:14,110 INFO Collector disabled — no punches written.
+2026-10-08 11:07:14,989 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:07:14,989 INFO Collector disabled — no punches written.
+2026-10-08 11:08:17,259 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:08:17,260 INFO Collector disabled — no punches written.
+2026-10-08 11:09:15,098 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:09:15,099 INFO Collector disabled — no punches written.
+2026-10-08 11:10:18,533 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:10:18,534 INFO Collector disabled — no punches written.
+2026-10-08 11:11:16,539 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:11:16,539 INFO Collector disabled — no punches written.
+2026-10-08 11:12:25,176 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:12:25,177 INFO Collector disabled — no punches written.
+2026-10-08 11:13:16,891 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:13:16,892 INFO Collector disabled — no punches written.
+2026-10-08 11:14:20,722 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:14:20,723 INFO Collector disabled — no punches written.
+2026-10-08 11:15:25,156 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:15:25,157 INFO Collector disabled — no punches written.
+2026-10-08 11:16:18,004 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:16:18,005 INFO Collector disabled — no punches written.
+2026-10-08 11:17:18,736 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:17:18,737 INFO Collector disabled — no punches written.
+2026-10-08 11:18:31,846 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:18:31,846 INFO Collector disabled — no punches written.
+2026-10-08 11:19:16,676 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:19:16,677 INFO Collector disabled — no punches written.
+2026-10-08 11:20:14,420 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:20:14,421 INFO Collector disabled — no punches written.
+2026-10-08 11:21:23,319 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:21:23,320 INFO Collector disabled — no punches written.
+2026-10-08 11:22:18,066 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:22:18,067 INFO Collector disabled — no punches written.
+2026-10-08 11:23:20,464 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:23:20,465 INFO Collector disabled — no punches written.
+2026-10-08 11:24:49,520 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:24:49,521 INFO Collector disabled — no punches written.
+2026-10-08 11:25:17,426 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:25:17,427 INFO Collector disabled — no punches written.
+2026-10-08 11:26:14,861 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:26:14,861 INFO Collector disabled — no punches written.
+2026-10-08 11:27:14,216 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:27:14,216 INFO Collector disabled — no punches written.
+2026-10-08 11:28:16,590 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:28:16,591 INFO Collector disabled — no punches written.
+2026-10-08 11:29:19,603 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:29:19,604 INFO Collector disabled — no punches written.
+2026-10-08 11:30:15,636 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:30:15,637 INFO Collector disabled — no punches written.
+2026-10-08 11:31:16,989 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:31:16,990 INFO Collector disabled — no punches written.
+2026-10-08 11:32:14,837 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:32:14,837 INFO Collector disabled — no punches written.
+2026-10-08 11:33:14,527 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:33:14,527 INFO Collector disabled — no punches written.
+2026-10-08 11:34:17,826 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:34:17,827 INFO Collector disabled — no punches written.
+2026-10-08 11:35:14,565 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:35:14,566 INFO Collector disabled — no punches written.
+2026-10-08 11:36:25,773 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:36:25,775 INFO Collector disabled — no punches written.
+2026-10-08 11:37:16,388 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:37:16,389 INFO Collector disabled — no punches written.
+2026-10-08 11:38:27,705 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:38:27,705 INFO Collector disabled — no punches written.
+2026-10-08 11:39:43,168 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:39:43,169 INFO Collector disabled — no punches written.
+2026-10-08 11:40:18,561 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:40:18,562 INFO Collector disabled — no punches written.
+2026-10-08 11:41:14,258 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:41:14,259 INFO Collector disabled — no punches written.
+2026-10-08 11:42:17,595 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:42:17,595 INFO Collector disabled — no punches written.
+2026-10-08 11:43:17,522 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:43:17,523 INFO Collector disabled — no punches written.
+2026-10-08 11:44:14,939 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:44:14,939 INFO Collector disabled — no punches written.
+2026-10-08 11:45:20,467 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:45:20,468 INFO Collector disabled — no punches written.
+2026-10-08 11:46:16,954 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:46:16,955 INFO Collector disabled — no punches written.
+2026-10-08 11:47:22,290 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:47:22,291 INFO Collector disabled — no punches written.
+2026-10-08 11:48:25,360 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:48:25,361 INFO Collector disabled — no punches written.
+2026-10-08 11:49:18,681 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:49:18,684 INFO Collector disabled — no punches written.
+2026-10-08 11:50:17,323 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:50:17,325 INFO Collector disabled — no punches written.
+2026-10-08 11:51:16,809 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:51:16,810 INFO Collector disabled — no punches written.
+2026-10-08 11:52:13,899 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:52:13,899 INFO Collector disabled — no punches written.
+2026-10-08 11:53:15,226 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:53:15,226 INFO Collector disabled — no punches written.
+2026-10-08 11:54:58,169 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:54:58,169 INFO Collector disabled — no punches written.
+2026-10-08 11:55:16,123 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:55:16,124 INFO Collector disabled — no punches written.
+2026-10-08 11:56:14,967 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:56:14,967 INFO Collector disabled — no punches written.
+2026-10-08 11:57:20,147 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:57:20,148 INFO Collector disabled — no punches written.
+2026-10-08 11:58:18,019 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:58:18,020 INFO Collector disabled — no punches written.
+2026-10-08 11:59:16,033 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 11:59:16,034 INFO Collector disabled — no punches written.
+2026-10-08 12:00:19,444 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:00:19,445 INFO Collector disabled — no punches written.
+2026-10-08 12:01:25,239 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:01:25,239 INFO Collector disabled — no punches written.
+2026-10-08 12:02:18,748 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:02:18,749 INFO Collector disabled — no punches written.
+2026-10-08 12:03:15,774 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:03:15,778 INFO Collector disabled — no punches written.
+2026-10-08 12:04:17,804 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:04:17,805 INFO Collector disabled — no punches written.
+2026-10-08 12:05:20,431 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:05:20,431 INFO Collector disabled — no punches written.
+2026-10-08 12:06:19,231 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:06:19,231 INFO Collector disabled — no punches written.
+2026-10-08 12:07:18,044 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:07:18,045 INFO Collector disabled — no punches written.
+2026-10-08 12:08:14,265 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:08:14,265 INFO Collector disabled — no punches written.
+2026-10-08 12:09:18,683 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:09:18,686 INFO Collector disabled — no punches written.
+2026-10-08 12:10:15,833 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:10:15,834 INFO Collector disabled — no punches written.
+2026-10-08 12:11:21,388 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:11:21,388 INFO Collector disabled — no punches written.
+2026-10-08 12:12:16,233 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:12:16,233 INFO Collector disabled — no punches written.
+2026-10-08 12:13:09,824 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:13:09,824 INFO Collector disabled — no punches written.
+2026-10-08 12:14:30,898 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:14:30,900 INFO Collector disabled — no punches written.
+2026-10-08 12:15:24,402 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:15:24,403 INFO Collector disabled — no punches written.
+2026-10-08 12:16:15,744 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:16:15,744 INFO Collector disabled — no punches written.
+2026-10-08 12:17:16,488 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:17:16,489 INFO Collector disabled — no punches written.
+2026-10-08 12:18:22,865 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:18:22,866 INFO Collector disabled — no punches written.
+2026-10-08 12:19:18,027 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:19:18,028 INFO Collector disabled — no punches written.
+2026-10-08 12:20:17,422 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:20:17,423 INFO Collector disabled — no punches written.
+2026-10-08 12:21:14,946 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:21:14,947 INFO Collector disabled — no punches written.
+2026-10-08 12:22:17,186 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:22:17,187 INFO Collector disabled — no punches written.
+2026-10-08 12:23:17,307 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:23:17,308 INFO Collector disabled — no punches written.
+2026-10-08 12:24:35,726 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:24:35,727 INFO Collector disabled — no punches written.
+2026-10-08 12:25:16,616 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:25:16,617 INFO Collector disabled — no punches written.
+2026-10-08 12:26:16,653 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:26:16,655 INFO Collector disabled — no punches written.
+2026-10-08 12:27:14,436 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:27:14,436 INFO Collector disabled — no punches written.
+2026-10-08 12:28:24,130 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:28:24,131 INFO Collector disabled — no punches written.
+2026-10-08 12:29:15,841 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:29:15,842 INFO Collector disabled — no punches written.
+2026-10-08 12:30:14,093 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:30:14,093 INFO Collector disabled — no punches written.
+2026-10-08 12:31:21,003 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:31:21,003 INFO Collector disabled — no punches written.
+2026-10-08 12:32:15,462 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:32:15,462 INFO Collector disabled — no punches written.
+2026-10-08 12:33:17,066 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:33:17,068 INFO Collector disabled — no punches written.
+2026-10-08 12:34:21,368 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:34:21,369 INFO Collector disabled — no punches written.
+2026-10-08 12:35:26,402 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:35:26,403 INFO Collector disabled — no punches written.
+2026-10-08 12:36:14,993 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:36:14,994 INFO Collector disabled — no punches written.
+2026-10-08 12:37:19,049 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:37:19,050 INFO Collector disabled — no punches written.
+2026-10-08 12:38:36,122 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 12:39:30,772 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:39:30,775 INFO Collector disabled — no punches written.
+2026-10-08 12:40:20,236 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:40:20,237 INFO Collector disabled — no punches written.
+2026-10-08 12:41:14,122 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:41:14,123 INFO Collector disabled — no punches written.
+2026-10-08 12:42:25,175 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:42:25,177 INFO Collector disabled — no punches written.
+2026-10-08 12:43:15,637 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:43:15,638 INFO Collector disabled — no punches written.
+2026-10-08 12:44:33,922 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:44:33,923 INFO Collector disabled — no punches written.
+2026-10-08 12:45:18,262 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:45:18,263 INFO Collector disabled — no punches written.
+2026-10-08 12:46:15,492 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:46:15,493 INFO Collector disabled — no punches written.
+2026-10-08 12:47:14,758 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:47:14,758 INFO Collector disabled — no punches written.
+2026-10-08 12:48:15,390 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:48:15,391 INFO Collector disabled — no punches written.
+2026-10-08 12:49:14,523 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:49:14,523 INFO Collector disabled — no punches written.
+2026-10-08 12:50:15,236 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:50:15,236 INFO Collector disabled — no punches written.
+2026-10-08 12:51:26,149 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:51:26,150 INFO Collector disabled — no punches written.
+2026-10-08 12:52:20,417 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:52:20,417 INFO Collector disabled — no punches written.
+2026-10-08 12:53:14,944 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:53:14,945 INFO Collector disabled — no punches written.
+2026-10-08 12:54:29,258 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:54:29,258 INFO Collector disabled — no punches written.
+2026-10-08 12:55:21,119 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:55:21,120 INFO Collector disabled — no punches written.
+2026-10-08 12:56:13,615 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:56:13,615 INFO Collector disabled — no punches written.
+2026-10-08 12:57:19,108 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:57:19,109 INFO Collector disabled — no punches written.
+2026-10-08 12:58:17,641 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:58:17,642 INFO Collector disabled — no punches written.
+2026-10-08 12:59:16,538 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 12:59:16,539 INFO Collector disabled — no punches written.
+2026-10-08 13:00:18,029 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:00:18,030 INFO Collector disabled — no punches written.
+2026-10-08 13:01:23,228 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:01:23,229 INFO Collector disabled — no punches written.
+2026-10-08 13:02:13,747 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:02:13,748 INFO Collector disabled — no punches written.
+2026-10-08 13:03:12,423 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:03:12,424 INFO Collector disabled — no punches written.
+2026-10-08 13:04:17,005 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:04:17,006 INFO Collector disabled — no punches written.
+2026-10-08 13:05:16,708 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:05:16,708 INFO Collector disabled — no punches written.
+2026-10-08 13:06:16,268 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:06:16,269 INFO Collector disabled — no punches written.
+2026-10-08 13:07:19,280 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:07:19,282 INFO Collector disabled — no punches written.
+2026-10-08 13:08:15,840 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:08:15,841 INFO Collector disabled — no punches written.
+2026-10-08 13:09:32,965 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:09:32,965 INFO Collector disabled — no punches written.
+2026-10-08 13:10:21,152 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:10:21,152 INFO Collector disabled — no punches written.
+2026-10-08 13:11:17,292 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:11:17,292 INFO Collector disabled — no punches written.
+2026-10-08 13:12:20,837 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:12:20,838 INFO Collector disabled — no punches written.
+2026-10-08 13:13:22,464 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:13:22,464 INFO Collector disabled — no punches written.
+2026-10-08 13:14:14,760 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:14:14,760 INFO Collector disabled — no punches written.
+2026-10-08 13:15:16,858 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:15:16,859 INFO Collector disabled — no punches written.
+2026-10-08 13:16:16,077 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:16:16,077 INFO Collector disabled — no punches written.
+2026-10-08 13:17:33,537 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:17:33,537 INFO Collector disabled — no punches written.
+2026-10-08 13:18:14,586 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:18:14,586 INFO Collector disabled — no punches written.
+2026-10-08 13:19:24,058 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:19:24,059 INFO Collector disabled — no punches written.
+2026-10-08 13:20:14,838 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:20:14,839 INFO Collector disabled — no punches written.
+2026-10-08 13:21:21,732 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:21:21,733 INFO Collector disabled — no punches written.
+2026-10-08 13:22:16,170 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:22:16,171 INFO Collector disabled — no punches written.
+2026-10-08 13:23:20,709 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:23:20,709 INFO Collector disabled — no punches written.
+2026-10-08 13:24:44,656 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:24:44,657 INFO Collector disabled — no punches written.
+2026-10-08 13:25:22,629 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:25:22,630 INFO Collector disabled — no punches written.
+2026-10-08 13:26:30,854 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:26:30,855 INFO Collector disabled — no punches written.
+2026-10-08 13:27:15,931 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:27:15,932 INFO Collector disabled — no punches written.
+2026-10-08 13:28:16,258 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:28:16,259 INFO Collector disabled — no punches written.
+2026-10-08 13:29:20,935 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:29:20,935 INFO Collector disabled — no punches written.
+2026-10-08 13:30:17,643 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:30:17,644 INFO Collector disabled — no punches written.
+2026-10-08 13:31:21,702 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:31:21,703 INFO Collector disabled — no punches written.
+2026-10-08 13:32:16,134 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:32:16,135 INFO Collector disabled — no punches written.
+2026-10-08 13:33:15,728 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:33:15,729 INFO Collector disabled — no punches written.
+2026-10-08 13:34:17,579 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:34:17,580 INFO Collector disabled — no punches written.
+2026-10-08 13:35:19,809 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:35:19,810 INFO Collector disabled — no punches written.
+2026-10-08 13:36:19,563 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:36:19,564 INFO Collector disabled — no punches written.
+2026-10-08 13:37:17,519 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:37:17,519 INFO Collector disabled — no punches written.
+2026-10-08 13:38:20,024 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:38:20,024 INFO Collector disabled — no punches written.
+2026-10-08 13:39:16,041 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:39:16,042 INFO Collector disabled — no punches written.
+2026-10-08 13:40:15,772 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:40:15,772 INFO Collector disabled — no punches written.
+2026-10-08 13:41:18,592 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:41:18,593 INFO Collector disabled — no punches written.
+2026-10-08 13:42:31,173 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:42:31,174 INFO Collector disabled — no punches written.
+2026-10-08 13:43:17,281 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:43:17,282 INFO Collector disabled — no punches written.
+2026-10-08 13:44:14,693 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:44:14,694 INFO Collector disabled — no punches written.
+2026-10-08 13:45:23,693 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:45:23,694 INFO Collector disabled — no punches written.
+2026-10-08 13:46:21,247 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:46:21,248 INFO Collector disabled — no punches written.
+2026-10-08 13:47:19,252 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:47:19,253 INFO Collector disabled — no punches written.
+2026-10-08 13:48:16,699 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:48:16,699 INFO Collector disabled — no punches written.
+2026-10-08 13:49:32,494 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:49:32,494 INFO Collector disabled — no punches written.
+2026-10-08 13:50:16,358 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:50:16,359 INFO Collector disabled — no punches written.
+2026-10-08 13:51:16,937 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:51:16,938 INFO Collector disabled — no punches written.
+2026-10-08 13:52:15,518 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:52:15,519 INFO Collector disabled — no punches written.
+2026-10-08 13:53:14,377 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:53:14,378 INFO Collector disabled — no punches written.
+2026-10-08 13:54:55,324 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:54:55,325 INFO Collector disabled — no punches written.
+2026-10-08 13:55:36,875 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: A socket operation was attempted to an unreachable host.\r\n (10065) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (10065)')
+2026-10-08 13:56:24,548 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:56:24,550 INFO Collector disabled — no punches written.
+2026-10-08 13:57:27,559 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:57:27,560 INFO Collector disabled — no punches written.
+2026-10-08 13:58:32,267 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:58:32,267 INFO Collector disabled — no punches written.
+2026-10-08 13:59:14,968 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 13:59:14,968 INFO Collector disabled — no punches written.
+2026-10-08 14:00:49,431 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 14:01:47,326 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 14:02:34,720 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 14:03:35,903 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 14:04:37,221 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 14:05:44,779 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 14:07:02,505 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 14:08:34,816 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 14:09:44,726 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 14:10:33,851 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 14:11:33,056 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 14:12:39,304 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 14:13:47,403 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 14:14:33,616 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 14:15:33,047 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 14:16:33,871 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 14:17:40,689 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 14:18:33,620 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 14:19:46,503 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 14:20:58,838 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 14:21:33,377 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 14:21:33,378 INFO Collector disabled — no punches written.
+2026-10-08 14:22:27,022 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 14:22:27,023 INFO Collector disabled — no punches written.
+2026-10-08 14:23:25,407 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 14:23:25,408 INFO Collector disabled — no punches written.
+2026-10-08 14:24:36,792 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 14:24:36,793 INFO Collector disabled — no punches written.
+2026-10-08 14:25:27,617 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 14:25:27,618 INFO Collector disabled — no punches written.
+2026-10-08 14:26:24,639 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 14:26:24,639 INFO Collector disabled — no punches written.
+2026-10-08 14:27:28,138 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 14:27:28,138 INFO Collector disabled — no punches written.
+2026-10-08 14:28:13,465 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 14:28:13,465 INFO Collector disabled — no punches written.
+2026-10-08 14:29:11,667 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 14:29:11,667 INFO Collector disabled — no punches written.
+2026-10-08 14:30:25,438 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 14:30:25,439 INFO Collector disabled — no punches written.
+2026-10-08 14:31:12,892 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 14:31:12,892 INFO Collector disabled — no punches written.
+2026-10-08 14:32:14,404 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 14:32:14,404 INFO Collector disabled — no punches written.
+2026-10-08 14:33:17,364 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 14:33:17,365 INFO Collector disabled — no punches written.
+2026-10-08 14:34:16,702 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 14:34:16,702 INFO Collector disabled — no punches written.
+2026-10-08 14:35:13,997 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 14:35:13,997 INFO Collector disabled — no punches written.
+2026-10-08 14:36:23,759 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 14:36:23,760 INFO Collector disabled — no punches written.
+2026-10-08 14:37:23,708 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 14:37:23,709 INFO Collector disabled — no punches written.
+2026-10-08 14:38:21,215 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 14:38:21,216 INFO Collector disabled — no punches written.
+2026-10-08 14:39:24,053 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 14:39:24,054 INFO Collector disabled — no punches written.
+2026-10-08 14:40:33,631 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 14:40:33,632 INFO Collector disabled — no punches written.
+2026-10-08 14:41:20,348 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 14:41:20,350 INFO Collector disabled — no punches written.
+2026-10-08 14:42:15,761 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 14:42:15,762 INFO Collector disabled — no punches written.
+2026-10-08 14:43:15,164 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 14:43:15,164 INFO Collector disabled — no punches written.
+2026-10-08 14:44:15,931 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 14:44:15,932 INFO Collector disabled — no punches written.
+2026-10-08 14:45:16,426 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 14:45:16,427 INFO Collector disabled — no punches written.
+2026-10-08 14:46:19,885 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 14:46:19,886 INFO Collector disabled — no punches written.
+2026-10-08 14:47:20,021 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 14:47:20,022 INFO Collector disabled — no punches written.
+2026-10-08 14:48:17,297 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 14:48:17,298 INFO Collector disabled — no punches written.
+2026-10-08 14:49:18,522 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 14:49:18,523 INFO Collector disabled — no punches written.
+2026-10-08 14:50:17,377 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 14:50:17,378 INFO Collector disabled — no punches written.
+2026-10-08 14:51:27,203 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 14:51:27,204 INFO Collector disabled — no punches written.
+2026-10-08 14:52:16,641 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 14:52:16,642 INFO Collector disabled — no punches written.
+2026-10-08 14:53:29,402 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 14:53:29,403 INFO Collector disabled — no punches written.
+2026-10-08 14:54:16,331 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 14:54:16,332 INFO Collector disabled — no punches written.
+2026-10-08 14:55:14,916 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 14:55:14,917 INFO Collector disabled — no punches written.
+2026-10-08 14:56:15,564 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 14:56:15,565 INFO Collector disabled — no punches written.
+2026-10-08 14:57:13,471 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 14:57:13,472 INFO Collector disabled — no punches written.
+2026-10-08 14:58:17,090 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 14:58:17,091 INFO Collector disabled — no punches written.
+2026-10-08 14:59:17,750 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 14:59:17,751 INFO Collector disabled — no punches written.
+2026-10-08 15:00:35,350 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 15:01:38,568 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 15:02:32,278 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 15:03:47,476 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 15:04:36,606 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 15:05:43,847 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 15:06:39,794 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 15:07:36,468 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 15:08:45,580 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 15:09:39,611 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 15:10:53,054 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 15:11:38,716 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 15:12:35,939 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 15:13:38,818 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 15:14:42,843 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 15:15:35,920 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 15:16:50,867 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 15:17:36,765 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 15:18:36,687 ERROR SQL connect failed. Installed ODBC drivers: ['Microsoft Access Driver (*.mdb, *.accdb)', 'Microsoft Access Text Driver (*.txt, *.csv)', 'Microsoft Access dBASE Driver (*.dbf, *.ndx, *.mdx)', 'Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)', 'ODBC Driver 17 for SQL Server', 'ODBC Driver 18 for SQL Server', 'SQL Server']. Last error: ('08001', '[08001] [Microsoft][ODBC Driver 17 for SQL Server]TCP Provider: The wait operation timed out.\r\n (258) (SQLDriverConnect); [08001] [Microsoft][ODBC Driver 17 for SQL Server]Login timeout expired (0); [08001] [Microsoft][ODBC Driver 17 for SQL Server]A network-related or instance-specific error has occurred while establishing a connection to SQL Server. Server is not found or not accessible. Check if instance name is correct and if SQL Server is configured to allow remote connections. For more information see SQL Server Books Online. (258)')
+2026-10-08 15:19:19,519 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 15:19:19,520 INFO Collector disabled — no punches written.
+2026-10-08 15:20:28,627 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 15:20:28,628 INFO Collector disabled — no punches written.
+2026-10-08 15:21:23,173 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 15:21:23,176 INFO Collector disabled — no punches written.
+2026-10-08 15:22:19,281 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 15:22:19,282 INFO Collector disabled — no punches written.
+2026-10-08 15:23:23,831 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 15:23:23,832 INFO Collector disabled — no punches written.
+2026-10-08 15:24:15,578 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 15:24:15,580 INFO Collector disabled — no punches written.
+2026-10-08 15:25:40,082 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 15:25:40,084 INFO Collector disabled — no punches written.
+2026-10-08 15:26:16,100 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 15:26:16,102 INFO Collector disabled — no punches written.
+2026-10-08 15:27:18,045 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 15:27:18,045 INFO Collector disabled — no punches written.
+2026-10-08 15:28:16,066 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 15:28:16,067 INFO Collector disabled — no punches written.
+2026-10-08 15:29:24,478 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 15:29:24,478 INFO Collector disabled — no punches written.
+2026-10-08 15:30:28,383 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 15:30:28,384 INFO Collector disabled — no punches written.
+2026-10-08 16:37:38,516 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 16:37:38,517 INFO Collector disabled — no punches written.
+2026-10-08 16:39:24,151 INFO Collector disabled (CollectorEnabled=0) — skipping punch write. Enable in Peak Energy Biometrics UI when ready.
+2026-10-08 16:39:24,151 INFO Collector disabled — no punches written.

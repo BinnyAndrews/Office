@@ -1,0 +1,26 @@
+DNAT before 0165840e-c5c8-4476-b513-c4c8106b30f7 disabled=0 PEAK-APP-HTTP-Airtel
+  toggle disable: {'result': 'Disabled'}
+DNAT before 0bfd1f70-240b-4944-83fc-576370a76334 disabled=0 PEAK-APP-HTTPS-Airtel
+  toggle disable: {'result': 'Disabled'}
+DNAT before d4406011-ee43-41bd-b351-1651cfba28aa disabled=0 PEAK-APP-HTTP-Jio
+  toggle disable: {'result': 'Disabled'}
+DNAT before 2b545c2c-fe52-4d22-b5bf-148abd07e4d3 disabled=0 PEAK-APP-HTTPS-Jio
+  toggle disable: {'result': 'Disabled'}
+FW before 832c830f-abc7-4ca5-ac1a-68987b7144b3 enabled=1 Allow PEAK-APP HTTP/HTTPS from WAN
+  filter toggle off: {'result': 'Disabled', 'changed': True}
+apply /api/firewall/filter/apply: {'status': 'OK\n\n'}
+apply /api/firewall/d_nat/apply: {'status': 'OK\n\n'}
+
+VERIFY DNAT PEAK-APP:
+  0165840e-c5c8-4476-b513-c4c8106b30f7 disabled=1 if=WAN_AIRTEL port=80 PEAK-APP-HTTP-Airtel
+  0bfd1f70-240b-4944-83fc-576370a76334 disabled=1 if=WAN_AIRTEL port=443 PEAK-APP-HTTPS-Airtel
+  d4406011-ee43-41bd-b351-1651cfba28aa disabled=1 if=WAN_JIO port=80 PEAK-APP-HTTP-Jio
+  2b545c2c-fe52-4d22-b5bf-148abd07e4d3 disabled=1 if=WAN_JIO port=443 PEAK-APP-HTTPS-Jio
+
+VERIFY WAN allow / WG:
+  832c830f-abc7-4ca5-ac1a-68987b7144b3 enabled=0 if=wan,opt1 dport=HTTP_HTTPS Allow PEAK-APP HTTP/HTTPS from WAN
+  d3afe269-6a1b-45d8-963c-5b1c08249b1a enabled=1 if=wan dport=51820 Allow WireGuard UDP 51820 on WAN_AIRTEL
+  6a5ce743-d1c7-4cdd-aa5c-d6f8f088b80f enabled=1 if=opt1 dport=51820 Allow WireGuard UDP 51820 on WAN_JIO
+  855bf1aa-21de-463e-8bf9-fbc2542abceb enabled=1 if=opt6 dport= WG admin to LAN
+  aadf170f-d2a7-4de0-8f37-bc85fd571ec7 enabled=1 if=opt6 dport= WG admin to firewall (GUI/SSH)
+WG general: {'general': {'enabled': '1'}}

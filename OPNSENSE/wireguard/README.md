@@ -2,15 +2,18 @@
 
 Generated for PEAK-CORP-FW migration. Treat `*.private.key` and `*.conf` as secrets.
 
-## Peers (PEAK-VPN-ADMIN)
+## Peers (PEAK-WG)
 
 | Peer | Tunnel IP | Client file |
 | --- | --- | --- |
 | Server (OPNsense wg0) | 10.80.200.1/28 | keys on server + seed XML |
 | binny.andrews | 10.80.200.2/32 | `binny.andrews.conf` |
 | admin | 10.80.200.3/32 | `admin.conf` |
+| Jagadeshwar | 10.80.200.4/32 | `jagadeshwar.conf` |
+| Venu Gopal Reddy | 10.80.200.5/32 | `venu.gopal.reddy.conf` |
+| Poovarasu | 10.80.200.6/32 | `poovarasu.conf` |
 
-PEAK-VPN-STAFF had no FortiGate members — no staff peers created.
+AMC PeakPulse access peers created via `create_amc_peers.py` (WireGuard enabled on firewall).
 
 ## Install on OPNsense
 
