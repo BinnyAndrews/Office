@@ -1,0 +1,3 @@
+https://10.80.99.1:4444/ui/core/license
+https://10.80.99.3/#/setting/wireless
+https://peakpulse-dev.peakenergy.asia/accounts/login/
