@@ -61,11 +61,18 @@ if (-not (Test-Path $wgExe)) {
 }
 
 # --- 2) Tunnel as Windows service ---
-# Remove existing service with same name (idempotent re-push)
-& $wgExe /uninstalltunnelservice $tunnelName 2>$null | Out-Null
+# Remove existing service with same name (idempotent re-push).
+# A missing service is a normal first install; do not let that native
+# error abort the script when $ErrorActionPreference is Stop.
+# wireguard.exe is a GUI binary, so PowerShell often leaves $LASTEXITCODE
+# stale. Run it through cmd.exe so the exit code is the real one.
+$prevEap = $ErrorActionPreference
+$ErrorActionPreference = "Continue"
+cmd.exe /c "`"$wgExe`" /uninstalltunnelservice $tunnelName >nul 2>&1"
+$ErrorActionPreference = $prevEap
 
 Write-Host "Installing tunnel service..."
-& $wgExe /installtunnelservice $ConfPath
+cmd.exe /c "`"$wgExe`" /installtunnelservice `"$ConfPath`""
 if ($LASTEXITCODE -ne 0) {
     throw "installtunnelservice failed exit $LASTEXITCODE"
 }
@@ -73,6 +80,12 @@ if ($LASTEXITCODE -ne 0) {
 $svc = "WireGuardTunnel`$$tunnelName"
 sc.exe config $svc start= delayed-auto | Out-Null
 Start-Service -Name $svc -ErrorAction SilentlyContinue
+
+# Let signed-in users toggle this tunnel without a UAC prompt.
+$toggle = Join-Path $here "Install-PeakEnergyVPN.ps1"
+if (Test-Path $toggle) {
+    & $toggle
+}
 
 # --- 3) Optional limited UI for non-admins ---
 if ($LimitedUi) {
