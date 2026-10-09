@@ -4,12 +4,33 @@ Official WireGuard MSI does **not** embed configs. Push **MSI + per-user `.conf`
 
 Docs: [WireGuard enterprise.md](https://github.com/WireGuard/wireguard-windows/blob/master/docs/enterprise.md)
 
-## Package layout (one package per person)
+## Package layout
+
+**Preferred — one Peak Energy VPN EXE for all users**
+
+```text
+deploy/
+  PeakEnergyVPN.exe
+  PeakEnergyLogo.png / .ico
+  Install-PeakEnergyVPN.ps1
+  wireguard-amd64.msi          # optional
++ per user only:
+  venu.gopal.reddy.conf        # (or jagadeshwar.conf / …)
+```
+
+```powershell
+# Admin once on that PC — same installer, different conf
+.\Install-PeakEnergyVPN.ps1 -ConfPath .\venu.gopal.reddy.conf
+```
+
+The EXE auto-detects the peer from the installed tunnel service and/or Windows username.
+
+**Legacy — MSI pack per person**
 
 ```text
 PeakWG-Jagadeshwar/
-  wireguard-amd64.msi          # from https://www.wireguard.com/install/
-  jagadeshwar.conf             # from OFFICE/OPNSENSE/wireguard/
+  wireguard-amd64.msi
+  jagadeshwar.conf
   Install-PeakWG.ps1
 ```
 
