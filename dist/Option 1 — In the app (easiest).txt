@@ -1,0 +1,74 @@
+Option 1 — In the app (easiest)
+Open PeakEnergyBiometrics
+Click Punches
+Pick a day → Load punches
+You’ll see: Date, Time, Employee No (ID), Name, Direction, Device, Auth type
+Filter with Employee No (e.g. ID101)
+That reads live from atteninfo.
+
+For hours only: Dashboard → Month or Day tab.
+
+Option 2 — SQL (SSMS)
+Connect to the ACS/SQL server (localhost if you are on that machine), database master.
+
+Latest punches
+
+SELECT TOP 50
+    ID,
+    personname,
+    firstname,
+    lastname,
+    [datetime],
+    [date],
+    [time],
+    direction,
+    device,
+    deviceno,
+    readername,
+    cardno,
+    authenticationtype,
+    authenticationresult
+FROM dbo.atteninfo
+ORDER BY [datetime] DESC;
+One employee
+
+SELECT
+    ID,
+    personname,
+    [datetime],
+    [date],
+    [time],
+    direction,
+    device
+FROM dbo.atteninfo
+WHERE ID = 'ID101'
+ORDER BY [datetime] DESC;
+All distinct employee IDs in punches
+
+SELECT DISTINCT ID, MAX(personname) AS personname
+FROM dbo.atteninfo
+GROUP BY ID
+ORDER BY ID;
+Direction reminder
+
+direction	Meaning
+1
+Entry
+2
+Exit
+Option 3 — Compare with Employees table
+SELECT
+    a.ID AS PunchID,
+    e.EmployeeNo,
+    e.Name AS EmployeeName,
+    a.personname AS PunchName,
+    a.[datetime],
+    a.direction,
+    a.device
+FROM dbo.atteninfo a
+LEFT JOIN dbo.Employees e ON e.EmployeeNo = a.ID
+WHERE a.ID = 'ID101'
+ORDER BY a.[datetime] DESC;
+If EmployeeNo is NULL, that punch ID is not in the Employees table (or the strings don’t match).
+
+Tip: If Punches shows nothing for today, try yesterday, or wait for the collector / do Run collector now (only if Enable punch collector is ON).

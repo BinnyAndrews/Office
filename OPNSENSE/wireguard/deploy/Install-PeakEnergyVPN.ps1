@@ -1,7 +1,19 @@
 #Requires -RunAsAdministrator
 <#
 .SYNOPSIS
+#Requires -RunAsAdministrator
+<#
+.SYNOPSIS
   One installer for all PCs — Peak Energy VPN app + WireGuard peer + no-UAC toggle.
+
+.DESCRIPTION
+  Installs or updates the Peak Energy VPN application, copies the user WireGuard
+  config into ProgramData, installs the tunnel service, and grants the minimal
+  access needed for an interactive user to start and stop the tunnel without a
+  UAC prompt.
+
+  Run this as Administrator. If the tunnel is reinstalled, re-run the access
+  grant step because /installtunnelservice resets the service permissions.
 
 .PARAMETER ConfPath
   Path to this user's WireGuard .conf (e.g. venu.gopal.reddy.conf). Required unless
@@ -121,7 +133,9 @@ foreach ($m in @((whoami), $env:USERNAME, "AzureAD\$env:USERNAME")) {
     }
 }
 
-# 6) Grant Interactive Users start/stop on THIS tunnel (and any other WG tunnels)
+# 6) Grant Interactive Users start/stop on THIS tunnel and any other WireGuard tunnels
+# Default WireGuard DACL, plus start (RP), stop (WP), and pause (DT) for interactive users.
+# Query rights they already had stay in place.
 $iuAce = '(A;;CCLCSWRPWPDTLOCRRC;;;IU)'
 Get-Service 'WireGuardTunnel$*' -ErrorAction SilentlyContinue | ForEach-Object {
     $name = $_.Name
@@ -160,8 +174,8 @@ Done.
 - App: $installDir\PeakEnergyVPN.exe
 - Peer auto-detect: Windows user → $PeerName (or sole WireGuardTunnel`$ service)
 - Conf store: $dataDir
-- User: OFF on PETCPL / ON when remote
-
-Sign out/in only if Network Configuration Operators was just added and toggle still access-denied.
+- User toggle: Interactive Users can start/stop WireGuardTunnel`$* without a UAC prompt
+- Sign out/in only if Network Configuration Operators was just added and toggle still access-denied.
 
 "@ -ForegroundColor Green
+
