@@ -43,6 +43,14 @@ namespace PeakWG
                 "sj", "sanoj.james", "sanojjames", "sanoj", "sjames",
                 "sj@peakenergy.asia", "sanoj.james@peakenergy.asia"
             } },
+            { "sampada", new[] {
+                "sampada", "sampada.peak",
+                "sampada@peakenergy.asia"
+            } },
+            { "sharan", new[] {
+                "sharan", "sharan.peak",
+                "sharan@peakenergy.asia"
+            } },
         };
 
         [STAThread]
@@ -491,7 +499,7 @@ namespace PeakWG
                         "or place peer .conf under:\n" +
                         @"  C:\ProgramData\PeakEnergyVPN\" + "\n" +
                         "Known peers: binny.andrews, jagadeshwar, venu.gopal.reddy,\n" +
-                        "poovarasu, sanoj.james, admin");
+                        "poovarasu, sanoj.james, sampada, sharan, admin");
                 }
 
                 _serviceName = Program.ServiceName(_tunnel);

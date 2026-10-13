@@ -69,6 +69,8 @@ if (-not $PeerName) {
         'venu' = 'venu.gopal.reddy'; 'gopal' = 'venu.gopal.reddy'
         'poovarasumanickam' = 'poovarasu'; 'poovarasu' = 'poovarasu'; 'manickam' = 'poovarasu'
         'sj' = 'sanoj.james'; 'sanojjames' = 'sanoj.james'; 'sanoj' = 'sanoj.james'
+        'sampada' = 'sampada'
+        'sharan' = 'sharan'
         'admin' = 'admin'; 'lusrpeakadmin' = 'admin'
     }
     if ($map.ContainsKey($u)) { $PeerName = $map[$u] }

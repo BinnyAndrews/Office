@@ -31,6 +31,8 @@ WANT_NAMES = {
     "venu.gopal.reddy",
     "poovarasu",
     "sanoj.james",
+    "sampada",
+    "sharan",
 }
 
 

@@ -13,13 +13,15 @@ Generated for PEAK-CORP-FW migration. Treat `*.private.key` and `*.conf` as secr
 | Venu Gopal Reddy | 10.80.200.5/32 | `venu.gopal.reddy.conf` |
 | Poovarasu | 10.80.200.6/32 | `poovarasu.conf` |
 | Sanoj James | 10.80.200.7/32 | `sanoj.james.conf` |
+| Sampada | 10.80.200.8/32 | `sampada.conf` |
+| Sharan | 10.80.200.9/32 | `sharan.conf` |
 
-AMC PeakPulse access peers created via `create_amc_peers.py` (WireGuard enabled on firewall). Sanoj added via `add_sanoj_james.py`.
+AMC PeakPulse access peers created via `create_amc_peers.py` (WireGuard enabled on firewall). Sanoj added via `add_sanoj_james.py`. Sampada + Sharan via `add_sampada_sharan.py`.
 
 **WG access split**
 - `WG_FW_ADMINS` (`binny.andrews` / `admin`): firewall `(self)` + full MGMT `10.80.99.0/24` (OC200, switch, APs)
 - All WG peers: `CORP_INTERNAL` only (`10.80.100.0/24` + `10.80.101.0/24` — PeakPulse etc.); no MGMT / no FW GUI
-- RDP (TCP 3389): blocked for `WG_NO_RDP` (Venu / Poovarasu / Sanoj). Allowed for binny, admin, Jagadeshwar.
+- RDP (TCP 3389): blocked for `WG_NO_RDP` (Venu / Poovarasu / Sanoj / Sampada / Sharan). Allowed for binny, admin, Jagadeshwar.
 
 ## Install on OPNsense
 
@@ -50,11 +52,14 @@ Auto-detects peer from (1) installed `WireGuardTunnel$*` service (2) Windows / A
 | `Venugopal.reddy@peakenergy.asia` | `venu.gopal.reddy` |
 | `Poovarasu.Manickam@peakenergy.asia` | `poovarasu` |
 | `SJ@peakenergy.asia` | `sanoj.james` |
+| `sampada@peakenergy.asia` | `sampada` |
+| `sharan@peakenergy.asia` | `sharan` |
 
 **Machine install (Admin once per PC)** — same EXE everywhere; only the `.conf` differs:
 ```powershell
 cd C:\DEV\OFFICE\OPNSENSE\wireguard\deploy
-powershell -ExecutionPolicy Bypass -File .\Install-PeakEnergyVPN.ps1 -ConfPath ..\venu.gopal.reddy.conf
+powershell -ExecutionPolicy Bypass -File .\Install-PeakEnergyVPN.ps1 -ConfPath ..\sampada.conf
+# or: -ConfPath ..\sharan.conf
 ```
 Installs app to `Program Files\Peak Energy VPN`, conf to `ProgramData\PeakEnergyVPN`, tunnel service, no-UAC ACL, Desktop shortcut. Rebuild EXE: `build-PeakWG-Toggle.cmd`.
 - Phone: QR from the same conf
@@ -62,7 +67,7 @@ Installs app to `Program Files\Peak Energy VPN`, conf to `ProgramData\PeakEnergy
 
 AllowedIPs `10.80.0.0/16` = split tunnel (admin access to all VLANs, matches FortiGate policy 4). For full tunnel, set `AllowedIPs = 0.0.0.0/0`.
 
-DNS must be `10.80.100.1` (Unbound on WIRED_CORP), not `10.80.200.1` — Unbound does not listen on the WireGuard interface. That makes `peakpulse-dev.peakenergy.asia` resolve to `10.80.100.54` over VPN. Public WAN HTTP/HTTPS to PeakPulse stays disabled; access is WireGuard-only.
+DNS for new peers is `10.80.200.1` (Unbound on WIREGUARD). Legacy peers may still use `10.80.100.1` (Unbound on WIRED_CORP); firewall allows WG DNS to both. That makes `peakpulse-dev.peakenergy.asia` resolve to `10.80.100.54` over VPN. Public WAN HTTP/HTTPS to PeakPulse stays disabled; access is WireGuard-only.
 
 To refresh Binny’s installed tunnel after a DNS fix: elevated `deploy\Fix-BinnyWgDns.ps1`.
 

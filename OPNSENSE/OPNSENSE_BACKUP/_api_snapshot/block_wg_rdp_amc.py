@@ -17,7 +17,13 @@ CRED = Path(__file__).resolve().parents[1] / "PEAK-CORP-FW.peakenergy.asia_root_
 CTX = ssl._create_unverified_context()
 
 ALIAS = "WG_NO_RDP"
-ALIAS_CONTENT = "10.80.200.5/32\n10.80.200.6/32\n10.80.200.7/32"  # venu, poovarasu, sanoj
+ALIAS_CONTENT = (
+    "10.80.200.5/32\n"  # venu
+    "10.80.200.6/32\n"  # poovarasu
+    "10.80.200.7/32\n"  # sanoj
+    "10.80.200.8/32\n"  # sampada
+    "10.80.200.9/32"  # sharan
+)
 RULE_DESC = "Block RDP for AMC WG peers (Venu/Poovarasu/Sanoj)"
 WG_CORP = "855bf1aa-21de-463e-8bf9-fbc2542abceb"
 WG_SELF = "aadf170f-d2a7-4de0-8f37-bc85fd571ec7"

@@ -94,6 +94,8 @@ WG_PEERS = [
     ["venu.gopal.reddy", "10.80.200.5/32", "AMC: CORP only"],
     ["poovarasu", "10.80.200.6/32", "AMC: CORP only"],
     ["sanoj.james", "10.80.200.7/32", "AMC: CORP only"],
+    ["sampada", "10.80.200.8/32", "AMC: CORP only"],
+    ["sharan", "10.80.200.9/32", "AMC: CORP only"],
 ]
 
 POLICY = [

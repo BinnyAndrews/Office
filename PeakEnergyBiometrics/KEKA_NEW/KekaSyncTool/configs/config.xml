@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<ArrayOfSyncToolNetworkView xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <SyncToolNetworkView>
+    <Id>3480</Id>
+    <NetworkName>test</NetworkName>
+    <TenantName>peakenergy.keka.com</TenantName>
+    <ApiKey>3b893303-c3fb-41e6-b50d-6273009434c6</ApiKey>
+    <HashKey>CuAkuD+5seAVYcX5VNP3CQ==</HashKey>
+    <LastOrgStatusCheckedOn>2026-10-08T14:39:54.1897271+05:30</LastOrgStatusCheckedOn>
+    <IsOrgSuspended>false</IsOrgSuspended>
+    <ProxyConfiguration>
+      <IsEnabled>false</IsEnabled>
+      <Port>0</Port>
+      <FollowRedirects>false</FollowRedirects>
+      <CredentialType>None</CredentialType>
+    </ProxyConfiguration>
+  </SyncToolNetworkView>
+</ArrayOfSyncToolNetworkView>

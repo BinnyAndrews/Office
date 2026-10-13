@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<ArrayOfSyncToolNetworkView xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <SyncToolNetworkView>
+    <Id>3437</Id>
+    <NetworkName>Peak Energy Technical Centre Private Limited</NetworkName>
+    <TenantName>peakenergy.keka.com</TenantName>
+    <ApiKey>04ff2219-5d97-43af-b09d-f17329bd12e6</ApiKey>
+    <HashKey>zTdPwVwJtn4OEWYVFuutDg==</HashKey>
+    <LastOrgStatusCheckedOn>2026-07-28T15:07:26.2050916+05:30</LastOrgStatusCheckedOn>
+    <IsOrgSuspended>false</IsOrgSuspended>
+    <ProxyConfiguration>
+      <IsEnabled>false</IsEnabled>
+      <Port>0</Port>
+      <FollowRedirects>false</FollowRedirects>
+      <CredentialType>None</CredentialType>
+    </ProxyConfiguration>
+  </SyncToolNetworkView>
+</ArrayOfSyncToolNetworkView>
