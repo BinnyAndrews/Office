@@ -1,0 +1,37 @@
+mac,ip,hostname,known_user,kind,randomized,reason
+5e:42:07:8a:ee:8f,10.80.101.142,bad-boy.peakenergy.asia,-,likely-mobile,yes,pc-hostname+randomized-mac
+2e:16:dd:7e:2d:02,10.80.101.133,galaxy-a37-5g.peakenergy.asia,-,mobile,yes,hostname
+2a:e3:f3:55:4e:5f,10.80.101.136,host-10-80-101-136.peakenergy.asia,-,likely-mobile,yes,pc-hostname+randomized-mac
+e6:62:17:c9:88:c0,10.80.101.123,i2126.peakenergy.asia,Saibalaji,likely-mobile,yes,pc-hostname+randomized-mac
+5a:3a:0a:c7:5b:ed,10.80.101.116,i2404.peakenergy.asia,-,likely-mobile,yes,pc-hostname+randomized-mac
+de:95:89:a8:2a:78,10.80.101.104,iphone.peakenergy.asia,-,mobile,yes,hostname
+a2:e3:d6:87:c1:d3,10.80.101.109,iphone.peakenergy.asia,-,mobile,yes,hostname
+3e:f9:eb:3c:c5:8a,10.80.101.118,iphone.peakenergy.asia,-,mobile,yes,hostname
+3e:d0:ed:9d:87:82,10.80.101.126,iphone.peakenergy.asia,Poovarasu,mobile,yes,hostname
+26:c0:01:08:9a:99,10.80.101.137,iphone.peakenergy.asia,-,mobile,yes,hostname
+4e:f4:3c:20:1c:79,10.80.101.151,iphone.peakenergy.asia,-,mobile,yes,hostname
+ee:f4:2d:9b:1f:0d,10.80.101.121,ishika-s-m31.peakenergy.asia,Ishika,mobile,yes,hostname
+32:24:ee:2a:32:38,10.80.101.110,motorola-edge-50-pro.peakenergy.asia,Lokesh Kumar,mobile,yes,hostname
+22:01:93:05:1b:75,10.80.101.144,oneplus-nord-4.peakenergy.asia,-,mobile,yes,hostname
+de:92:d0:60:e6:93,10.80.101.115,oppo-a59-5g.peakenergy.asia,-,mobile,yes,hostname
+ea:70:67:20:6c:05,10.80.101.139,raghavendra-s-s23-fe.peakenergy.asia,-,mobile,yes,hostname
+6a:71:df:08:d8:ae,10.80.101.132,realme-6i.peakenergy.asia,-,mobile,yes,hostname
+fa:c5:c6:b7:98:a8,10.80.101.114,sidharth-s-s-s23.peakenergy.asia,-,mobile,yes,hostname
+7e:52:87:0f:9e:b5,10.80.101.128,watch.peakenergy.asia,-,mobile,yes,hostname
+02:94:89:cb:48:79,,-,Santhosh Kumar,mobile,yes,restored-from-previous-allowlist
+26:b2:eb:c8:ee:d4,,-,Venkat Chelluri,mobile,yes,restored-from-previous-allowlist
+36:f2:b7:1c:6e:b7,,-,Santhosh Kumar,mobile,yes,restored-from-previous-allowlist
+3a:c3:9a:fe:86:37,,-,Salmon,mobile,yes,restored-from-previous-allowlist
+42:bd:69:b3:40:b4,,-,Poovarasu,mobile,yes,restored-from-previous-allowlist
+46:00:02:61:41:19,,-,Sanoj,mobile,yes,restored-from-previous-allowlist
+46:6a:3d:19:60:55,,-,Chiranth Pujai,mobile,yes,restored-from-previous-allowlist
+52:4b:34:55:e1:fc,,-,Raghavendra,mobile,yes,restored-from-previous-allowlist
+8e:f4:30:00:80:e7,,-,Srinath,mobile,yes,restored-from-previous-allowlist
+9a:bd:80:f7:a8:23,,-,Binny Andrews,mobile,yes,restored-from-previous-allowlist
+9e:6e:4c:cc:47:04,,-,Maria,mobile,yes,restored-from-previous-allowlist
+a6:8d:e5:7e:bd:1a,,-,Sowmya,mobile,yes,restored-from-previous-allowlist
+c2:35:32:30:33:f9,,-,Maria,mobile,yes,restored-from-previous-allowlist
+ce:22:4f:b0:61:7b,,-,Sampada,mobile,yes,restored-from-previous-allowlist
+d2:65:78:3f:65:a1,,-,Poovarasu,mobile,yes,restored-from-previous-allowlist
+d6:50:65:b3:d4:67,,-,Binny Andrews,mobile,yes,restored-from-previous-allowlist
+f2:29:03:7f:50:3b,,-,Krishna Pammireddy,mobile,yes,restored-from-previous-allowlist

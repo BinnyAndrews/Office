@@ -1,0 +1,34 @@
+mac,ip,hostname,known_user,kind,randomized,reason
+d0:65:78:3d:a9:64,10.80.101.150,ehs.peakenergy.asia.,-,laptop,no,live-lease-laptop
+98:bd:80:f7:d0:0f,10.80.101.120,ishikapeakenerg.peakenergy.asia.,Ishika,laptop,no,live-lease-laptop
+98:bd:80:f8:73:98,10.80.101.124,krishnakumar.peakenergy.asia.,Krishna Pammireddy,laptop,no,live-lease-laptop
+d0:65:78:0b:02:5c,10.80.101.122,laptop-5babpd22.peakenergy.asia.,Saurav,laptop,no,live-lease-laptop
+4c:0f:3e:53:9a:fd,10.80.101.107,laptop-aaud24n7.peakenergy.asia.,ANUP JAMBAGI,laptop,no,live-lease-laptop
+4c:0f:3e:3c:5e:24,10.80.101.130,laptop-fgca9mfj.peakenergy.asia.,-,laptop,no,live-lease-laptop
+70:15:fb:1b:e9:82,10.80.101.101,laptop-j7ltjhcr.peakenergy.asia.,ISMAIL,laptop,no,live-lease-laptop
+e4:c7:67:d4:e5:7c,10.80.101.143,laptop-rm34vk10.peakenergy.asia.,Sharanappa,laptop,no,live-lease-laptop
+d0:65:78:0b:cd:36,10.80.101.113,lokeshkumar.peakenergy.asia.,Lokesh Kumar,laptop,no,live-lease-laptop
+80:84:89:f0:ea:42,10.80.101.117,pavankumar.peakenergy.asia.,PAVANKUMAR,laptop,no,live-lease-laptop
+d0:65:78:3d:aa:2c,10.80.101.138,peak801-lp324.peakenergy.asia.,Venkat,laptop,no,live-lease-laptop
+d0:65:78:0b:02:7a,10.80.101.112,peak801-lp463.peakenergy.asia.,Vignesh Kumar,laptop,no,live-lease-laptop
+98:bd:80:f8:58:4a,10.80.101.140,peak801-lp670.peakenergy.asia.,Salmon,laptop,no,live-lease-laptop
+d0:65:78:3d:c5:b6,10.80.101.129,peak801-lp671.peakenergy.asia.,Saibalaji,laptop,no,live-lease-laptop
+c0:35:32:30:33:f9,10.80.101.135,peak801-lp847.peakenergy.asia.,Maria,laptop,no,live-lease-laptop
+98:bd:80:f8:2f:d7,10.80.101.111,peak801-lp939.peakenergy.asia.,Harsha,laptop,no,live-lease-laptop
+98:bd:80:f7:a8:23,10.80.101.105,peakenergyit.peakenergy.asia.,Binny Andrews,laptop,no,live-lease-laptop
+d0:65:78:3d:9a:b9,10.80.101.106,peakenergylp045.peakenergy.asia.,Chiranth Pujai,laptop,no,live-lease-laptop
+98:bd:80:f7:7e:ac,10.80.101.131,peakenergylp047.peakenergy.asia.,Jagadeshwar,laptop,no,live-lease-laptop
+98:bd:80:f8:58:45,10.80.101.141,ragha.peakenergy.asia.,Raghavendra,laptop,no,live-lease-laptop
+08:b4:d2:aa:08:57,10.80.101.102,sidharth.peakenergy.asia.,-,laptop,no,live-lease-laptop
+98:bd:80:f8:4a:7b,10.80.101.149,srinath.peakenergy.asia.,Srinath,laptop,no,live-lease-laptop
+9c:b1:50:d6:81:e3,10.80.101.134,swarnalatha.peakenergy.asia.,Swarnalatha,laptop,no,live-lease-laptop
+70:15:fb:1a:aa:81,10.80.101.119,venugopalreddy.peakenergy.asia.,-,laptop,no,live-lease-laptop
+98:bd:80:f7:c2:e0,,-,Sampada,laptop,no,added-named-user-allowlist
+98:bd:80:f7:c2:e1,,-,Sampada,laptop,no,added-named-user-allowlist
+c4:c6:e6:9f:1a:bc,,-,Sampada,laptop,no,added-named-user-allowlist
+34:19:4d:7c:f9:d4,,-,Sanoj,laptop,no,added-named-user-allowlist
+90:09:df:2e:dc:db,,-,Sanoj,laptop,no,added-named-user-allowlist
+ac:91:a1:61:dd:db,,-,Sanoj,laptop,no,added-named-user-allowlist
+98:bd:80:f7:9b:03,,-,Santhosh Kumar,laptop,no,added-named-user-allowlist
+98:bd:80:f7:9b:04,,-,Santhosh Kumar,laptop,no,added-named-user-allowlist
+c4:c6:e6:9f:1a:18,,-,Santhosh Kumar,laptop,no,added-named-user-allowlist
