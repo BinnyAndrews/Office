@@ -1,0 +1,269 @@
+pages=15
+
+===== PAGE 1 =====
+1
+Product Manual
+产品手册
+CW-ADLN-NET Ver1.1
+===== PAGE 2 =====
+2
+User Manual
+Copyright 2024
+All Rights Reserved.
+Manual’s first edition:
+For the purpose of improving reliability, design and function, the information in this document is subject to 
+change without prior notice and does not represent a commitment on the part of the manufacturer.
+In no event will the manufacturer be liable for direct, indirect, special, incidental, or consequential damages 
+arising out of the use or inability to use the product or documentation, even if advised of the possibility of such 
+damages.
+This document contains proprietary information protected by copyright. All rights are reserved. No part of this 
+manual may be reproduced by any mechanical, electronic, or other means in any form without prior written 
+permission of the manufacturer.
+Trademarks
+CW-ADLN-NET is a registered trademarks of CWWK; IBM PC is a registered trademark of the International 
+Business Machines Corporation; Pentium is a registered trademark of Intel Technologies Inc; Award is a 
+registered trademark of Award Software International Inc; other product names mentioned herein are used for 
+identification purposes only and may be trademarks and/or registered trademarks of their respective 
+companies.
+Version Date Description
+===== PAGE 3 =====
+3
+目录
+Trademarks -------------------------------------------------------------------------------------------------------------2
+第 1 章、简介 ------------------------------------------------------------------------------------------------------------4
+1.1 、主板规格 -----------------------------------------------------------------------------------------------------------4
+1.2 、主板布局结构图 ----------------------------------------------------------------------------------------------------5
+第 2 章、定义说明 -------------------------------------------------------------------------------------------------------6
+2.1 、跳线说明 -----------------------------------------------------------------------------------------------------------6
+2.2 、各插针定义 --------------------------------------------------------------------------------------------------------6
+第 3 章、BIOS 设置 ----------------------------------------------------------------------------------------------------10
+3.1 、BIOS 说明 --------------------------------------------------------------------------------------------------------10
+3.2 、BIOS 设定 --------------------------------------------------------------------------------------------------------11
+3.2.1 、高级 BIOS 功能设置(Advanced) -------------------------------------------------------------------------------11
+3.2.2 、ACPI Settings -------------------------------------------------------------------------------------------------11
+3.2.3 、Network Stack ------------------------------------------------------------------------------------------------12
+3.2.4 、芯片组设置(Chipset) -------------------------------------------------------------------------------------------12
+3.2.5 、 安全设置(Security) --------------------------------------------------------------------------------------------13
+3.2.6 、启动设置(Boot) ------------------------------------------------------------------------------------------------14
+3.2.7 、保存退出(Save&Exit) ------------------------------------------------------------------------------------------15
+===== PAGE 4 =====
+4
+第 1 章、简介
+1.1 、主板规格
+主板尺寸 - 180mmX222.7mm
+中央处理器 - Intel® Alder Lake-N 处理器
+内存 - 板载 1 条 262 Pin DDR5 SO-DIMM 内存槽
+- 单根内存最高支持 32GB
+扩展插槽 - 1*MSATA ；1*4G；1*CF卡；1*SATAⅢ（MSATA/SATAⅢ/CF卡 三选一，默认MSATA）
+背板接口
+- 1*DCIN 接口
+- 4*LAN 接口
+- 2*USB3.2 GEN1 接口
+- RJ45_COM 接口
+内置接口
+- 2*F_USB 插针
+- 1*SATA_PWR 插针
+- 2*USB 接口
+- 1*SATA 接口
+- 1*F_PANEL 插针
+- 1*SYS_FAN 插座
+- 1*JP3跳帽
+- 1*J_COM插针
+- 1*EDP 插针
+- 1*I2C 插座
+- 1*JP6跳帽
+BIOS - AMI BIOS
+电源管理 - 支持上电开机等
+显示 - 支持 HDMI/EDP/VGA
+网络 - 4*Intel I226 2.5G网卡0
+供电 - PWIN_12V / DC 12V 供 电
+工作环境 - 工作温度：-20℃~60℃
+- 环境湿度： 0%~90%
+操作系统 Windows 10 / Windows 11
+===== PAGE 5 =====
+5
+1.2 、主板布局结构图
+
+===== PAGE 6 =====
+6
+第 2 章、定义说明
+2.1 、跳线说明
+2针脚的接头：将跳线帽插入两个针脚将使其关闭（短路）。
+3针脚的接头：跳线帽可插入针脚 1～2 或针脚 2～3 使其关闭（短路）。
+怎么辨认跳线的第 1 脚位置？
+请仔细查看主板，凡有标明"1"或是有白色粗线标记的接脚即为 1 脚位置。
+2.2 、各插针定义;
+1. F_USB1
+PIN Define PIN Define
+1 5V 2 5V
+3 USB1- 4 USB2-
+5 USB1+ 6 USB2+
+7 GND 8 GND
+9 10 GND
+2. SATA_PWR
+PIN Define
+1 5V
+2 GND
+3 GND
+4 12V
+3. F_PANEL
+STATUS Setting
+1-3 HD_LED
+2-4 PW_LED
+5-7 Reset
+6-8 PW_BN
+
+===== PAGE 7 =====
+7
+4. J_COM
+PIN Define PIN Define
+1 -NDCD 2 SIN
+3 SOUT 4 DTR
+5 GND 6 DSR
+7 RTS 8 CTS
+9 RI 10 N/A
+5. SYS_FAN
+PIN Define
+1 GND
+2 12V
+3 DET
+4 PWM
+6. JP3
+STATUS Setting
+1-2 AUTO POWER ON
+2-3 NORMAL(default)
+7. JP6
+STATUS Setting
+1-2 3.3V
+2-3 5V
+
+===== PAGE 8 =====
+8
+8. EDP
+PIN Define PIN Define
+1 VCC 2 VCC
+3 NC 4 NC
+5 EDP1_DATA0P 6 EDP1_DATA0N
+7 GND 8 GND
+9 EDP1_DATA1P 10 EDP1_DATA1N
+11 GND 12 GND
+13 EDP1_DATA2P 14 EDP1_DATA2N
+15 GND 16 GND
+17 NCEDP1_DATA3P 18 EDP1_DATA3N
+19 GND 20 GND
+21 EDP1_AUXP 22 EDP1_AUXN
+23 GND 24 EDP1_HPD
+25 EDP1_BKLCTL 26 EDP1_BKLEN
+27 GND 28 GND
+29 VLED1 30 VLED1
+9. J_HDMI
+PIN Define PIN Define
+1 DDI1_TXP2L 2 DDI1_SCLDDC
+3 DDI1_TXN2L 4 DDI1_DALDDC
+5 DDI1_TXP1L 6 N/A
+7 DDI1_TXN1L 8 HDMI-B_PLUG
+9 DDI1_TXP0L 10 5V_HDMI
+11 DDI1_TXN0L 12 GND
+13 DDI1_TXCPL 14 GND
+15 DDI1_TXCNL 16 GND
+
+===== PAGE 9 =====
+9
+10. J_VGA
+PIN Define
+1 GND
+2 VSYNC
+3 HSYNC
+4 GND
+5 R
+6 GND
+7 G
+8 GND
+9 B
+10 GND
+11 SDA
+12 SCL
+11. TPM
+PIN Define PIN Define
+1 3.3V 2 SPI_IRQ
+3 PLTRST 4 SPI_CS
+5 NA 6 SPI_WP
+7 3.3V 8 GND
+9 NA 10 SPI_CLOCK
+11 SPI_MISO 12 SPI_MOSI
+13 SPI_HOLD 14
+12. GPIO
+PIN Define PIN Define
+1 SIO_PD0 2 SIO_PD4
+3 SIO_PD1 4 SIO_PD5
+5 SIO_PD2 6 SIO_PD6
+7 SIO_PD3 8 SIO_PD7
+9 GND 10 VCC
+
+===== PAGE 10 =====
+10
+第 3 章、BIOS 设置
+3.1 、BIOS 说明
+本主板使用 AMI BIOS。BIOS 全称为 Basic Input Output System(基本输入输出系统）。它是一组固化到计算
+机内主板上一个ROM芯片上的程序，它保存着计算机最重要的基本输入输出的程序、开机后自检程序和系统自启动
+程序，它可从CMOS中读写系统设置的具体信息。 其主要功能是为计算机提供最底层的、最直接的硬件设置和控制。
+注：
+由于主板中 BIOS 不断升级，本说明书中相关 BIOS 信息仅做参考，故不保证此说明书中 BIOS 信息与主板实
+际 BIOS 中信息的一致性
+按照以下步骤进入BIOS界面
+1、启动电源，显示器屏幕将出现POST界面按下<DEL>或<ESC>键，就可以进入BIOS设定程序.
+3、方向键<↑ ><↓><←>< →>移动需要修改查看的选项，按下<Enter>键即可进入该选项的子画面.
+4、使用<Enter>键修改所选项目的内容，按回车键修改.
+5、<Page Up/+> 增加数字值或更改
+<Page Down/->减少数字值或更改
+<F1> 设置子菜单帮助
+<F3>设置为默认值(优化成出厂设置)
+<F4>保存BIOS设置
+===== PAGE 11 =====
+11
+3.2 、BIOS 设定
+3.2.1 、高级 BIOS 功能设置(Advanced)
+3.2.2 、ACPI Settings
+
+===== PAGE 12 =====
+12
+• Resume By onboard LAN
+此选项用于设置网络唤醒。
+3.2.3 、Network Stack
+• IPv4 PXE Support
+此选项用于设置网络唤醒。
+3.2.4 、芯片组设置(Chipset)
+
+===== PAGE 13 =====
+13
+3.2.5 、 安全设置(Security)
+
+===== PAGE 14 =====
+14
+3.2.6 、启动设置(Boot)
+• Setup Prompt Timeout
+此选项用于设置开机 POST 界面停留时间长短。
+•Bootup Numlock State
+用来设定系统启动后，Numlock 的状态。当设定为 On 时，系统启动后将打开 NumLock，小键盘的数字键有效。
+当设定为 Off 的时候，系统启动后 Numlock 关闭，小键盘方向键有效。
+===== PAGE 15 =====
+15
+3.2.7 、保存退出(Save&Exit)
+• Save Changes and Exit
+保存所做变更并离开BIOS 程序。
+• Discard Changes and Exit
+离开BIOS 程序，而不保存变更。
+• Save Changes and Reset
+保存变更并重启主板。
+• Discard Changes and Reset
+不保存变更并重启BIOS 程序。
+• Save Changes
+保存变更
+• Discard Changes
+不保存变更
+• Restore Defaults
+恢复默认设置
+• Save as User Defaults
+保存作为用户默认设置
+• Restore User Defaults
+恢复用户默认设置
