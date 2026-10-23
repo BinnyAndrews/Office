@@ -1,6 +1,6 @@
-# WireGuard peer pack (replaces FortiGate SSL VPN)
+# WireGuard — PEAK-WG (live)
 
-Generated for PEAK-CORP-FW migration. Treat `*.private.key` and `*.conf` as secrets.
+Treat `*.private.key` and `*.conf` as secrets.
 
 ## Peers (PEAK-WG)
 
@@ -23,18 +23,17 @@ AMC PeakPulse access peers created via `create_amc_peers.py` (WireGuard enabled 
 - All WG peers: `CORP_INTERNAL` only (`10.80.100.0/24` + `10.80.101.0/24` — PeakPulse etc.); no MGMT / no FW GUI
 - RDP (TCP 3389): blocked for `WG_NO_RDP` (Venu / Poovarasu / Sanoj / Sampada / Sharan). Allowed for binny, admin, Jagadeshwar.
 
-## Install on OPNsense
+## On the firewall
 
-1. VPN → WireGuard → **Local** instance:
-   - Name: `PEAK-WG`
-   - Listen port: `51820`
-   - Tunnel address: `10.80.200.1/28`
-   - Paste `server.private.key` / `server.public.key`
-   - Disable routes: yes (use firewall on `opt8`)
-2. Add **Endpoints** for binny and admin with their public keys and `/32` tunnel addresses.
-3. Assign interface `opt8` to the WireGuard device.
-4. Firewall: pass UDP 51820 on wan + opt1; pass from `WG_ADMIN_NET` to `LAN_RFC1918` on opt8.
-5. Or run `python build-opnsense-seed.py` after editing `nics.env` and restore/review `peak-seed.xml`.
+- Instance `PEAK-WG`, listen UDP `51820`, tunnel `10.80.200.1/28`, routes disabled
+- Interface `opt6` / `wg0`, description `WIREGUARD`
+- UDP 51820 allowed on both WANs
+- Admins (`WG_FW_ADMINS`) may reach the firewall and MGMT
+- Every peer may reach `CORP_INTERNAL` (`10.80.100.0/24` + `10.80.101.0/24`) only
+- RDP blocked for `WG_NO_RDP`
+- DNS to Unbound allowed on the tunnel (`10.80.200.1`)
+
+Do not restore `wireguard-peak-admin.xml`. It is an old two-peer fragment, not a full backup.
 
 ## Install on clients
 
@@ -65,7 +64,7 @@ Installs app to `Program Files\Peak Energy VPN`, conf to `ProgramData\PeakEnergy
 - Phone: QR from the same conf
 - Endpoint is Airtel `125.19.224.18:51820`. If that WAN is down, edit Endpoint to `47.247.169.94:51820`.
 
-AllowedIPs `10.80.0.0/16` = split tunnel (admin access to all VLANs, matches FortiGate policy 4). For full tunnel, set `AllowedIPs = 0.0.0.0/0`.
+AllowedIPs `10.80.0.0/16` is a split tunnel: corp networks only. A full tunnel would be `AllowedIPs = 0.0.0.0/0`, which is not what these clients use.
 
 DNS for new peers is `10.80.200.1` (Unbound on WIREGUARD). Legacy peers may still use `10.80.100.1` (Unbound on WIRED_CORP); firewall allows WG DNS to both. That makes `peakpulse-dev.peakenergy.asia` resolve to `10.80.100.54` over VPN. Public WAN HTTP/HTTPS to PeakPulse stays disabled; access is WireGuard-only.
 

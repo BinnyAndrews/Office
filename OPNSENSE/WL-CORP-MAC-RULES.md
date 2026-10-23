@@ -1,5 +1,7 @@
 # WL_CORP (opt3) — correct MAC bind rule order
 
+**Current live state:** the MAC allow and “block unknown” rules are **disabled**. PETCPL (VLAN 101) is open to any client on `10.80.101.0/24`. The alias `WL_CORP_MACS` is kept so this policy can be turned back on. The table below is that future order, not what is enforcing traffic today.
+
 Use on the **live** firewall. Do not full-restore XML for this.
 
 **Firewall → Rules → WL_CORP** (interface **opt3**)
@@ -9,14 +11,7 @@ Use on the **live** firewall. Do not full-restore XML for this.
 - Unknown Wi‑Fi clients on VLAN 101 are blocked
 - Guest (**opt4**) unchanged
 
-## Current problems (from backup audit)
-1. A **block** rule on source `WL_CORP_MACS` (wrong — blocks your allow list)
-2. **Pass** `WL_CORP` → `WIRED_CORP` still allows any MAC on opt3
-3. Open internet rule for `WL_CORP` is already disabled — keep it disabled/deleted
-
----
-
-## Target rule order (top → bottom)
+## Target rule order when the policy is enabled (top → bottom)
 
 | # | Action | Interface | Source | Destination | Gateway | Schedule | Description |
 | ---: | --- | --- | --- | --- | --- | --- | --- |
@@ -40,8 +35,9 @@ All rules: IPv4, direction **in**, quick/default as usual, **log** the block.
 **Services → Unbound → Overrides**
 | Host | Domain | IP |
 | --- | --- | --- |
-| `acs` | peakenergy.asia | **10.80.100.10** (fix if it points at .103) |
-| `app` | peakenergy.asia | **10.80.100.103** |
+| `acs` | peakenergy.asia | **10.80.100.10** |
+| `app` | peakenergy.asia | **10.80.100.54** |
+| `peakpulse-dev` | peakenergy.asia | **10.80.100.54** |
 
 ---
 
@@ -50,17 +46,5 @@ All rules: IPv4, direction **in**, quick/default as usual, **log** the block.
 2. Unknown phone on **PETCPL** (or random MAC): no internet; block hits firewall log  
 3. **PETCPL-GUEST**: still portal + schedule (opt4 rules untouched)
 
-## Updated XML (firewall rules fixed)
-
-File: **`C:\tools\PEAK-CORP-FW\config-PEAK-CORP-FW-macfix.xml`**  
-(also copied to `config-PEAK-CORP-FW.xml`)
-
-Built from your live backup `config-PEAK-CORP-FW.peakenergy.asia-20260918121107.xml` with:
-- opt3: Pass `WL_CORP_MACS` → any (WAN_LB)
-- opt3: Pass `WL_CORP_MACS` → WIRED_CORP
-- opt3: Block `WL_CORP` → any (unknown MACs)
-- Removed broken Block-on-`WL_CORP_MACS` and open `WL_CORP` internet pass
-- Unbound: `acs` → 10.80.100.10, `app` → 10.80.100.103
-
-**Caution:** This box panicked on a prior full restore. Prefer applying the three opt3 rules in the GUI (table above). Use full restore of `*-macfix.xml` only if you have console/serial ready.
+Apply the three opt3 rules in the GUI. Do not full-restore an old XML to turn this on.
 
