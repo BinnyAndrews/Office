@@ -64,7 +64,6 @@ WIRED_HOSTS = [
     ["10.80.100.10", "biometric-server", "ACS / Attendance SQL"],
     ["10.80.100.11", "biometric-entry", "Biometric entry terminal"],
     ["10.80.100.12", "biometric-exit", "Biometric exit terminal"],
-    ["10.80.100.20", "biometric-server-new", "ACS new (reservation)"],
     ["10.80.100.21", "laser-printer", "HP LaserJet (Ethernet)"],
     ["10.80.100.51", "peak-ws-1", "Workstation 1"],
     ["10.80.100.52", "peak-ws-2", "Workstation 2"],
@@ -90,27 +89,49 @@ WG_PEERS = [
     ["PEAK-WG server", "10.80.200.1/28", "OPNsense wg0 listen UDP 51820"],
     ["binny.andrews", "10.80.200.2/32", "Admin: FW GUI/SSH + MGMT + CORP"],
     ["admin", "10.80.200.3/32", "Admin: FW GUI/SSH + MGMT + CORP"],
-    ["jagadeshwar", "10.80.200.4/32", "AMC: CORP only (.100/.101)"],
-    ["venu.gopal.reddy", "10.80.200.5/32", "AMC: CORP only"],
-    ["poovarasu", "10.80.200.6/32", "AMC: CORP only"],
-    ["sanoj.james", "10.80.200.7/32", "AMC: CORP only"],
-    ["sampada", "10.80.200.8/32", "AMC: CORP only"],
-    ["sharan", "10.80.200.9/32", "AMC: CORP only"],
+    ["jagadeshwar", "10.80.200.4/32", "AMC: CORP .100/.101; RDP allowed"],
+    ["venu.gopal.reddy", "10.80.200.5/32", "AMC: CORP only; RDP blocked"],
+    ["poovarasu", "10.80.200.6/32", "AMC: CORP only; RDP blocked"],
+    ["sanoj.james", "10.80.200.7/32", "AMC: CORP only; RDP blocked"],
+    ["sampada", "10.80.200.8/32", "AMC: CORP only; RDP blocked"],
+    ["sharan", "10.80.200.9/32", "AMC: CORP only; RDP blocked"],
 ]
 
 POLICY = [
     ["Topic", "Current policy"],
-    ["PeakPulse public WAN", "DISABLED — no public HTTP/HTTPS port-forward"],
-    ["PeakPulse access", "WireGuard or on-site LAN only → 10.80.100.54"],
-    ["WG DNS", "Client DNS 10.80.100.1 (Unbound); also listens on WG"],
-    ["WG AllowedIPs", "10.80.0.0/16 split tunnel"],
-    ["WG endpoints", "125.19.224.18:51820 (Airtel) or 47.247.169.94:51820 (Jio)"],
-    ["MGMT via VPN", "Only WG_FW_ADMINS (binny + admin)"],
-    ["FW GUI via VPN", "Only WG_FW_ADMINS → (self) :4444 / SSH"],
-    ["AMC peers via VPN", "CORP .100 + .101 only (PeakPulse etc.)"],
-    ["ACS SQL from Internet", "KEKA_HR only → 10.80.100.10:1433"],
-    ["Guest Wi-Fi", "VLAN 102 + captive portal; scheduled internet Mon–Fri 07:00–19:00"],
-    ["On-site + WG tip", "On PETCPL turn VPN OFF (Peak Energy VPN.exe); remote turn ON"],
+    ["PeakPulse public WAN", "DISABLED — HTTP/HTTPS DNAT kept but turned off on both WANs"],
+    ["PeakPulse access", "On-site LAN or WireGuard only → 10.80.100.54 (dev-ws-1)"],
+    ["WG DNS", "New peers use 10.80.200.1 (Unbound on WIREGUARD). Legacy may use 10.80.100.1. Both are allowed."],
+    ["WG AllowedIPs", "10.80.0.0/16 split tunnel (corp only, not full internet)"],
+    ["WG endpoints", "125.19.224.18:51820 (Airtel, default) or 47.247.169.94:51820 (Jio)"],
+    ["WG interface", "opt6 / wg0, description WIREGUARD. Routes disabled; firewall does the policy."],
+    ["MGMT via VPN", "Only WG_FW_ADMINS (binny.andrews .2 and admin .3)"],
+    ["FW GUI / SSH via VPN", "Only WG_FW_ADMINS. GUI listens on MGMT, WIRED, WL_CORP, and WIREGUARD — never WAN."],
+    ["AMC via VPN", "CORP only: 10.80.100.0/24 and 10.80.101.0/24. No MGMT, no firewall GUI."],
+    ["RDP over VPN", "TCP 3389 blocked for Venu, Poovarasu, Sanoj, Sampada, Sharan. Allowed for binny, admin, Jagadeshwar."],
+    ["ACS SQL from Internet", "KEKA_HR only (cin3.a.keka.com) → 10.80.100.10:1433 on both WANs"],
+    ["Akrivia", "AKRIVIA_HR alias kept, disabled"],
+    ["Corp Wi-Fi MAC list", "WL_CORP_MACS rules exist but are DISABLED. PETCPL is open to the VLAN."],
+    ["Guest Wi-Fi", "SSID PETCPL-GUEST, VLAN 102, captive portal. Internet Mon–Fri 07:00–19:00. No internal access."],
+    ["On-site vs remote", "On PETCPL or wired corp, Peak Energy VPN OFF. Remote, VPN ON."],
+]
+
+DNS_HOSTS = [
+    ["Name", "Address", "Use"],
+    ["fw.peakenergy.asia", "10.80.99.1", "Firewall (MGMT)"],
+    ["peak-corp-fw.peakenergy.asia", "10.80.99.1", "Firewall (MGMT)"],
+    ["fw-corp.peakenergy.asia", "10.80.100.1", "Firewall (WIRED_CORP)"],
+    ["acs.peakenergy.asia", "10.80.100.10", "Attendance / ACS SQL"],
+    ["oc200.peakenergy.asia", "10.80.99.3", "Omada controller"],
+    ["app.peakenergy.asia", "10.80.100.54", "PeakPulse"],
+    ["peakpulse-dev.peakenergy.asia", "10.80.100.54", "PeakPulse"],
+]
+
+BIO = [
+    ["Host", "Address", "Role today"],
+    ["biometric-server", "10.80.100.10", "Active ACS. Alias ACS_SERVER. Keka SQL target."],
+    ["biometric-entry", "10.80.100.11", "Entry terminal. Same VLAN as ACS."],
+    ["biometric-exit", "10.80.100.12", "Exit terminal. Same VLAN as ACS."],
 ]
 
 
@@ -118,7 +139,7 @@ def draw_diagram(path: Path) -> None:
     """Draw architecture PNG with Pillow."""
     from PIL import Image as PILImage, ImageDraw, ImageFont
 
-    W, H = 1600, 1100
+    W, H = 1600, 1080
     img = PILImage.new("RGB", (W, H), "#F7F8FA")
     d = ImageDraw.Draw(img)
 
@@ -185,10 +206,11 @@ def draw_diagram(path: Path) -> None:
     arrow((620, 230), (680, 200))
 
     # Switch
-    box((1100, 120, 1480, 260), "#F3E8FF", "#7C3AED", "Omada SG2428P  10.80.99.2", [
+    box((1100, 100, 1540, 270), "#F3E8FF", "#7C3AED", "Omada SG2428P  10.80.99.2", [
         "L2 switch · VLANs 99/100/101/102",
-        "Trunk to FW + APs",
-        "OC200 controller 10.80.99.3",
+        "OC200  10.80.99.3",
+        "APs EAP670 x3 + EAP225",
+        "SSIDs PETCPL / PETCPL-GUEST",
     ])
     arrow((1040, 190), (1100, 190))
 
@@ -204,62 +226,65 @@ def draw_diagram(path: Path) -> None:
     ])
 
     # WIRED
-    box((430, 320, 800, 560), "#DBEAFE", "#2563EB", "WIRED_CORP  10.80.100.0/24", [
+    box((430, 320, 800, 540), "#DBEAFE", "#2563EB", "WIRED_CORP  10.80.100.0/24", [
         ".1  SVI / DNS",
-        ".10  ACS biometric-server",
-        ".11/.12  Entry/Exit terminals",
-        ".21  Laser printer",
-        ".51–.53  Workstations",
-        ".54  PeakPulse (dev-ws-1)",
-        ".55  Conference PC",
+        ".10 ACS (active)",
+        ".11 entry  .12 exit",
+        ".21 laser printer",
+        ".51–.53 workstations",
+        ".54 PeakPulse (dev-ws-1)",
+        ".55 conference PC",
         "DHCP .101–.200",
     ])
 
     # WL CORP
-    box((830, 320, 1180, 540), "#D1FAE5", "#059669", "WL_CORP (PETCPL)  10.80.101.0/24", [
+    box((830, 320, 1180, 520), "#D1FAE5", "#059669", "WL_CORP (PETCPL)  10.80.101.0/24", [
         ".1  SVI / DNS",
-        "Corp Wi-Fi SSID",
+        "SSID PETCPL",
         "TVs .30–.34",
-        "Printers .21/.22",
+        "Printers .21 / .22",
         "DHCP .101–.200",
-        "MAC allowlist (optional)",
+        "MAC list kept, disabled",
     ])
 
     # GUEST
-    box((1210, 320, 1540, 500), "#FEF3C7", "#D97706", "WL_GUEST  10.80.102.0/24", [
+    box((1210, 320, 1540, 520), "#FEF3C7", "#D97706", "WL_GUEST  10.80.102.0/24", [
+        "SSID PETCPL-GUEST",
         "Captive portal",
-        "Internet scheduled",
+        "Internet Mon–Fri 07–19",
         "No internal access",
         "DHCP .101–.200",
     ])
 
-    # APs
-    box((1100, 560, 1480, 680), "#FCE7F3", "#DB2777", "Access Points (MGMT IPs)", [
-        "EAP670-1/2/3 · EAP225-3",
-        "SSIDs → VLAN 101 / 102",
-        "Managed by OC200",
-    ])
-    arrow((1290, 260), (1290, 320))
-    arrow((1290, 500), (1290, 560))
+    arrow((1290, 270), (1290, 320))
 
     # VPN
-    box((60, 560, 800, 760), "#E0E7FF", "#4F46E5", "Peak Energy VPN (WireGuard PEAK-WG)", [
-        "UDP 51820 on both WANs · Tunnel 10.80.200.0/28",
+    box((40, 560, 780, 820), "#E0E7FF", "#4F46E5", "Peak Energy VPN (WireGuard PEAK-WG)", [
+        "UDP 51820 both WANs · opt6 / wg0 · 10.80.200.0/28",
         "Split tunnel AllowedIPs = 10.80.0.0/16",
-        "Admins (.2/.3): FW + MGMT + CORP",
-        "AMC peers (.4–.7): CORP .100/.101 only (PeakPulse)",
-        "Client tool: Peak Energy VPN.exe  ·  On-site: VPN OFF",
+        "DNS 10.80.200.1 (Unbound on the tunnel)",
+        "Admins .2/.3: firewall GUI/SSH + MGMT + CORP",
+        "AMC .4–.9: CORP .100/.101 only (PeakPulse)",
+        "RDP: .4 allowed; .5–.9 blocked",
+        "Client: Peak Energy VPN.exe · On-site: OFF",
     ])
-    arrow((860, 280), (430, 560), "#4F46E5")
+    arrow((860, 270), (400, 560), "#4F46E5")
 
-    # External services
-    box((830, 700, 1480, 820), "#F1F5F9", "#64748B", "External / App notes", [
-        "peakpulse-dev.peakenergy.asia → 10.80.100.54 (internal DNS; not public)",
-        "ACS SQL 1433 from Internet: KEKA_HR only → 10.80.100.10",
-        "Domain: peakenergy.asia",
+    box((810, 560, 1560, 780), "#ECFDF5", "#047857", "Biometrics / Keka", [
+        "ACS .10 (active)  ·  entry .11  ·  exit .12",
+        "Keka (cin3.a.keka.com) → WAN :1433 → .10",
+        "AKRIVIA_HR disabled",
+        "acs.peakenergy.asia → 10.80.100.10",
+        "Punches stay on VLAN 100 (switch, not firewall)",
     ])
 
-    d.text((40, 1040), "Source: OPNsense PEAK-CORP-FW config + WireGuard peer pack · Peak Energy IT", fill="#888", font=f_s)
+    box((40, 850, 1560, 980), "#F1F5F9", "#64748B", "Names and apps (internal DNS only)", [
+        "peakpulse-dev / app .peakenergy.asia → 10.80.100.54   ·   public HTTP/HTTPS DNAT disabled",
+        "fw / peak-corp-fw → 10.80.99.1    fw-corp → 10.80.100.1    oc200 → 10.80.99.3",
+        "Domain peakenergy.asia · Unbound on MGMT, WIRED_CORP, WL_CORP, and WIREGUARD",
+    ])
+
+    d.text((40, 1020), "Source: live PEAK-CORP-FW policy + WireGuard peer pack · Peak Energy IT", fill="#888", font=f_s)
     img.save(path, "PNG", optimize=True)
 
 
@@ -283,6 +308,29 @@ def style_table(t: Table, header=True):
     t.setStyle(style)
 
 
+def flow_table(rows: list[list[str]], col_widths: list[float]) -> Table:
+    cell = ParagraphStyle(
+        "Cell",
+        fontName="Helvetica",
+        fontSize=8,
+        leading=10,
+        textColor=colors.HexColor("#111111"),
+    )
+    head = ParagraphStyle(
+        "HeadCell",
+        parent=cell,
+        fontName="Helvetica-Bold",
+        textColor=colors.white,
+    )
+    data = []
+    for i, row in enumerate(rows):
+        style = head if i == 0 else cell
+        data.append([Paragraph(str(val).replace("&", "&amp;"), style) for val in row])
+    table = Table(data, colWidths=col_widths)
+    style_table(table)
+    return table
+
+
 def build_pdf(diagram: Path, path: Path) -> None:
     doc = SimpleDocTemplate(
         str(path),
@@ -304,66 +352,76 @@ def build_pdf(diagram: Path, path: Path) -> None:
     story.append(Paragraph(f"Firewall: <b>PEAK-CORP-FW</b> (OPNsense) · Generated {TODAY}", body))
     story.append(Spacer(1, 6))
     story.append(Paragraph(
-        "This document describes VLANs, WAN links, Omada switching/Wi‑Fi, DHCP reservations, "
-        "WireGuard (Peak Energy VPN), and access policy for PeakPulse / ACS.",
+        "This document describes the live network: VLANs, WAN links, Omada Wi‑Fi, "
+        "biometrics and Keka, WireGuard (Peak Energy VPN), and access policy for PeakPulse.",
         body,
     ))
     story.append(Spacer(1, 8))
 
     # Landscape-ish diagram scaled to page width
-    iw, ih = 170 * mm, 117 * mm
+    iw, ih = 170 * mm, 114.75 * mm
     story.append(Image(str(diagram), width=iw, height=ih))
     story.append(PageBreak())
 
     story.append(Paragraph("1. WAN links", h2))
-    t = Table(WAN, colWidths=[100, 120, 100, 180])
-    style_table(t)
-    story.append(t)
+    story.append(flow_table(WAN, [100, 120, 100, 180]))
 
     story.append(Paragraph("2. VLANs / subnets", h2))
-    t = Table(VLANS, colWidths=[110, 90, 80, 100, 110])
-    style_table(t)
-    story.append(t)
+    story.append(flow_table(VLANS, [110, 90, 80, 100, 110]))
 
     story.append(Paragraph("3. MGMT hosts (10.80.99.0/24)", h2))
-    t = Table(MGMT_HOSTS, colWidths=[90, 140, 270])
-    style_table(t)
-    story.append(t)
+    story.append(flow_table(MGMT_HOSTS, [90, 140, 270]))
 
     story.append(Paragraph("4. WIRED_CORP hosts (10.80.100.0/24)", h2))
-    t = Table(WIRED_HOSTS, colWidths=[90, 140, 270])
-    style_table(t)
-    story.append(t)
+    story.append(flow_table(WIRED_HOSTS, [90, 140, 270]))
 
     story.append(Paragraph("5. WL_CORP hosts (10.80.101.0/24)", h2))
-    t = Table(WIFI_HOSTS, colWidths=[90, 140, 270])
-    style_table(t)
-    story.append(t)
+    story.append(flow_table(WIFI_HOSTS, [90, 140, 270]))
 
     story.append(PageBreak())
     story.append(Paragraph("6. WireGuard / Peak Energy VPN", h2))
-    t = Table(WG_PEERS, colWidths=[120, 100, 280])
-    style_table(t)
-    story.append(t)
-
-    story.append(Paragraph("7. Security & access policy", h2))
-    t = Table(POLICY, colWidths=[140, 360])
-    style_table(t)
-    story.append(t)
-
-    story.append(Paragraph("8. Logical traffic paths", h2))
     story.append(Paragraph(
-        "<b>On-site (PETCPL / wired):</b> Clients use VLAN gateway directly. "
-        "Peak Energy VPN should be <b>OFF</b> so 10.80.x is not forced into the tunnel.<br/>"
-        "<b>Remote:</b> Peak Energy VPN <b>ON</b> → UDP 51820 → PEAK-WG → CORP (.100/.101). "
-        "Admins also reach MGMT (.99) and firewall GUI.<br/>"
-        "<b>Guest:</b> VLAN 102 captive portal; blocked from MGMT/CORP; internet by schedule.",
+        "The Windows client is "
+        "<b>Peak Energy VPN</b>. On PETCPL or wired corp the tunnel must be off, "
+        "because AllowedIPs sends 10.80.0.0/16 into WireGuard.",
+        body,
+    ))
+    story.append(flow_table(WG_PEERS, [120, 100, 280]))
+
+    story.append(Paragraph("7. Biometrics and Keka", h2))
+    story.append(Paragraph(
+        "Attendance stays on WIRED_CORP. Entry and exit terminals talk to the ACS "
+        "on the same VLAN, so that traffic does not pass the firewall. "
+        "Keka cloud pulls SQL from the public WAN address on TCP 1433. "
+        "NAT on Airtel and Jio forwards that only from KEKA_HR to 10.80.100.10, "
+        "the active ACS. The old Akrivia source alias is kept and disabled.",
+        body,
+    ))
+    story.append(flow_table(BIO, [130, 90, 280]))
+
+    story.append(Paragraph("8. Internal DNS (Unbound)", h2))
+    story.append(flow_table(DNS_HOSTS, [180, 90, 230]))
+
+    story.append(Paragraph("9. Security & access policy", h2))
+    story.append(flow_table(POLICY, [140, 360]))
+
+    story.append(Paragraph("10. Logical traffic paths", h2))
+    story.append(Paragraph(
+        "<b>On-site (PETCPL / wired):</b> Clients use the VLAN gateway. "
+        "Peak Energy VPN stays <b>OFF</b> so 10.80.x is not forced into the tunnel.<br/>"
+        "<b>Remote:</b> Peak Energy VPN <b>ON</b> → UDP 51820 → PEAK-WG. "
+        "AMC peers reach CORP (.100/.101), including PeakPulse and the ACS. "
+        "Admins also reach MGMT (.99) and the firewall GUI. "
+        "RDP is blocked for every AMC peer except Jagadeshwar.<br/>"
+        "<b>Keka:</b> cin3.a.keka.com → WAN TCP 1433 → 10.80.100.10.<br/>"
+        "<b>Guest:</b> PETCPL-GUEST on VLAN 102, captive portal, blocked from MGMT and CORP, "
+        "internet only on the weekday schedule.",
         body,
     ))
 
     story.append(Spacer(1, 12))
     story.append(Paragraph(
-        "<i>Confidential — Peak Energy IT. Derived from OPNsense config-PEAK-CORP-FW and WireGuard peer pack.</i>",
+        "<i>Confidential — Peak Energy IT. Live PEAK-CORP-FW policy and WireGuard peer pack.</i>",
         body,
     ))
     doc.build(story)
@@ -415,8 +473,8 @@ def build_docx(diagram: Path, path: Path) -> None:
     run.font.size = Pt(11)
 
     doc.add_paragraph(
-        "This document describes VLANs, WAN links, Omada switching/Wi‑Fi, DHCP reservations, "
-        "WireGuard (Peak Energy VPN), and access policy for PeakPulse / ACS."
+        "This document describes the live network: VLANs, WAN links, Omada Wi‑Fi, "
+        "biometrics and Keka, WireGuard (Peak Energy VPN), and access policy for PeakPulse."
     )
 
     doc.add_heading("Architecture diagram", level=1)
@@ -438,28 +496,52 @@ def build_docx(diagram: Path, path: Path) -> None:
     add_docx_table(doc, WIFI_HOSTS)
 
     doc.add_heading("6. WireGuard / Peak Energy VPN", level=1)
+    doc.add_paragraph(
+        "The Windows client is Peak Energy VPN. "
+        "On PETCPL or wired corp the tunnel must be off, because AllowedIPs sends "
+        "10.80.0.0/16 into WireGuard."
+    )
     add_docx_table(doc, WG_PEERS)
 
-    doc.add_heading("7. Security & access policy", level=1)
+    doc.add_heading("7. Biometrics and Keka", level=1)
+    doc.add_paragraph(
+        "Attendance stays on WIRED_CORP. Entry and exit terminals talk to the ACS "
+        "on the same VLAN, so that traffic does not pass the firewall. "
+        "Keka cloud pulls SQL from the public WAN address on TCP 1433. "
+        "NAT on Airtel and Jio forwards that only from KEKA_HR to 10.80.100.10, "
+        "the active ACS. The old Akrivia source alias is kept and disabled."
+    )
+    add_docx_table(doc, BIO)
+
+    doc.add_heading("8. Internal DNS (Unbound)", level=1)
+    add_docx_table(doc, DNS_HOSTS)
+
+    doc.add_heading("9. Security and access policy", level=1)
     add_docx_table(doc, POLICY)
 
-    doc.add_heading("8. Logical traffic paths", level=1)
+    doc.add_heading("10. Logical traffic paths", level=1)
     doc.add_paragraph(
-        "On-site (PETCPL / wired): Clients use the VLAN gateway directly. "
-        "Peak Energy VPN should be OFF so 10.80.x is not forced into the tunnel."
+        "On-site (PETCPL / wired): clients use the VLAN gateway. "
+        "Peak Energy VPN stays OFF so 10.80.x is not forced into the tunnel."
     )
     doc.add_paragraph(
-        "Remote: Peak Energy VPN ON → UDP 51820 → PEAK-WG → CORP (.100/.101). "
-        "Admins also reach MGMT (.99) and the firewall GUI."
+        "Remote: Peak Energy VPN ON, then UDP 51820 to PEAK-WG. "
+        "AMC peers reach CORP (.100 and .101), including PeakPulse and the ACS. "
+        "Admins also reach MGMT (.99) and the firewall GUI. "
+        "RDP is blocked for every AMC peer except Jagadeshwar."
     )
     doc.add_paragraph(
-        "Guest: VLAN 102 captive portal; blocked from MGMT/CORP; internet by weekday schedule."
+        "Keka: cin3.a.keka.com to WAN TCP 1433, then 10.80.100.10."
+    )
+    doc.add_paragraph(
+        "Guest: PETCPL-GUEST on VLAN 102, captive portal, blocked from MGMT and CORP, "
+        "internet only on the weekday schedule."
     )
 
     doc.add_paragraph()
     note = doc.add_paragraph()
     r = note.add_run(
-        "Confidential — Peak Energy IT. Derived from OPNsense config-PEAK-CORP-FW and WireGuard peer pack."
+        "Confidential — Peak Energy IT. Live PEAK-CORP-FW policy and WireGuard peer pack. Generated " + TODAY + "."
     )
     r.italic = True
     r.font.size = Pt(9)

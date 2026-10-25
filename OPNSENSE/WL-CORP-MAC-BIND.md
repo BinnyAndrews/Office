@@ -1,7 +1,6 @@
 # Corp Wi‑Fi MAC bind (not guest)
 
-Allowlist built from FortiGate MAC whitelist — **user / laptop / phone MACs only**.  
-Printers, TVs, ACS, shared workstations excluded (those stay on wired VLAN 100).
+**Not enforced today.** Firewall MAC rules for PETCPL are disabled, so any client on VLAN 101 can pass. This list is the allowlist to turn that policy back on. It is user, laptop, and phone MACs only. Printers, TVs, ACS, and shared workstations stay on wired VLAN 100.
 
 | Metric | Count |
 | --- | --- |

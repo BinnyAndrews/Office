@@ -1,6 +1,6 @@
-# Unbound — peakenergy.asia (apply on live firewall)
+# Unbound — peakenergy.asia
 
-Do **not** full-restore the whole XML just for DNS. Set these in the GUI.
+These are the live DNS settings. Do not full-restore an XML just to change a name. Edit the override in the GUI.
 
 ## 1. System → Settings → General
 - Domain: **peakenergy.asia**
@@ -10,7 +10,7 @@ Do **not** full-restore the whole XML just for DNS. Set these in the GUI.
 | Setting | Value |
 | --- | --- |
 | Enable | Yes |
-| Listen interfaces | lan, opt2, opt3, opt4 |
+| Listen interfaces | lan, opt2, opt3, opt4, **opt6** (WIREGUARD — required for VPN DNS `10.80.200.1`) |
 | Local Zone Type | **transparent** |
 | Register DHCP leases | Yes |
 | DHCP Domain Override | peakenergy.asia |
@@ -29,7 +29,9 @@ Save → Apply.
 | peak-corp-fw | peakenergy.asia | A | 10.80.99.1 |
 | fw-corp | peakenergy.asia | A | 10.80.100.1 |
 | acs | peakenergy.asia | A | 10.80.100.10 |
-| app | peakenergy.asia | A | 10.80.100.103 |
+| oc200 | peakenergy.asia | A | 10.80.99.3 |
+| app | peakenergy.asia | A | 10.80.100.54 |
+| peakpulse-dev | peakenergy.asia | A | 10.80.100.54 |
 
 Do **not** add autodiscover / mail / www.
 
@@ -47,5 +49,4 @@ ping fw.peakenergy.asia
 
 Outlook/Teams should still work. `fw.peakenergy.asia` → 10.80.99.1.
 
-Reference XML (already updated): `config-PEAK-CORP-FW.xml`  
-Script: `configure_unbound_peakenergy.py`
+Script used when these overrides were first loaded: `configure_unbound_peakenergy.py`
