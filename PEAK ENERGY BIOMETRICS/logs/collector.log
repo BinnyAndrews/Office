@@ -15845,3 +15845,12 @@ requests.exceptions.ConnectTimeout: HTTPConnectionPool(host='10.80.100.12', port
 2026-09-29 10:25:03,222 INFO SUCCESS  entry (10.80.100.11): OK — 4 event(s), 1 punch(es), inserted 0 new row(s).
 2026-09-29 10:25:03,222 INFO SUCCESS  exit (10.80.100.12): OK — 3 event(s), 1 punch(es), inserted 0 new row(s).
 2026-09-29 10:25:03,222 INFO Result: SUCCESS — all 2 device(s) OK.
+2026-10-24 09:04:53,236 INFO entry (10.80.100.11) searching 2026-10-23T15:24:53+05:30 → 2026-10-24T09:09:53+05:30
+2026-10-24 09:04:53,620 INFO 10.80.100.11: 42 device events, 14 punches after filter
+2026-10-24 09:04:55,636 INFO 10.80.100.11: inserted 13 new row(s)
+2026-10-24 09:04:55,716 INFO exit (10.80.100.12) searching 2026-10-23T15:22:44+05:30 → 2026-10-24T09:09:55+05:30
+2026-10-24 09:04:56,375 INFO 10.80.100.12: 92 device events, 29 punches after filter
+2026-10-24 09:05:00,203 INFO 10.80.100.12: inserted 27 new row(s)
+2026-10-24 09:05:00,272 INFO SUCCESS  entry (10.80.100.11): OK — 42 event(s), 14 punch(es), inserted 13 new row(s).
+2026-10-24 09:05:00,272 INFO SUCCESS  exit (10.80.100.12): OK — 92 event(s), 29 punch(es), inserted 27 new row(s).
+2026-10-24 09:05:00,272 INFO Result: SUCCESS — all 2 device(s) OK.
