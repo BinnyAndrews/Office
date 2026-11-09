@@ -1,0 +1,143 @@
+{
+  "result": "ok",
+  "status": {
+    "server": {
+      "id": "32c4e0f14139fed249bed76d16d06ccc",
+      "incarnation": "1793580808",
+      "version": "6.0.0",
+      "uptime": "375351",
+      "poll": "120",
+      "startdelay": "120",
+      "localhostname": "PEAK-CORP-FW.peakenergy.asia",
+      "controlfile": "/usr/local/etc/monitrc",
+      "httpd": {
+        "unixsocket": "/var/run/monit.sock"
+      }
+    },
+    "platform": {
+      "name": "FreeBSD",
+      "release": "15.1-RELEASE-p6",
+      "version": "FreeBSD 15.1-RELEASE-p6 stable/26.7-n284176-c962f76493b6 SMP",
+      "machine": "amd64",
+      "cpu": "2",
+      "memory": "8177192",
+      "swap": "8388608"
+    },
+    "service": [
+      {
+        "@attributes": {
+          "type": "5"
+        },
+        "name": "PEAK-CORP-FW.peakenergy.asia",
+        "collected_sec": "1793956058",
+        "collected_usec": "125567",
+        "status": "0",
+        "status_hint": "0",
+        "monitor": "1",
+        "monitormode": "0",
+        "onreboot": "0",
+        "pendingaction": "0",
+        "uptime": "375515",
+        "boottime": "1793580644",
+        "filedescriptors": {
+          "allocated": "359",
+          "unused": "0",
+          "maximum": "255537"
+        },
+        "system": {
+          "load": {
+            "avg01": "1.20",
+            "avg05": "0.96",
+            "avg15": "0.79"
+          },
+          "cpu": {
+            "user": "43.7",
+            "system": "10.0",
+            "nice": "0.0",
+            "hardirq": "5.1"
+          },
+          "memory": {
+            "percent": "19.2",
+            "kilobyte": "1573520"
+          },
+          "swap": {
+            "percent": "0.0",
+            "kilobyte": "0"
+          },
+          "paging": {
+            "in": "0",
+            "out": "0"
+          }
+        }
+      },
+      {
+        "@attributes": {
+          "type": "0"
+        },
+        "name": "RootFs",
+        "collected_sec": "1793956058",
+        "collected_usec": "125724",
+        "status": "0",
+        "status_hint": "0",
+        "monitor": "1",
+        "monitormode": "0",
+        "onreboot": "0",
+        "pendingaction": "0",
+        "fstype": "zfs",
+        "fsflags": "nfs4acls, noatime, local, rootfs",
+        "mode": "755",
+        "uid": "0",
+        "gid": "0",
+        "block": {
+          "percent": "40.3",
+          "usage": "1726.7",
+          "total": "4285.6"
+        },
+        "inode": {
+          "percent": "1.5",
+          "usage": "79895",
+          "total": "5320527"
+        },
+        "read": {
+          "bytes": {
+            "count": "4007575",
+            "total": "391377162859"
+          },
+          "operations": {
+            "count": "891",
+            "total": "70263796"
+          }
+        },
+        "write": {
+          "bytes": {
+            "count": "1460294",
+            "total": "102319839780"
+          },
+          "operations": {
+            "count": "496",
+            "total": "39411582"
+          }
+        }
+      },
+      {
+        "@attributes": {
+          "type": "7"
+        },
+        "name": "gateway_alert",
+        "collected_sec": "1793956058",
+        "collected_usec": "127675",
+        "status": "0",
+        "status_hint": "0",
+        "monitor": "1",
+        "monitormode": "0",
+        "onreboot": "0",
+        "pendingaction": "0",
+        "program": {
+          "started": "1793956058",
+          "status": "0",
+          "output": {}
+        }
+      }
+    ]
+  }
+}

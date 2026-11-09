@@ -1,0 +1,67 @@
+{
+  "gateway_item": {
+    "disabled": "0",
+    "name": "WAN_AIRTEL",
+    "descr": "Airtel-FIBER",
+    "interface": {
+      "lan": {
+        "value": "MGMT",
+        "selected": 0
+      },
+      "wan": {
+        "value": "WAN_AIRTEL",
+        "selected": 1
+      },
+      "opt1": {
+        "value": "WAN_JIO",
+        "selected": 0
+      },
+      "opt2": {
+        "value": "WIRED_CORP",
+        "selected": 0
+      },
+      "opt6": {
+        "value": "WIREGUARD",
+        "selected": 0
+      },
+      "opt3": {
+        "value": "WL_CORP",
+        "selected": 0
+      },
+      "opt4": {
+        "value": "WL_GUEST",
+        "selected": 0
+      }
+    },
+    "ipprotocol": {
+      "inet": {
+        "value": "IPv4",
+        "selected": 1
+      },
+      "inet6": {
+        "value": "IPv6",
+        "selected": 0
+      }
+    },
+    "gateway": "125.19.224.17",
+    "defaultgw": "1",
+    "fargw": "0",
+    "monitor_disable": "0",
+    "monitor_noroute": "0",
+    "monitor_killstates": "1",
+    "monitor_killstates_priority": "0",
+    "monitor": "8.8.8.8",
+    "force_down": "0",
+    "nosync": "0",
+    "priority": "1",
+    "weight": "1",
+    "latencylow": "",
+    "latencyhigh": "",
+    "losslow": "",
+    "losshigh": "",
+    "interval": "1",
+    "time_period": "",
+    "loss_interval": "",
+    "data_length": ""
+  }
+}

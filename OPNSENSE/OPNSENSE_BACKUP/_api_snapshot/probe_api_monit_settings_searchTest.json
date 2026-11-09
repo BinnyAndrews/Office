@@ -1,0 +1,106 @@
+{
+  "rows": [
+    {
+      "uuid": "767cb94a-603b-4150-9380-c6b053bd9ede",
+      "name": "ChangedStatus",
+      "type": "ProgramStatus",
+      "condition": "changed status",
+      "action": "alert",
+      "%action": "Alert",
+      "path": ""
+    },
+    {
+      "uuid": "b62bfcdc-c7c0-4a3f-b63c-2f0791707e21",
+      "name": "CPUUsage",
+      "type": "SystemResource",
+      "condition": "cpu usage is greater than 75%",
+      "action": "alert",
+      "%action": "Alert",
+      "path": ""
+    },
+    {
+      "uuid": "2d7c56f3-e8c1-4d9c-a4d4-0e65988f32e3",
+      "name": "LoadAvg1",
+      "type": "SystemResource",
+      "condition": "loadavg (1min) is greater than 4",
+      "action": "alert",
+      "%action": "Alert",
+      "path": ""
+    },
+    {
+      "uuid": "1b6ea29f-7840-47e9-9059-8eb0735d27bd",
+      "name": "LoadAvg5",
+      "type": "SystemResource",
+      "condition": "loadavg (5min) is greater than 3",
+      "action": "alert",
+      "%action": "Alert",
+      "path": ""
+    },
+    {
+      "uuid": "4d8611f6-24ea-4590-b502-03111c9006bf",
+      "name": "LoadAvg15",
+      "type": "SystemResource",
+      "condition": "loadavg (15min) is greater than 2",
+      "action": "alert",
+      "%action": "Alert",
+      "path": ""
+    },
+    {
+      "uuid": "6eb6f518-05c4-40f7-b636-7e6d28a9a299",
+      "name": "MemoryUsage",
+      "type": "SystemResource",
+      "condition": "memory usage is greater than 75%",
+      "action": "alert",
+      "%action": "Alert",
+      "path": ""
+    },
+    {
+      "uuid": "b06d0cd5-1968-4725-a824-454f035a62ca",
+      "name": "NetworkLink",
+      "type": "NetworkInterface",
+      "condition": "failed link",
+      "action": "alert",
+      "%action": "Alert",
+      "path": ""
+    },
+    {
+      "uuid": "2880883a-00bf-473e-9a22-8fac1e67f0d1",
+      "name": "NetworkSaturation",
+      "type": "NetworkInterface",
+      "condition": "saturation is greater than 75%",
+      "action": "alert",
+      "%action": "Alert",
+      "path": ""
+    },
+    {
+      "uuid": "326e1735-fec1-410c-8e03-d61a9384d173",
+      "name": "NonZeroStatus",
+      "type": "ProgramStatus",
+      "condition": "status != 0",
+      "action": "alert",
+      "%action": "Alert",
+      "path": ""
+    },
+    {
+      "uuid": "1e0c12ed-b127-47a5-99cb-2c8465e8fbb7",
+      "name": "Ping",
+      "type": "NetworkPing",
+      "condition": "failed ping",
+      "action": "alert",
+      "%action": "Alert",
+      "path": ""
+    },
+    {
+      "uuid": "ce0e1a5d-1679-41e0-928c-331cf5726417",
+      "name": "SpaceUsage",
+      "type": "SpaceUsage",
+      "condition": "space usage is greater than 75%",
+      "action": "alert",
+      "%action": "Alert",
+      "path": ""
+    }
+  ],
+  "rowCount": 11,
+  "total": 11,
+  "current": 1
+}

@@ -1,0 +1,76 @@
+{
+  "alerts": [
+    {
+      "uuid": "6ffffdba-4c51-4e6d-86c8-f5a4f720703c",
+      "enabled": "0",
+      "recipient": "root@localhost.local",
+      "noton": "0",
+      "events": "",
+      "format": "",
+      "reminder": "",
+      "description": ""
+    }
+  ],
+  "services": [
+    {
+      "name": "$HOST",
+      "enabled": "1",
+      "type": "system",
+      "interface": "",
+      "tests": "MemoryUsage, CPUUsage, LoadAvg1, LoadAvg5"
+    },
+    {
+      "name": "carp_status_change",
+      "enabled": "0",
+      "type": "custom",
+      "interface": "",
+      "tests": "ChangedStatus"
+    },
+    {
+      "name": "gateway_alert",
+      "enabled": "1",
+      "type": "custom",
+      "interface": "",
+      "tests": "NonZeroStatus"
+    },
+    {
+      "name": "RootFs",
+      "enabled": "1",
+      "type": "filesystem",
+      "interface": "",
+      "tests": "SpaceUsage"
+    }
+  ],
+  "mailserver": {
+    "smtp.office365.com": {
+      "value": "smtp.office365.com",
+      "selected": 1
+    }
+  },
+  "port": "587",
+  "username": "binny.andrews@peakenergy.asia",
+  "ssl": "1",
+  "password_set": false,
+  "gateways": [
+    {
+      "name": "WAN_AIRTEL",
+      "address": "125.19.224.17",
+      "status": "none",
+      "loss": "0.0 %",
+      "delay": "10.2 ms",
+      "stddev": "1.5 ms",
+      "monitor": "8.8.8.8",
+      "status_translated": "Online"
+    },
+    {
+      "name": "WAN_JIO",
+      "address": "47.247.169.93",
+      "status": "none",
+      "loss": "0.0 %",
+      "delay": "11.2 ms",
+      "stddev": "1.5 ms",
+      "monitor": "1.1.1.1",
+      "status_translated": "Online"
+    }
+  ]
+}

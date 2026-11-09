@@ -1,0 +1,128 @@
+{
+  "alert": {
+    "enabled": "0",
+    "recipient": "root@localhost.local",
+    "noton": "0",
+    "events": {
+      "action": {
+        "value": "Action done",
+        "selected": 0
+      },
+      "checksum": {
+        "value": "Checksum failed",
+        "selected": 0
+      },
+      "bytein": {
+        "value": "Download bytes exceeded",
+        "selected": 0
+      },
+      "byteout": {
+        "value": "Upload bytes exceeded",
+        "selected": 0
+      },
+      "connection": {
+        "value": "Connection failed",
+        "selected": 0
+      },
+      "content": {
+        "value": "Content failed",
+        "selected": 0
+      },
+      "data": {
+        "value": "Data access error",
+        "selected": 0
+      },
+      "exec": {
+        "value": "Execution failed",
+        "selected": 0
+      },
+      "fsflags": {
+        "value": "Filesystem flags failed",
+        "selected": 0
+      },
+      "gid": {
+        "value": "GID failed",
+        "selected": 0
+      },
+      "icmp": {
+        "value": "Ping failed",
+        "selected": 0
+      },
+      "instance": {
+        "value": "Monit instance changed",
+        "selected": 0
+      },
+      "invalid": {
+        "value": "Invalid type",
+        "selected": 0
+      },
+      "link": {
+        "value": "Link down",
+        "selected": 0
+      },
+      "nonexist": {
+        "value": "Does not exist",
+        "selected": 0
+      },
+      "packetin": {
+        "value": "Download packets exceeded",
+        "selected": 0
+      },
+      "packetout": {
+        "value": "Upload packets exceeded",
+        "selected": 0
+      },
+      "permission": {
+        "value": "Permission failed",
+        "selected": 0
+      },
+      "pid": {
+        "value": "PID failed",
+        "selected": 0
+      },
+      "ppid": {
+        "value": "PPID failed",
+        "selected": 0
+      },
+      "resource": {
+        "value": "Resource limit matched",
+        "selected": 0
+      },
+      "saturation": {
+        "value": "Saturation exceeded",
+        "selected": 0
+      },
+      "size": {
+        "value": "Size failed",
+        "selected": 0
+      },
+      "speed": {
+        "value": "Speed failed",
+        "selected": 0
+      },
+      "status": {
+        "value": "Status failed",
+        "selected": 0
+      },
+      "timeout": {
+        "value": "Timeout",
+        "selected": 0
+      },
+      "timestamp": {
+        "value": "Timestamp failed",
+        "selected": 0
+      },
+      "uid": {
+        "value": "UID failed",
+        "selected": 0
+      },
+      "uptime": {
+        "value": "Uptime failed",
+        "selected": 0
+      }
+    },
+    "format": "",
+    "reminder": "",
+    "description": ""
+  }
+}

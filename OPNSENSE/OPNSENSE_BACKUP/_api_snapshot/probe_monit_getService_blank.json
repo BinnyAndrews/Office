@@ -1,0 +1,152 @@
+{
+  "service": {
+    "enabled": "0",
+    "name": "",
+    "description": "",
+    "type": {
+      "process": {
+        "value": "Process",
+        "selected": 0
+      },
+      "file": {
+        "value": "File",
+        "selected": 0
+      },
+      "fifo": {
+        "value": "Fifo",
+        "selected": 0
+      },
+      "filesystem": {
+        "value": "Filesystem",
+        "selected": 0
+      },
+      "directory": {
+        "value": "Directory",
+        "selected": 0
+      },
+      "host": {
+        "value": "Remote Host",
+        "selected": 0
+      },
+      "system": {
+        "value": "System",
+        "selected": 0
+      },
+      "custom": {
+        "value": "Custom",
+        "selected": 0
+      },
+      "network": {
+        "value": "Network",
+        "selected": 0
+      }
+    },
+    "pidfile": "",
+    "match": "",
+    "path": "",
+    "timeout": "300",
+    "starttimeout": "30",
+    "address": "",
+    "interface": {
+      "": {
+        "value": "None",
+        "selected": 1
+      },
+      "lan": {
+        "value": "MGMT",
+        "selected": 0
+      },
+      "wan": {
+        "value": "WAN_AIRTEL",
+        "selected": 0
+      },
+      "opt1": {
+        "value": "WAN_JIO",
+        "selected": 0
+      },
+      "opt2": {
+        "value": "WIRED_CORP",
+        "selected": 0
+      },
+      "opt6": {
+        "value": "WIREGUARD",
+        "selected": 0
+      },
+      "opt3": {
+        "value": "WL_CORP",
+        "selected": 0
+      },
+      "opt4": {
+        "value": "WL_GUEST",
+        "selected": 0
+      }
+    },
+    "start": "",
+    "stop": "",
+    "tests": {
+      "767cb94a-603b-4150-9380-c6b053bd9ede": {
+        "value": "ChangedStatus",
+        "selected": 0
+      },
+      "b62bfcdc-c7c0-4a3f-b63c-2f0791707e21": {
+        "value": "CPUUsage",
+        "selected": 0
+      },
+      "2d7c56f3-e8c1-4d9c-a4d4-0e65988f32e3": {
+        "value": "LoadAvg1",
+        "selected": 0
+      },
+      "1b6ea29f-7840-47e9-9059-8eb0735d27bd": {
+        "value": "LoadAvg5",
+        "selected": 0
+      },
+      "4d8611f6-24ea-4590-b502-03111c9006bf": {
+        "value": "LoadAvg15",
+        "selected": 0
+      },
+      "6eb6f518-05c4-40f7-b636-7e6d28a9a299": {
+        "value": "MemoryUsage",
+        "selected": 0
+      },
+      "b06d0cd5-1968-4725-a824-454f035a62ca": {
+        "value": "NetworkLink",
+        "selected": 0
+      },
+      "2880883a-00bf-473e-9a22-8fac1e67f0d1": {
+        "value": "NetworkSaturation",
+        "selected": 0
+      },
+      "326e1735-fec1-410c-8e03-d61a9384d173": {
+        "value": "NonZeroStatus",
+        "selected": 0
+      },
+      "1e0c12ed-b127-47a5-99cb-2c8465e8fbb7": {
+        "value": "Ping",
+        "selected": 0
+      },
+      "ce0e1a5d-1679-41e0-928c-331cf5726417": {
+        "value": "SpaceUsage",
+        "selected": 0
+      }
+    },
+    "depends": {
+      "df2859f6-bb44-44d5-bae3-1217c987e43d": {
+        "value": "$HOST",
+        "selected": 0
+      },
+      "c0f1091a-635b-43c9-ad92-4ef58a29bfcf": {
+        "value": "carp_status_change",
+        "selected": 0
+      },
+      "3e9f49f1-a559-40c9-96e5-672d3d8055a9": {
+        "value": "gateway_alert",
+        "selected": 0
+      },
+      "6bfc962e-9e41-4b7c-a303-4bd3510114d8": {
+        "value": "RootFs",
+        "selected": 0
+      }
+    },
+    "polltime": ""
+  }
+}

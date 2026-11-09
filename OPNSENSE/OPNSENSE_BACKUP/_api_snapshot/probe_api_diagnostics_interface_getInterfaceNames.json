@@ -1,0 +1,12 @@
+{
+  "lo0": "Loopback",
+  "re0": "MGMT",
+  "re3": "SPARE",
+  "re1": "WAN_AIRTEL",
+  "re2": "WAN_JIO",
+  "re0_vlan100": "WIRED_CORP",
+  "wg0": "WIREGUARD",
+  "wireguard": "WireGuard (Group)",
+  "re0_vlan101": "WL_CORP",
+  "re0_vlan102": "WL_GUEST"
+}

@@ -32,6 +32,7 @@ Omada uplink on `re0`: native/untagged = MGMT; tagged 100/101/102. Gateways `WAN
 - Active ACS is `10.80.100.10` (`biometric-server`). Entry `.11`, exit `.12`. SQL 1433 is **KEKA_HR** only. `AKRIVIA_HR` is disabled.
 - Corp Wi-Fi MAC allowlist rules are kept and **disabled**. PETCPL is open to VLAN 101.
 - Guest SSID **PETCPL-GUEST** is VLAN 102 with the captive portal. Internet is scheduled Mon–Fri 07:00–19:00 (`peak_optimised`).
+- **WAN email alerts** (Monit) → `binny.andrews@peakenergy.asia`: `gateway_alert` for WAN_LB member down/recovery, plus physical link monitors on `wan`/`opt1`. Loss ≥20% or latency ≥500 ms marks a gateway down. SMTP is `smtp.office365.com:587` (M365) — set the SMTP AUTH / app password under **Services → Monit → General Settings** if mail is not delivering.
 
 ## Related docs
 
